@@ -1,4 +1,4 @@
-
+﻿
 #ifndef __SRC_BASE_SUPPORT_H__
 #define __SRC_BASE_SUPPORT_H__
 

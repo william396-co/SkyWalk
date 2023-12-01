@@ -3,7 +3,9 @@
 #define __SRC_UTILS_PORTABILITY_H__
 
 #include <signal.h>
+#ifndef WIN32
 #include <unistd.h>
+#endif
 #include "base/support.h"
 
 #if defined( __APPLE__ ) || defined( __darwin__ )
