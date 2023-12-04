@@ -10,43 +10,11 @@
 
 #include "base/support.h"
 
-// UnorderedMap定义
-#if defined(__APPLE__) || defined(__darwin__)
-    #include <unordered_set>
-    #include <unordered_map>
-    #define UnorderedSet std::unordered_set
-    #define UnorderedMap std::unordered_map
-#else
-    #if ( __GNUC__ < 4 || __GNUC__ == 4 && __GNUC_MINOR__ < 1 )
-        #include <set>
-        #include <map>
-        #define UnorderedSet std::set
-        #define UnorderedMap std::map
-    #else
-        #if USE_CPP11
-            #include <unordered_set>
-            #include <unordered_map>
-            #define UnorderedSet std::unordered_set
-            #define UnorderedMap std::unordered_map
-        #else
-            #include <tr1/unordered_set>
-            #include <tr1/unordered_map>
-            #define UnorderedSet std::tr1::unordered_set
-            #define UnorderedMap std::tr1::unordered_map
-        #endif
-    #endif
-#endif
-
 // 分支预测
 #define likely(x)       __builtin_expect( (x), 1 )
 #define unlikely(x)     __builtin_expect( (x), 0 )
 
 #define SAFE_DELETE(x)  { if (x) { delete (x); (x) = nullptr; } }
-
-
-// ASSERT
-#define ASSERT( cond, message, expr ) \
-    assert( (cond) && (message) ); if ( !(cond) ) { expr }
 
 // 点分十进制IP
 typedef std::vector<uint16_t>   IpAddress;
