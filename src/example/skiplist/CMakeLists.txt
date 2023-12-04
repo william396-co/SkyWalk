@@ -1,4 +1,10 @@
-set(SKIPLIST_TEST_SRC main.cpp)
+file(GLOB DIR_SRCS *.h *.cpp *.hpp *.cc) 
 
-add_executable(skiplist_example ${SKIPLIST_TEST_SRC})
-target_link_libraries(skiplist_example utils)
+source_group( "" FILES ${DIR_SRCS} )
+add_executable(skiplist ${DIR_SRCS})
+target_link_libraries(skiplist utils domain) 
+if(NOT WIN32)
+		target_link_libraries(skiplist pthread)
+endif()
+
+set_property(TARGET skiplist PROPERTY FOLDER "examples")

@@ -5,8 +5,7 @@
 #include <cstdint>
 #include <algorithm>
 #include <iomanip>
-
-#include "print.h"
+#include <iostream>
 
 namespace utils {
 
@@ -47,7 +46,7 @@ public:
 
     // get score range[min,max]
     int32_t range( Score const & min, Score const & max, uint32_t count, key_list & list, key_list const & excepts = {} ) const;
-    int32_t range( Score const & nin, Score const & max, uint32_t count, key_value_list & list, key_list const & excepts = {} ) const;
+    int32_t range( Score const & min, Score const & max, uint32_t count, key_value_list & list, key_list const & excepts = {} ) const;
 
     // clear
     void clear();
@@ -88,10 +87,8 @@ struct SkipList<Key,Score>::Node{
     };
     Node() = default;
 
-    Node(value_type const& value)
-        :key(value.first)
-        , score{ value.second }
-        backward{ nullptr }
+    Node( value_type const & value )
+        : key( value.first ), score { value.second }, backward { nullptr }
     {
     }
 
@@ -167,14 +164,14 @@ inline void SkipList<Key, Score>::insert(value_type const& value)
         m_Level = level;
     }
 
-    cur = new(malloc(sizeof(Node) + level * sizeof(Node::Level))) Node(value);
-    for (auto i = 0; i < level; ++i) {
-        x->levels[i].forward = update[i]->levels[i].forward;
+    cur = new ( malloc( sizeof( Node ) + level * sizeof( typename Node::Level ) ) ) Node( value );
+    for ( auto i = 0; i < level; ++i ) {
+        cur->levels[i].forward = update[i]->levels[i].forward;
         update[i]->levels[i].forward = cur;
 
         // update span covered by update[i] as cur is insert here
-        cur->levels[i].span = update[i]->levels[i].span - (rank[0] - rank[i]);
-        update[i]->levels[i].span = (rank[0] - rank[i])+1£»
+        cur->levels[i].span = update[i]->levels[i].span - ( rank[0] - rank[i] );
+        update[i]->levels[i].span = ( rank[0] - rank[i] ) + 1;
     }
 
     /* increment span for untouched levels */
@@ -198,11 +195,12 @@ inline bool SkipList<Key, Score>::erase(value_type const& value)
     Node* cur = m_Head;
     Node* update[eMaxLevel];
 
-    for (auto i = m_Level - 1; i >= 0; --i) {
-        while(cur->forward(i) 
-            && (cur->forward(i)->score > value.second || (
-                (cur->forward(i)->key < value.first && cur->forward(i)->score == value.second)) {
-            cur = cur->forward(i);
+    for ( auto i = m_Level - 1; i >= 0; --i ) {
+        while ( cur->forward( i )
+            && ( cur->forward( i )->score > value.second
+                || ( cur->forward( i )->key < value.first 
+                    && cur->forward( i )->score == value.second ) ) ) {
+            cur = cur->forward( i );
         }
         update[i] = cur;
     }
@@ -302,7 +300,7 @@ inline int32_t SkipList<Key, Score>::ranklist(uint32_t index, uint32_t count, ke
     Node* cur = m_Head;
     int nget = 0;
     uint32_t traversed = 0;
-    index = std::max(index, 1);
+    index = std::max<uint32_t>(index, 1);
     
     for (auto i = m_Level - 1; i >= 0; --i) {
         while (cur->forward(i) && traversed + cur->span(i) < index) {
@@ -314,11 +312,11 @@ inline int32_t SkipList<Key, Score>::ranklist(uint32_t index, uint32_t count, ke
     cur = cur->forward(0);
 
     while (cur && traversed <= index + count - 1) {
-        Node* next = x->forward(0);
+        Node* next = cur->forward(0);
         ++nget;
         ++traversed;
-        list.push_back(value_type(x->key, x->score));
-        x = next;
+        list.push_back(value_type(cur->key, cur->score));
+        cur = next;
     }
     return nget;
 }
@@ -335,7 +333,7 @@ inline int32_t SkipList<Key, Score>::range(Score const& min, Score const& max, u
 }
 
 template<typename Key, typename Score>
-inline int32_t SkipList<Key, Score>::range(Score const& nin, Score const& max, uint32_t count, key_value_list& list, key_list const& excepts) const
+inline int32_t SkipList<Key, Score>::range(Score const& min, Score const& max, uint32_t count, key_value_list& list, key_list const& excepts) const
 {
 	if (min > max) { return 0; }
 	if (m_Tail == nullptr || m_Tail->score > max) {
@@ -386,28 +384,27 @@ inline void SkipList<Key, Score>::clear()
 }
 
 template<typename Key, typename Score>
-inline void SkipList<Key, Score>::print(int32_t width)
+inline void SkipList<Key, Score>::print( int32_t width )
 {
-    Node* p = nullptr;
-    Node* q = nullptr;
-    println("level :", m_Level);
+    Node * p = nullptr;
+    Node * q = nullptr;
+    std::cout << "level: " << m_Level << "\n";
 
     // from top level search
-    for (auto i = m_Level - 1; i >= 0; --i) {
+    for ( auto i = m_Level - 1; i >= 0; --i ) {
         p = m_Head;
-
-        while ((q = p->forward(i)) != nullptr) {
-            for (auto j = 0; j < p->span(i) - 1; ++j) {
-                for (auto k = 0; k < width; ++k) {
-                    print(" ");
-                }
-            }
-            print(std::setw(width), q->key);
-            p = q;
+        while ( ( q = p->forward( i ) ) != nullptr ) {
+                        for ( auto j = 0; j < p->span( i ) - 1; ++j ) {
+                            for ( auto k = 0; k < width; ++k ) {
+                                std::cout << " ";
+                            }
+                        }
+                        std::cout << std::setw( width ) << q->key << " " << q->score;
+                        p = q;
         }
-        println();
+        std::cout << "\n";
     }
-    println();
+    std::cout << "\n";
 }
 
 template<typename Key, typename Score>

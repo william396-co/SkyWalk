@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(CXX_FLAGS
 		-ggdb
+		-Og
+		-O0
 		-Wall
 		-Wextra
 		-Werror
@@ -25,7 +27,7 @@ include_directories(src/share)
 
 # public lib
 add_subdirectory(src/share/utils)
-#add_subdirectory(src/share/domain)
+add_subdirectory(src/share/domain)
 
 # thirdparty lib
 #add_subdirectory(src/thirdparty/io)
@@ -37,7 +39,9 @@ add_subdirectory(src/share/utils)
 #add_subdirectory(src/thirdparty/protocal)
 
 # sub project
-add_subdirectory(src/guard)
+if(NOT WIN32)
+	add_subdirectory(src/guard)
+endif()
 #add_subdirectory(src/gateserver)
 #add_subdirectory(src/dataserver)
 #add_subdirectory(src/masterserver)
@@ -47,6 +51,8 @@ add_subdirectory(src/guard)
 # test project
 
 #if(BUILD_EXAMPLS)
+	add_subdirectory(src/example/uniqueid)
+	add_subdirectory(src/example/behavior_tree)
 	add_subdirectory(src/example/skiplist)
 #	add_subdirectory(src/example/redis)
 	#	add_subdirectory(src/example/io)
