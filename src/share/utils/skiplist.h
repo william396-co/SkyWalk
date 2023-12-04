@@ -414,7 +414,8 @@ template<typename Key, typename Score>
 inline int32_t SkipList<Key, Score>::randomLevel()
 {
 	constexpr auto SKIPLIST_P = 0.25;
-	while ((random() & 0xfff) < (SKIPLIST_P * 0xfff) {
+    int32_t level = 1;
+	while ((random() & 0xfff) < (SKIPLIST_P * 0xfff)) {
 		level += 1;
 	}
 	return level < eMaxLevel ? level : eMaxLevel;
