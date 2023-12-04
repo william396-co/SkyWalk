@@ -14,8 +14,6 @@
 #define likely(x)       __builtin_expect( (x), 1 )
 #define unlikely(x)     __builtin_expect( (x), 0 )
 
-#define SAFE_DELETE(x)  { if (x) { delete (x); (x) = nullptr; } }
-
 // 点分十进制IP
 typedef std::vector<uint16_t>   IpAddress;
 
