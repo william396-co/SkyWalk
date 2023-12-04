@@ -46,6 +46,7 @@ add_subdirectory(src/guard)
 
 # test project
 if(BUILD_EXAMPLS)
+	add_subdirectory(src/example/skiplist)
 	add_subdirectory(src/example/redis)
 	add_subdirectory(src/example/io)
 	add_subdirectory(src/example/lua)
