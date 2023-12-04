@@ -37,7 +37,9 @@ add_subdirectory(src/share/utils)
 #add_subdirectory(src/thirdparty/protocal)
 
 # sub project
-add_subdirectory(src/guard)
+if(NOT WIN32)
+	add_subdirectory(src/guard)
+endif()
 #add_subdirectory(src/gateserver)
 #add_subdirectory(src/dataserver)
 #add_subdirectory(src/masterserver)
