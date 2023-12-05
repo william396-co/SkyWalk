@@ -108,7 +108,7 @@ private:
     uint32_t getIndex( uint32_t seconds );
     uint32_t getStepCount( uint32_t seconds );
     void append( const Operation & operation );
-    void add2Tailer( uint32_t index, TimerEntry * entry );
+    void add2Front( uint32_t index, TimerEntry * entry );
 
 private:
     uint32_t m_DispatchRef;

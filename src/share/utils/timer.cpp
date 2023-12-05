@@ -164,7 +164,7 @@ bool TimeWheel::schedule( ITimerEvent * ev, uint32_t msecs )
     entry->stepcount = stepcount;
     entry->leftmsecs = 0;
     entry->endref = m_DispatchRef + msecs / m_MaxPrecision;
-    add2Tailer( index, entry );
+    add2Front( index, entry );
 
     return true;
 }
@@ -260,7 +260,7 @@ int32_t TimeWheel::update()
                 if ( newindex != index ) {
                     // 删除, 添加到新的slot中
                     entry->remove();
-                    add2Tailer( newindex, entry );
+                    add2Front( newindex, entry );
                 }
                 // 把当前事件的操作都继续添加到操作队列中
                 std::copy( m_CurrentList.begin(),
@@ -314,7 +314,7 @@ inline void TimeWheel::append( const Operation & operation )
     }
 }
 
-inline void TimeWheel::add2Tailer( uint32_t index, TimerEntry * entry )
+inline void TimeWheel::add2Front( uint32_t index, TimerEntry * entry )
 {
     TimerEntry * header = m_EventBuckets + index;
 
