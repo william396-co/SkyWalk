@@ -1,0 +1,88 @@
+
+syntax = "proto3";
+
+package msg.battle;
+import "base.proto";
+import "type.proto";
+
+//
+// 错误码
+//
+enum ErrorcodeBattle {
+    Success = 0x000000; // 成功
+
+    BattleJoinNotInArea = 0x120101; // 不在中转区域中
+    BattleJoinInvalidToken = 0x120102;  // 非法的token
+    BattleProgressNotInArea = 0x120201; // 不在中转区域中
+    BattleReadyNotInArea = 0x120301; // 不在中转区域中
+    BattleSubmitNotInArea = 0x120501; // 不在中转区域中
+	BattleSubmitIsFighter = 0x120502; // 上报必须是战斗人员
+    BattleQuitNotInArea = 0x120701; // 不在中转区域中
+    BattleQuitIsFighter = 0x120702; // 退出必须是战斗人员
+};
+
+// 加入战斗
+message BattleJoinRequest {
+	option (msgid) = BattleJoin_C;
+	option (target) = TRANSIT;
+
+	uint64 roleid = 1; // 角色ID
+	string token = 2;  // token
+};
+
+// 进度通知
+message BattleProgressMessage {
+	option (msgid) = BattleProgress_CS;
+	option (target) = TRANSIT;
+	option (ackid) = BattleProgress_CS;
+
+	uint64 roleid = 1;	// 角色ID
+	int32 progress = 2;	// 进度
+};
+
+// 准备就绪
+message BattleReadyRequest {
+	option (msgid) = BattleReady_C;
+	option (target) = TRANSIT;
+	int32 frame = 1;	// 当前帧
+};
+
+// 战斗开始通知
+message BattleStartNotify {
+	option (msgid) = BattleStart_S;
+};
+
+// 战斗提交指令
+message BattleSubmitRequest {
+	option (msgid) = BattleSubmit_C;
+	option (target) = TRANSIT;
+	BattleOrder order = 1;	// 战斗指令
+};
+
+// 指令同步
+message BattleSyncNotify {
+	option (msgid) = BattleSync_S;
+	int32 frame = 1; // 当前帧
+	int32 type = 2; // 类型, 1:正常同步;2:补帧
+	repeated BattleFrame framelist = 3; // 帧集合
+};
+
+// 战斗退出
+message BattleQuitRequest {
+	option (msgid) = BattleQuit_C;
+	option (target) = TRANSIT;
+	option (ackid) = BattleQuit_S;
+
+	BattleResult result = 1; // 结果
+	int32 svnrevision = 2; // svn修订号
+	int32 excelversion = 3; // excel版本号
+	int32 reason = 4; // 原因
+};
+message BattleQuitResponse {
+	option (msgid) = BattleQuit_S;
+	option (target) = TRANSIT;
+
+	uint64 roleid = 1; // 角色ID
+	BattleResult result = 2; // 结果
+	int32 reason = 3; // 原因
+};

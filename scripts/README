@@ -1,0 +1,12 @@
+routine.lua 脚本系统入口
+util.lua 工具模块
+global.lua 全局配置模块
+
+#
+# 全局变量以及函数说明
+#
+
+ROOT: 生产环境的相对根目录
+ENV: 游戏逻辑环境
+LOGGER: 日志句柄
+SENDMAIL: 发送固定模板的邮件

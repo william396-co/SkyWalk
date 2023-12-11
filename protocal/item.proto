@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package msg.item;
+import "base.proto";
+import "type.proto";
+import "itemtype.proto";
+
+//
+// 错误码
+//
+enum ErrorcodeItem {
+	Success = 0x000000;	// 成功
+};
+
+// 获取物品信息
+message ItemDetailInfosRequest {
+	option (msgid) = ItemDetailInfos_C;
+	option (ackid) = ItemDetailInfos_S;
+	option (target) = SCENE;
+};
+message ItemDetailInfosResponse {
+	option (msgid) = ItemDetailInfos_S;
+	repeated ItemDetailInfo items = 1;	// 物品信息
+};
+
+// 物品变化通知
+message BagChangeListNotify {
+	message Change {
+		uint64 entityid = 1; // 流水ID
+		int64 count = 2; // 个数
+		int32 storeplace = 3; // 存储位置
+		uint64 heroid = 4; // 所属伙伴
+		// TODO:
+	};
+
+	option (msgid) = ItemChangeList_S;
+	repeated ItemDetailInfo addlist = 1; // 添加列表
+	repeated uint64 deletelist = 2; // 删除列表
+	repeated Change changelist = 3; // 变化列表
+};

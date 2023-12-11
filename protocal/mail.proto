@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package msg.mail;
+import "type.proto";
+import "mailtype.proto";
+
+
+//
+// 错误码定义
+//
+enum ErrorcodeMail {
+	Success = 0x000000;	// 成功
+	ReadMailIDInvalid = 0x160401;	// 亲！找不到你说的那封邮件
+	ReadMailStatusInvalid = 0x160402; // 这是封奇怪的邮件,我也没办法处理
+	DrawMailStatusInvalid = 0x160601;	// 该邮件已经领取过了
+	DrawMailBagIsFull = 0x160602;	// 背包已经满了
+	DrawMailIDInvalid = 0x160603;	// 亲！找不到你说的那封邮件
+	RemoveMailIDInvalid = 0x160801;	// 亲！找不到你要删除的这封邮件
+	YouMustDrawedMail = 0x160802; // 不能删除未领取附件的邮件
+};
+
+// 获取收件箱
+message GetInBoxRequest {
+	option (msgid) = GetInBox_C;
+	option (ackid) = GetInBox_S;
+	option (target) = SCENE;
+
+	uint32 index = 1;	//
+	uint32 count = 2;	//
+};
+message GetInBoxResponse {
+	option (msgid) = GetInBox_S;
+
+	uint32 index = 1;	//
+	uint32 count = 2;	//
+	repeated MailDetailInfo	mailbox	= 3;	// 收件箱
+};
+
+// 新邮件通知
+message NewMailNotify {
+	option (msgid) = NewMail_S;
+
+	uint64 mailid = 1;	// 邮件ID
+	MailDetailInfo newmail = 2;	// 邮件内容
+};
+
+// 阅读邮件
+message ReadMailRequest {
+	option (msgid) = ReadMail_C;
+	option (ackid) = ReadMail_S;
+	option (target) = SCENE;
+
+	uint64 mailid = 1;	// 邮件ID
+};
+message ReadMailResponse {
+	option (msgid) = ReadMail_S;
+	uint64 mailid = 1;	// 邮件ID
+	MailState state = 2;	// 邮件状态
+};
+
+// 领取附件
+message GotAttachmentRequest {
+	option (msgid) = GotAttachment_C;
+	option (ackid) = GotAttachment_S;
+	option (target) = SCENE;
+	repeated uint64 mailids	= 1;
+};
+message GotAttachmentResponse {
+	message MailUnit {
+		uint64 mailid = 1;
+		MailState state = 2;
+	};
+
+	option (msgid) = GotAttachment_S;
+	repeated MailUnit statuslist = 1;	// 状态列表
+};
+
+// 删除邮件
+message RemoveMailRequest {
+	option (msgid) = RemoveMail_C;
+	option (ackid) = RemoveMail_S;
+	option (target) = SCENE;
+
+	repeated uint64 mailids	= 1;
+};
+message RemoveMailResponse {
+	option (msgid) = RemoveMail_S;
+	repeated uint64	mailids	= 1;
+};
+

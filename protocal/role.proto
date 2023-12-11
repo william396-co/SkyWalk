@@ -1,0 +1,379 @@
+syntax = "proto3";
+
+package msg.role;
+import "base.proto";
+import "type.proto";
+import "roletype.proto";
+
+//
+// 错误码
+//
+enum ErrorcodeRole {
+	Success = 0x000000;	// 成功
+	InBlackList = 0x110101;	// 在黑名单中
+	NotInWhiteList = 0x110102;	// 不在白名单中
+	GatewayBusy	= 0x110103;	// 服务器繁忙
+	VerifyFailed = 0x110104;	// 验证失败
+	VerifyRepeated = 0x110105;	// 重复验证
+	NotInAccessDomain = 0x110106;	// 不在访问域中
+    InvalidAccount = 0x110107; // 非法的账号
+    InDebugMode = 0x110108; // 在调试模式中, 请联系客服
+	Unverified = 0x110301;	// 未验证通过
+	SystemMaintain = 0x110302;	// 服务器维护
+	LoginSystemBusy	= 0x110303;	// 服务器繁忙
+	ClientVersionTooOld	= 0x110304;	// 版本号太旧
+	VerifyInvalidSession = 0x110305;	// 非法的连接
+    VerifyInvalidAccount = 0x110306; // 非法的账号
+    LoginRepeated = 0x110307; // 重复登陆
+	InvalidRolename = 0x110601;	// 角色名有非法字符
+	DuplicationOfname = 0x110602;	// 角色名重复
+	NewbornSystemBusy = 0x110603;	// 创角系统繁忙
+	InvalidZoneID = 0x110604;	// 非法的区服ID
+	DenyCreateRole = 0x110605;	// 服务器繁忙, 请到其他服务器创建角色
+	AvatarIsInvalid	= 0x110606;	// 形象非法
+    NewbornAccountInvalid = 0x110607; // 账号非法
+    NewbornUnverified = 0x110608; // 未验证通过的链接
+    AccountHasRole = 0x110609; // 该账号在本服内创建过角色
+    RolenameTooLong = 0x11060A; // 角色名过长
+    RoleNotExist = 0x110801; // 角色ID不存在
+    SystemIsBusy = 0x110802; // 系统繁忙
+	InvalidRoleID = 0x110803;	// 非法的角色id
+	NewRoleFailed = 0x110804;	// 新建角色失败
+	LoadFromDBFailed = 0x110805;	// 从数据库加载失败
+	DBLoading = 0x110806;	// 正在数据加载中
+	RoleIsBanned = 0x110807;	// 玩家被封号
+	AccountAttachedOtherRole = 0x110808;	// 同一个账号下的多个角色不能同时登陆
+	AttachInvalidSession = 0x110809;	// 非法的连接
+	AttachInnerError = 0x11080A;	// 内部错误
+    QueryRoleBriefTooMuch = 0x111201; // 查询太多的角色了
+    QueryDetailRoleIDInvalid = 0x111401; // 角色ID非法
+    QueryDetailFormationEmpty = 0x111402; // 还没有缓存数据
+    QueryDetailOrderGreaterZero = 0x111403; // 编号必须大于0
+    QueryDetailFmtTypeInvalid = 0x111404; // 阵容ID非法
+    QueryDetailInnerError = 0x111405; // 内部出错
+    SaveFormationHeroIsInvalid = 0x111801; // 上阵英雄非法
+    SaveFormationExistSameCard = 0x111802; // 存在上阵的同名卡
+    SaveFormationCountError = 0x111803; // 上阵的英雄数目不对
+    SaveFormationHelpSiteTooLong = 0x111804; // 支援位数据太长
+    SaveFormationUltimateTooLong = 0x111805; // 奥义技能数据太长
+    SaveFormationComboFlowTooLong = 0x111806; // 连招设置数据太长
+    SaveFormationInternalError = 0x111807; // 内部出错
+    SaveFormationTypeInvalid = 0x111808; // 阵容ID非法
+    SaveFormationTooMuch = 0x111809; // 阵容太多了
+    SaveFormationExistSameHero = 0x11180A; // 上阵相同的英雄
+    SaveFormationOrderGreaterZero = 0x11180B; // 内部需要必须大于0
+	YouAreInShutupTime = 0x112001;	// 已经被禁言
+	ChatLevelLimits = 0x112002;	// 聊天等级不够
+	SpeakTooFast = 0x112003;	// 说的太快了
+	ChatLengthLimits = 0x112004;	// 聊天内容太长了
+	SpeakerNotEnough = 0x112005;	// 大喇叭数量不足
+    ReceiverIsInvalid = 0x112006; // 没有指定接收者
+    WhisperSelf = 0x112007; // 自己不能跟自己私聊
+    WhisperIsntFriend = 0x112008; // 只能和好友私聊
+    NotJoinAnyGuild = 0x112009; // 未加入任何公会
+    ChatInInvalidGuild = 0x11200A; // 在非法的公会中聊天
+    WhisperIsBlock = 0x11200B; // 你已经拉黑对方了
+	GetRankboardInvalidType = 0x112101; // 榜单类型非法
+};
+
+// 玩家验证
+message VerifyRequest {
+	option (msgid) = Verify_C;
+	option (ackid) = Verify_S;
+	option (target) = LOGIN;
+
+	string account = 1;	// 账号
+	uint32 zoneid = 2;	// 区服编号
+	string token = 3;	// 令牌
+	string appversion = 4;	// 客户端版本号
+};
+message VerifyResponse {
+	option (msgid) = Verify_S;
+	string gatehost = 1;	// 网关服务器地址
+	uint32 gateport	= 2;	// 网关服务器端口
+	string token = 3;	// 服务器token
+};
+
+// 玩家登录
+message RoleLoginRequest {
+	option (msgid) = Login_C;
+	option (target) = WORLD;
+	string account = 1;	// 账号
+	uint32 zoneid = 2;	// 区服编号
+	string token = 3;	// 令牌
+	string appversion = 4;	// 客户端版本号
+};
+
+// 玩家登出
+message RoleLogoutMessage {
+	enum Reason {
+		Logout = 0;	// 正常登出
+		Kickoff	= 1;	// 被踢出
+		BadChecksum = 2;	// 非法的数据包
+		BannedAccount = 3;	// 被封号
+		Shutdown = 4;	// 正常关服
+		Maintain = 5;	// 服务器维护中
+		LoadFaild = 6;	// 登陆加载数据失败
+		DataException = 7;	// 数据异常
+	};
+
+	option (msgid) = Logout_CS;
+	int64 roleid = 1;	// 角色ID
+	Reason reason = 2;	// 原因
+};
+
+// 角色列表
+message RoleListResponse {
+	message RoleInfo {
+		int64 roleid = 1;	// 角色ID
+		uint32 avatar = 2;	// 形象
+		uint32 level = 3;	// 等级
+		string rolename = 4;	// 角色名
+		int64 lastlogintime = 5;	// 最近一次登录时间
+	};
+
+	option (msgid) = RoleList_S;
+	repeated RoleInfo rolelist = 1;	// 角色列表
+	repeated string versions = 2;	// 支持的版本列表
+	string actversion = 3;	// 运营活动版本号
+	uint32 svnrevision = 4;	// SVN修订号
+	uint32 excelversion = 5;	// 策划excel版本号
+	int32 timezone = 6;	// 服务器时区
+	int64 servertime = 7; 	// 服务器时间
+};
+
+// 创建角色
+message NewbornRequest {
+	option (msgid) = Newborn_C;
+	option (target) = WORLD;
+
+	string account = 1;	// 账号
+	uint32 zoneid = 2;	// 区服编号
+	string rolename = 3;	// 角色名
+	string device = 4;	// 客户端设备
+	string version = 5; 	// 客户端版本号
+	int32 region = 6;	// 地区
+	string distinctid = 7;	// 游客ID
+};
+
+// 新角色返回
+message NewbornResponse {
+	option (msgid) = Newborn_S;
+	int64 roleid = 1;	// 角色ID
+	string rolename = 2;	// 角色名
+};
+
+// 角色进入游戏
+message EnterGameRequest {
+	option (msgid) = EnterGame_C;
+	option (target) = WORLD;
+
+	int64 roleid = 1;	// 角色ID
+	string device = 2;	// 客户端设备号
+	string version = 3;	// 客户端版本号
+	uint32 suggest = 4;	// 客户端建议进入的场景
+	string distinctid = 5;	// 游客ID
+};
+
+// 角色详细信息
+message GetSelfDetailRequest{
+	option (msgid) = GetSelfDetail_C;
+	option (ackid) = GetSelfDetail_S;
+	option (target) = SCENE;
+};
+
+// 角色详细信息
+message GetSelfDetailResponse {
+	// 角色详细信息定义
+	message RoleInfo {
+		int64 roleid = 1;	// 角色ID
+		string rolename = 2;	// 角色名
+		int64 exp = 3;	// 角色经验
+		int64 gamecoin = 4;	// 金币
+		int64 money	= 5;	// 钻石
+		int64 strength = 6;	// 体力
+		int64 diamond = 7;	// 钻石
+		int64 vipexp = 8;	// vip经验
+		int64 arenacoin = 9; // 竞技场泉
+	};
+
+	message DailyTimes {
+		uint32 buygoldtimes    	= 1;   // 购买金币次数
+		uint32 buystrengthtimes	= 2;   // 购买体力次数
+		uint32 buysklpointtimes	= 3;   // 购买技能点次数
+		uint32 giftstrengthdraw	= 4;   // 赠送体力领取状态
+		uint32 buildremainingtimes = 5;   // 造小人剩余次数
+	};
+
+	option (msgid) = GetSelfDetail_S;
+	RoleInfo role = 1;
+	int64 strrecovertime = 2;	// 体力恢复时间
+	int64 tembagcapacity = 3;   // 图腾背包容量
+	DailyTimes dailytimes = 4;	// 每日次数
+};
+
+message LoginSuccessNotify {
+	option (msgid) = LoginSuccess_S;
+    string appid = 1;
+    uint32 zoneid = 2;
+    uint32 starttime = 3;    // 开服时间
+	string digitalcode = 4;	// 数字码
+	int64 createtime = 5;	// 创角时间
+	int32 timezone = 6;	// 服务器时区
+	int64 servertime = 7; 	// 服务器时间
+    bool needrename = 8;    // 是否需要改名
+	uint32 rnregister = 9;	// 实名认证状态;1-认证过了;3-认证并且领取过奖励了
+	bool multiregions = 10;	// 是否是多区域分区
+};
+
+// 通知列表(小红点)
+message NotifyListNotify {
+	message Notify {
+		int32 system = 1;	// 系统ID
+		uint32 status = 2;	// 状态
+	};
+
+	option (msgid) = NotifyList_S;
+	repeated Notify	notifylist = 1;	// 红点列表
+};
+
+// 角色属性变更
+message RolePropChangeNotify {
+	message Props {
+		RoleProp prop = 1;	// 属性
+		int64 value = 2;	// 当前值
+		uint64 heroid = 3;	// 英雄ID
+	};
+
+	option (msgid) = RolePropChange_S;
+	repeated Props changelist = 1;	// 变化列表
+};
+
+// 系统开放
+message OpenSystemRequest {
+	option (msgid) = OpenSystem_C;
+	option (target) = SCENE;
+};
+message OpenSystemResponse {
+	option (msgid) = OpenSystem_S;
+	int32 type = 1; 	// 0-全部；1-新开
+	repeated uint32	systemidlist = 2;	// 系统开放列表
+};
+
+// 玩家简要信息
+message QueryRoleBriefRequest {
+	option (msgid) = QueryRoleBrief_C;
+	option (target) = WORLD;
+
+	string rolename = 1;	// 根据角色名查找
+	repeated uint64 rolelist = 2;	// 角色ID列表
+};
+message QueryRoleBriefResponse {
+	option (msgid) = QueryRoleBrief_S;
+	repeated RoleBrief rolelist = 1;	// 角色ID列表
+};
+
+// 获取玩家详细信息
+message QueryRoleDetailRequest {
+	option (msgid) = QueryRoleDetail_C;
+	option (target) = WORLD;
+
+	uint64 roleid = 1;	// 角色ID
+	int32 fmttype = 2;	// 阵容类型
+	int32 fmtorder = 3; // 编号
+	bool isdetail = 4;	// 是否是详细属性
+};
+message QueryRoleDetailResponse {
+	option (msgid) = QueryRoleDetail_S;
+	uint64 roleid = 1;	// 角色ID
+	int32 level = 2;	// 等级
+	int32 viplevel = 3; // vip等级
+	string rolename = 4;	// 名字
+	int64 battlepoint = 5;	// 战斗力
+	uint32 avatar = 6;	// AVATAR
+	uint32 guildid = 7; // 公会ID
+	uint32 badge = 8; // 公会徽章
+	string guildname = 9; // 公会名称
+	int32 zoneid = 10; // 区服ID
+	repeated HeroInfo heros = 11; // 主力阵容
+};
+
+// 获取阵容
+message GetFormationsRequest {
+	option (msgid) = GetFormations_C;
+	option (ackid) = GetFormations_S;
+	option (target) = SCENE;
+
+	int32 fmttype = 1; // 阵容id, 参考关卡配置文件
+};
+message GetFormationsResponse {
+	message Formation {
+		int32 fmtorder = 1; // 内部编号
+		repeated uint64 herolist = 2; // 英雄列表
+		repeated uint64 helpsite = 3; // 支援位 (和战斗约定)
+		string ultimate = 4; // 奥义技能 (和战斗约定)
+		string comboflow = 5; // 连招配置 (和战斗约定)
+	};
+	option (msgid) = GetFormations_S;
+	int32 fmttype = 1; // 阵容id, 参考关卡配置文件
+	repeated Formation formations = 2; // 有可能的多套阵容，绝大多数是一套
+};
+
+// 保存阵容
+message SaveFormationRequest {
+	option (msgid) = SaveFormation_C;
+	option (ackid) = SaveFormation_S;
+	option (target) = SCENE;
+
+	int32 fmttype = 1; // 阵容ID, 参考关卡配置
+	int32 fmtorder = 2; // 内部编号
+	repeated uint64 herolist = 3; // 英雄列表
+	repeated uint64 helpsite = 4; // 支援位
+	string ultimate = 5; // 奥义技能
+	string comboflow = 6; // 连招配置
+};
+message SaveFormationResponse {
+	option (msgid) = SaveFormation_S;
+
+	int32 fmttype = 1; // 阵容ID, 参考关卡配置
+	int32 fmtorder = 2; // 内部编号
+};
+
+// 聊天
+message RoleChatMessage {
+	option (msgid) = Chat_CS;
+	option (target) = WORLD;
+
+	ChatChannel channel = 1;	// 频道
+	uint64 sender = 2;	// 发送方ID
+	bytes sendername = 3;	// 发送方名字
+	uint32 avatar = 4;	// 头像
+	uint32 level = 5;	// 等级
+	uint32 viplevel = 6;	// VIP等级
+	uint64 receiver = 7;	// 接受者
+	string receivername = 8;	// 接收者名字
+	string content = 9;	// 消息内容
+	string streammedia = 10;	// 流媒体
+	uint64 timestamp = 11;	// 发送时间
+	uint32 style = 12;	// 样式
+};
+
+// 排行榜
+message GetRankboardRequest {
+	option (msgid) = GetRankboard_C;
+	option (target) = WORLD;
+	option (ackid) = GetRankboard_S;
+
+	int32 type = 1; // 类型
+	int32 fromrank = 2; // 开始名次
+	int32 fetchcount = 3; // 个数
+};
+message GetRankboardResponse {
+	option (msgid) = GetRankboard_S;
+
+	int32 type = 1; // 类型
+	int32 totalcount = 2; // 总个数
+	int32 rank = 3; // 自己的名次,未上榜0
+	int64 score = 4; // 自己的积分,未上榜0
+	repeated RankInfo ranklist = 5; // 排行榜
+};

@@ -1,0 +1,186 @@
+syntax = "proto3";
+
+package msg;
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.MessageOptions {
+  	MsgID msgid = 50001;
+	MsgID ackid = 50002;
+  	Target target = 60000;
+};
+
+enum Target {
+	NONE = 0; // 非法路由
+	GATE = 1; // 网关服务器
+	SCENE = 2; // 场景服务器
+	WORLD = 3; // 世界服务器
+	COPY = 4; // 副本服务器
+	DATA = 6; // 数据库服务器
+	LOGIN = 7; // 登录服务器
+	MASTER = 8; // 管理服务器
+	TRANSIT = 12; // 中转服务器
+	ANY = 255; // 任意主机
+};
+
+enum MsgID {
+	Invalid = 0x0000;
+
+	//
+	// 工具段(0x1000)
+	//
+	Errorcode_S	= 0x1001;		// 错误码
+	Ping_CS	= 0x1002;		// 心跳包
+	Version_C = 0x1003;		// 获取版本号
+	Version_S = 0x1004;		// 返回版本号
+	Skipday_S = 0x1005;		// 隔天
+	ShellCommand_CS = 0x1006; // GM指令
+	Order_C = 0x1007;		// 确认订单
+	Order_S = 0x1008;		// 订单返回
+	PayDeliver_S = 0x1009;		// 支付发货通知
+	GetLotteryRecords_C = 0x100A;		// 获取中奖公示
+	GetLotteryRecords_S = 0x100B;		// 中奖公示返回
+	Bulletin_S = 0x100C;		// 公告
+	GetPayment_C = 0x100D;	// 获取充值记录
+	GetPayment_S = 0x100E;	// 获取充值记录返回
+	GetCombatVideo_C = 0x100F; // 获取战斗回放
+	GetCombatVideo_S = 0x1010; // 获取战斗回放返回
+
+	//
+	// 角色段(0x1100)
+	//
+	Verify_C = 0x1101;	// 登录验证
+	Verify_S = 0x1102;	// 验证结果
+	Login_C	= 0x1103;	// 玩家登陆
+	Logout_CS = 0x1104;	// 玩家登出
+	RoleList_S = 0x1105;	// 玩家的角色列表
+	Newborn_C = 0x1106;	// 创建角色
+	Newborn_S = 0x1107;	// 创建角色返回
+	EnterGame_C	= 0x1108;	// 选择角色进入游戏
+	LoginSuccess_S = 0x1109; 	// 登录成功返回
+	GetSelfDetail_C = 0x110A; 	// 获取角色详细信息
+	GetSelfDetail_S = 0x110B;	// 角色详细信息
+	NotifyList_S = 0x110C;	// 通知列表(小红点)
+	RolePropChange_S = 0x110D;	// 角色属性变更
+	// TODO: 0x110E, 0x110F
+	OpenSystem_C = 0x1110;	// 系统开放
+	OpenSystem_S = 0x1111;	// 系统开放返回
+	QueryRoleBrief_C = 0x1112;	// 获取玩家简要信息
+	QueryRoleBrief_S = 0x1113;	// 玩家简要信息返回
+	QueryRoleDetail_C = 0x1114;	// 查询玩家详细信息
+	QueryRoleDetail_S = 0x1115;	// 玩家详细信息返回
+	GetFormations_C = 0x1116;	// 获取阵容
+	GetFormations_S = 0x1117;	// 阵容数据返回
+	SaveFormation_C = 0x1118;	// 保存阵容
+	SaveFormation_S = 0x1119;  	// 保存阵容返回
+	// TODO: 0x1119 - 0x111F
+	Chat_CS = 0x1120;	// 聊天
+	GetRankboard_C = 0x1121; // 获取排行榜
+	GetRankboard_S = 0x1122; // 排行榜信息返回
+
+	//
+	// 战斗段(0x1200)
+	//
+	BattleJoin_C = 0x1201;	// 加入战斗
+	BattleProgress_CS = 0x1202;	// 战斗进度
+	BattleReady_C = 0x1203;	// 战斗准备就绪
+	BattleStart_S = 0x1204;	// 战斗开始
+	BattleSubmit_C = 0x1205; // 战斗指令提交
+	BattleSync_S = 0x1206;	//  战斗命令同步
+	BattleQuit_C = 0x1207;	// 战斗离开
+	BattleQuit_S = 0x1208;	// 战斗离开的回应
+
+	//
+	// 英雄段(0x1300)
+	//
+	HeroList_C = 0x1301; // 英雄列表请求
+	HeroList_S = 0x1302; // 英雄列表返回
+	NewHero_S = 0x1303;	 // 获得新英雄的通知
+	HeroLevelup_C = 0x1304; // 升级请求
+	HeroLevelup_S = 0x1305;	// 升级返回
+	HeroBreakThrough_C = 0x1306; // 突破请求
+	HeroBreakThrough_S = 0x1307; // 突破返回
+	HeroLock_C = 0x1308; // 加锁/解锁请求
+	HeroLock_S = 0x1309; // 加锁/解锁返回
+	SkillList_S = 0x130A; // 技能列表通知
+
+	//
+	// 道具段(0x1400)
+	//
+	ItemDetailInfos_C = 0x1401; // 请求全部物品信息
+	ItemDetailInfos_S = 0x1402;	// 全部物品信息返回
+	ItemChangeList_S = 0x1403;	// 物品信息变更
+
+	//
+	// 关卡段(0x1500)
+	//
+	GetStoryLine_C = 0x1501;	// 获取篇章信息
+	GetStoryLine_S = 0x1502;	// 篇章信息返回
+	GetChapter_C = 0x1503;	// 获取章节信息
+	GetChapter_S = 0x1504; // 章节信息返回
+	Settlement_S = 0x1505;	// 结算通知
+	ReportResult_C = 0x1506;	// 上报战斗结果
+	ReportResult_S = 0x1507;  // 上报战斗结果返回
+	// TODO: 关卡的其他接口
+	DrawChapterRewards_C = 0x1510; // 领取章节奖励
+	DrawChapterRewards_S = 0x1511; // 领取章节奖励返回
+	EnterDungeon_C = 0x1512; // 进入主线关卡
+	EnterDungeon_S = 0x1513; // 进入主线关卡返回
+	EnterFreeDungeon_C = 0x1514; // 进入自由关卡
+	EnterFreeDungeon_S = 0x1515; // 进入自由关卡返回
+
+	//
+	// 邮件段(0x1600)
+	//
+	GetInBox_C = 0x1601; // 获取收件箱
+	GetInBox_S = 0x1602; // 收件箱返回
+	NewMail_S = 0x1603;	// 新邮件通知
+	ReadMail_C = 0x1604; // 阅读邮件
+	ReadMail_S = 0x1605; // 阅读邮件结果
+	GotAttachment_C	= 0x1606; // 领取附件
+	GotAttachment_S = 0x1607; // 领取附件结果
+	RemoveMail_C = 0x1608; // 删除邮件
+	RemoveMail_S = 0x1609; // 删除邮件结果
+
+	//
+	// 任务段(0x1700)
+	//
+
+	//
+	// 社交段(0x1800)
+	//
+
+	//
+	// 工会段(0x1900)
+	//
+
+	//
+	// 个人空间段(0x1A00)
+	//
+
+	//
+	// 活动段(0x1B00)
+	//
+
+	//
+	// 竞技场(0x1C00)
+	//
+	GetArenaInfo_C = 0x1C01; // 获取竞技场数据
+	GetArenaInfo_S = 0x1C02; // 竞技场数据返回
+	GetArenaOpponentList_C = 0x1C03; // 获取对手列表
+	GetArenaOpponentList_S = 0x1C04; // 获取对手列表返回
+	BuyArenaTickets_C = 0x1C05; // 购买竞技场门票
+	BuyArenaTickets_S = 0x1C06; // 购买竞技场门票返回
+	DrawArenaRankReward_C = 0x1C07; // 领取每日排行奖励
+	DrawArenaRankReward_S = 0x1C08; // 领取每日排行奖励返回
+	ArenaChallenge_C = 0x1C09; // 竞技场挑战
+	ArenaChallenge_S = 0x1C0A; // 竞技场挑战返回
+	GetArenaCombatJournal_C = 0x1C0B; // 获取战斗日志
+	GetArenaCombatJournal_S = 0x1C0C; // 获取战斗日志返回
+	GetArenaCombatStatistics_C = 0x1C0D; // 获取战斗统计信息
+	GetArenaCombatStatistics_S = 0x1C0E; // 获取战斗统计信息返回
+	GetArenaHighLights_C = 0x1C0F;	// 获取高光时刻
+	GetArenaHighLights_S = 0x1C10; // 获取高光时刻返回
+	DrawArenaHighLightsRewards_C = 0x1C11; // 领取高光时刻奖励
+	DrawArenaHighLightsRewards_S = 0x1C12; // 领取高光时刻奖励返回
+};
+

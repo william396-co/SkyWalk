@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package msg.mail;
+import "base.proto";
+
+enum MailType {
+	eMailType_None = 0; // 非法邮件
+	eMailType_User = 1;	// 用户邮件
+	eMailType_System = 2;	// 系统邮件
+	eMailType_GameMaster = 3;	// GM邮件
+};
+
+enum MailState {
+	eMailState_None = 0;	// 非法
+	eMailState_Unread = 1;	// 未读
+	eMailState_Readed = 2;	// 已读
+	eMailState_Drawed = 3;	// 已领取
+	eMailState_Deleted = 4;	// 删除
+};
+
+message MailDetailInfo {
+	uint64 mid = 1;	// 邮件ID
+	MailType type = 2;	// 类型
+	uint32 tid = 3;	// 模板ID
+	MailState state	= 4;	// 状态
+	uint32 tag = 5;	// 标签
+	uint64 timestamp = 6;	// 邮件时间
+	int32 keepdays = 7;	// 保留天数
+	uint64 sender = 8;	// 发件者ID
+	string sendername = 9;	// 发件者名字
+	string title = 10;	// 标题
+	string content = 11;	// 内容
+	string paramlist = 12;   // 参数列表
+	repeated Resource attachment = 13;	// 附件
+};
+

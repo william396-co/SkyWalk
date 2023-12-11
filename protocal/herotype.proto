@@ -1,0 +1,14 @@
+syntax = "proto3";
+package msg.hero;
+import "base.proto";
+
+message HeroInfo {
+	uint64 id = 1; // 流水ID
+	int32 baseid = 2; // 配置ID
+	int32 level = 3; // 等级
+	int32 grade = 4; // 进阶等级
+	int32 quality = 5; // 突破等级
+	bool locking = 6; // 锁定状态
+	repeated Skill skills = 7; // 技能列表
+};
+

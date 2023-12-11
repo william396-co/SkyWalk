@@ -1,0 +1,190 @@
+
+syntax = "proto3";
+
+package msg.arena;
+import "base.proto";
+import "type.proto";
+
+enum ErrorcodeArena {
+	Success = 0x000000;	// 成功
+
+	ArenaSystemNotOpen = 0x1C0101; // 系统未开放
+	GetArenaOpponentListNotRank = 0x1C0301; // 排行榜不存在
+	BuyArenaTicketsNotCost = 0x1C0501; // 花费不足
+	DrawArenaRankRewardNotRank = 0x1C0701; // 排行不存在
+	DrawArenaRankRewardNotConf = 0x1C0702; // 配置不存在
+    DrawArenaRankRewardHavebeenDrawed = 0x1C0703; // 已经领取过奖励了
+
+    ArenaChallengeNotOpen = 0x1C0901; // 系统未开放
+    ArenaChallengeIsnotOpponent = 0x1C0902; // 不是对手
+    ArenaChallengeTicketNotEnough = 0x1C0903; // 门票不足
+    ArenaChallengeFormationError = 0x1C0904; // 阵容数据出错
+    ArenaChallengeOutofMemory = 0x1C0905; // 创建关卡失败
+    ArenaChallengeInternalError = 0x1C0906; // 内部出错
+    ArenaChallengeOffline = 0x1C0907; // 攻击方不在线
+	ArenaChallengeConfigError = 0x1C0908; // 配置出错
+	ArenaChallengeVersionNotMatch = 0x1C0909; // 战斗版本不一致
+    ArenaChallengeRobotInvalid = 0x1C090A; // 机器人非法
+    ArenaChallengeOpponentInvalid = 0x1C090B; // 对手非法
+    ArenaChallengeOffseason = 0x1C090C; // 休赛期
+	GetArenaCombatStatisticsInvalidID = 0x1C0D01; // 错误的战斗id
+    GetArenaHighLightsNotOpen = 0x1C0F01; // 系统未开放
+    DrawArenaHighLightsRewardsNotOpen = 0x1C1101; // 系统未开放
+    DrawArenaHighLightsRewardsHavebeenDrawed = 0x1C1102; // 已经领取过奖励了
+    DrawArenaHighLightsRewardsConfigError = 0x1C1103; // 配置出错
+    DrawArenaHighLightsRewardsEmpty = 0x1C1104; // 高光时刻未生成, 不能领奖励
+};
+
+// 获取竞技场数据
+message GetArenaInfoRequest {
+	option (msgid) = GetArenaInfo_C;
+	option (ackid) = GetArenaInfo_S;
+	option (target) = SCENE;
+};
+message GetArenaInfoResponse {
+	option (msgid) = GetArenaInfo_S;
+	int32 season = 1; // 赛季
+	int64 endtime = 2; // 赛季结束时间
+	int32 rank = 3; // 排行
+	int64 score = 4; // 积分
+	int32 times = 5; // 当日战斗次数
+	int32 isdraw = 6; // 是否领取过昨日的奖励
+	int32 lastrank = 7; // 昨日排行
+};
+
+// 获取对手列表
+message GetArenaOpponentListRequest {
+	option (msgid) = GetArenaOpponentList_C;
+	option (ackid) = GetArenaOpponentList_S;
+	option (target) = WORLD;
+	uint32 type = 1; // 1获取，2刷新
+};
+message GetArenaOpponentListResponse {
+	message OpponentInfo {
+		int64 score = 1; // 积分
+		int64 battlepoint = 2; // 战斗力
+		RoleBrief rolebrief = 3; // 玩家简要信息
+	};
+
+	option (msgid) = GetArenaOpponentList_S;
+	uint32 type = 1; // 1获取，2刷新
+	repeated OpponentInfo opponentlist = 2; // 对手信息列表
+};
+
+// 购买竞技场门票
+message BuyArenaTicketsRequest {
+	option (msgid) = BuyArenaTickets_C;
+	option (ackid) = BuyArenaTickets_S;
+	option (target) = SCENE;
+	uint32 times = 1; // 购买次数
+};
+message BuyArenaTicketsResponse {
+	option (msgid) = BuyArenaTickets_S;
+	uint32 times = 1; // 每日购买次数
+};
+
+// 领取竞技场排行奖励
+message DrawArenaRankRewardRequest {
+	option (msgid) = DrawArenaRankReward_C;
+	option (ackid) = DrawArenaRankReward_S;
+	option (target) = WORLD;
+};
+message DrawArenaRankRewardResponse {
+	option (msgid) = DrawArenaRankReward_S;
+
+	GiftMethod method = 1; // 奖励发放方式
+	repeated Resource rewards = 2; // 奖励列表
+};
+
+// 竞技场挑战对手
+message ArenaChallengeRequest {
+	option (msgid) = ArenaChallenge_C;
+	option (ackid) = ArenaChallenge_S;
+	option (target) = WORLD;
+
+	uint64 opponent = 1; // 对手ID
+	string version = 2; // 版本号
+	int32 fmttype = 3; // 阵容ID
+	int32 fmtorder = 4; // 内部编号
+};
+message ArenaChallengeResponse {
+	message ArenaFighter {
+		Fighter fighter = 1; // 攻击者
+		int32 rank = 2; // 排行
+		int32 score = 3; // 积分
+	};
+	option (msgid) = ArenaChallenge_S;
+
+    int64 id = 1; // 战斗ID
+	int32 dungeon = 2; // 关卡ID
+	uint64 opponent = 3; // 对手ID
+	int32 seed = 4; // 种子
+	string version = 5; // 版本号
+	ArenaFighter attacker = 6; // 攻击方
+	ArenaFighter defender = 7; // 防守方
+};
+
+// 获取战斗日志
+message GetArenaCombatJournalRequest {
+	option (msgid) = GetArenaCombatJournal_C;
+	option (ackid) = GetArenaCombatJournal_S;
+	option (target) = WORLD;
+
+	bool detail = 1; // 是否是详细信息
+};
+message GetArenaCombatJournalResponse {
+	option (msgid) = GetArenaCombatJournal_S;
+
+	bool detail = 1; // 是否是详细信息
+	repeated CombatJournalInfo journals = 2; // 战斗日志列表
+};
+
+// 获取战斗统计信息
+message GetArenaCombatStatisticsRequest {
+	option (msgid) = GetArenaCombatStatistics_C;
+	option (ackid) = GetArenaCombatStatistics_S;
+	option (target) = WORLD;
+
+	uint64 combatid = 1; // 战斗id
+};
+message GetArenaCombatStatisticsResponse {
+	option (msgid) = GetArenaCombatStatistics_S;
+
+	uint64 combatid = 1; // 战斗id
+	string statistics = 2; // 统计信息
+};
+
+// 获取高光时刻信息
+message GetArenaHighLightsRequest {
+	option (msgid) = GetArenaHighLights_C;
+	option (ackid) = GetArenaHighLights_S;
+	option (target) = WORLD;
+};
+message GetArenaHighLightsResponse {
+	message SuperStar {
+		uint64 roleid = 1; // 角色ID
+		RoleBrief roleinfo = 2; // 详细信息
+        int64 battlepoint = 3; // 战斗力
+		int64 likes = 4; // 点赞数
+		int32 type = 5; // 类型
+        int64 value = 6; // 成绩
+	};
+
+	option (msgid) = GetArenaHighLights_S;
+
+	int32 isdraw = 1; // 是否领取过奖励
+	repeated SuperStar topstar = 2; // 竞技之星
+	repeated SuperStar highlights = 3; // 高光时刻
+};
+
+// 领取高光时刻奖励
+message DrawArenaHighLightsRewardsRequest {
+	option (msgid) = DrawArenaHighLightsRewards_C;
+	option (ackid) = DrawArenaHighLightsRewards_S;
+	option (target) = WORLD;
+};
+message DrawArenaHighLightsRewardsResponse {
+	option (msgid) = DrawArenaHighLightsRewards_S;
+	GiftMethod method = 1; // 方式
+	repeated Resource rewards = 2; // 奖励
+};

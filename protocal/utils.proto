@@ -1,0 +1,170 @@
+syntax = "proto3";
+
+package msg.utils;
+import "base.proto";
+import "type.proto";
+
+//
+// 错误码定义
+//
+enum ErrorcodeUtils {
+    Success = 0x000000;		// 成功
+    NotSupportRequest = 0x000001;		// 不支持该消息
+    LoadFailureFromDB = 0x000002;		// 从数据库加载失败
+    NoRouter = 0x000003;		// 没有路由信息
+    ParseFailed = 0x000004;		// 解析失败
+    OrderNotSupport = 0x100701;     // 测试服不支持充值
+    OrderPackageInvalid = 0x100702;     // 套餐不合法
+    OrderPackagePriceInvalid = 0x100703;     // 价格非法
+    OrderCreateFailed = 0x100704;     // 创建订单非法
+    OrderNumberInvalid = 0x100705;     // 订单个数非法
+    OrderIDConflict = 0x100706;     // 订单号冲突
+    OrderCanotFound = 0x100707;     // 订单找不到了
+    OrderDeliverFailed = 0x100708;     // 发货失败
+	GetCombatVideoInCD = 0x100F01; // 获取战报太频繁
+	GetCombatVideoInternalErr = 0x100F02; // 内部错误
+	GetCombatVideoCombatVersionErr = 0x100F03; // 战斗版本号不一致
+};
+
+//
+// 消息定义
+//
+
+// 错误码
+message ErrorcodeNotify {
+	option (msgid) = Errorcode_S;
+	uint32 cmd = 1;	// 命令字
+	uint32 result = 2;	// 错误码
+};
+
+// PING
+message UtilsPingMessage {
+	option (msgid)	= Ping_CS;
+	option (target) = GATE;
+
+	int64 timestamp = 1;	// 服务器当前时间
+	oneof rtt_test {
+		int64 rttimestamp = 2;	// 客户端测试时间
+	};
+};
+
+// 获取版本号
+message GetVersionRequest {
+	option (msgid) = Version_C;
+	option (target) = WORLD;
+};
+// 返回版本号
+message GetVersionResponse {
+	option (msgid) = Version_S;
+	uint32 mode = 1;	// 更新模式, 1-运营活动强制更新;2-资源强制更新;3-运营活动和资源都强制更新
+	repeated string versions = 2;	// 支持的客户端版本
+	string actversion = 3;	// 运营活动版本号
+};
+
+// ShellCommand
+message ShellCommandMessage {
+	option (msgid)	= ShellCommand_CS;
+	option (target) = GATE;
+	option (ackid) = ShellCommand_CS;
+	string content = 1; // 内容
+};
+
+// 隔天
+message SkipdayNotify {
+	option (msgid) = Skipday_S;
+	int64 timestamp = 1; // 隔天时间戳
+};
+
+// 确认订单
+message OrderRequest {
+	option (msgid) = Order_C;
+	option (target) = SCENE;
+
+	string packages = 1;	// 套餐
+	uint32 number = 2;    	// 个数
+	uint32 goodid = 3;    	// 商品ID
+};
+message OrderResponse {
+	option (msgid) = Order_S;
+	string packages = 1;	// 套餐
+	uint32 number = 2;    	// 个数
+	string order = 3;		// 订单号
+};
+message PayDeliverNotify {
+	option (msgid) = PayDeliver_S;
+	uint32 method = 1;		// 支付方式
+	string order = 2;		// 订单号
+	string packages	= 3;	// 套餐
+	uint32 times = 4;		// 支付次数
+	bool resetstate = 5;	// 首充重置状态
+};
+
+// 获取充值记录
+message GetPaymentRequest {
+	option (msgid) = GetPayment_C;
+	option (ackid) = GetPayment_S;
+	option (target) = SCENE;
+};
+message GetPaymentResponse {
+	message ChargeRecord {
+		string packages = 1; // 套餐
+		uint32 times = 2; 	 // 次数
+		bool resetstate = 3; // 首充重置状态
+	};
+
+	option (msgid) = GetPayment_S;
+	uint32 vipstate = 1; 	// vip奖励领取记录
+	uint32 pay1state = 2; 	// 首冲状态;0-未充值,1-充值未领取,2-领取完成
+	repeated ChargeRecord recordlist = 3; // 记录列表
+};
+
+// 中奖公示
+message GetLotteryRecordsRequest {
+	option (msgid) = GetLotteryRecords_C;
+	option (target) = WORLD;
+
+	uint32 system = 1;	// 系统ID
+	uint32 category = 2;	// 分类
+};
+message GetLotteryRecordsResponse {
+	message Record {
+		uint32 rewardid = 1;
+		bytes name = 2;
+		int64 timestamp = 3;
+		Resource rewards = 4;
+	};
+
+	option (msgid) = GetLotteryRecords_S;
+	uint32 system = 1;	// 系统ID
+	uint32 category = 2;	// 分类
+	repeated Record	recordlist = 3;	// 公示记录
+};
+
+// 公告
+message BulletinNotify {
+	option (msgid) = Bulletin_S;
+	uint32 baseid = 1;	// 模板ID
+	repeated string	paramlist = 2;	// 参数列表
+	uint32 style = 3;	// 样式
+};
+
+// 获取战斗回放
+message GetCombatVideoRequest {
+	option (msgid) = GetCombatVideo_C;
+	option (ackid) = GetCombatVideo_S;
+	option (target) = ANY;
+
+	uint64 combatid = 1; // 战斗ID
+	int32 masks = 2; // 数据类型(位运算) 1-对战信息, 2-数据统计, 3-回放内容
+};
+message GetCombatVideoResponse {
+	option (msgid) = GetCombatVideo_S;
+
+	uint64 combatid = 1; // 战斗ID
+	int32 masks = 2; // 数据类型(位运算) 1-对战信息, 2-数据统计, 3-回放内容
+	Fighter attacker = 3; // 攻击方
+	Fighter defender = 4; // 防御方
+	string video = 5; // 战斗回放
+	string statistics = 6; // 数据统计
+};
+

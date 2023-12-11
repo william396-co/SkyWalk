@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package msg.dungeon;
+import "base.proto";
+import "type.proto";
+
+// 关卡记录
+message DungeonRecord {
+	// 1 - 通关时间
+	// 2 - 积分
+	// 3 - 排名
+	int32 type 	= 1; // 类型
+	int32 side = 2;  // 1-攻方; 2-守方
+	int64 value	= 3; // 数值
+};
+

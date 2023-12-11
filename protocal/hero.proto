@@ -1,0 +1,124 @@
+syntax = "proto3";
+
+package msg.hero;
+import "base.proto";
+import "type.proto";
+import "herotype.proto";
+
+//
+// 错误码
+//
+enum ErrorcodeHero {
+	Success = 0x000000;	// 成功
+
+	LevelupInvalidID = 0x130401; // 错误的ID
+	LevelupLimited = 0x130402; // 升级受限
+	LevelupLimitHero = 0x130403; // 升级卡牌不足
+	LevelupLimitQuality = 0x130404; // 升级品质不足
+	LevelupConfError = 0x130405; // 配置错误
+	LevelupCostNot = 0x130406; // 花费不足
+	BreakThroughInvalidID = 0x130601; // 错误的ID
+	BreakThroughParamError = 0x130602; // 参数错误
+	BreakThroughTypeError = 0x130603; // 卡牌类型错误
+	BreakThroughConfError = 0x130604; // 配置错误
+	BreakThroughCostNot = 0x130605; // 花费不足
+	BreakThroughBagFull = 0x130606; // 背包已满
+	BreakThroughLimited = 0x130607; // 突破受限
+	BreakThroughHeroLocked = 0x130608; // 卡牌锁定
+	LockInvalidID = 0x130801; // 错误的ID
+};
+
+// 获取英雄列表
+message HeroListRequest {
+	option (msgid) = HeroList_C;
+	option (ackid) = HeroList_S;
+	option (target) = SCENE;
+};
+message HeroListResponse {
+	option (msgid) = HeroList_S;
+	repeated HeroInfo heros = 1;	// 英雄列表
+};
+
+// 获得新英雄的通知
+message NewHeroNotify {
+	message FragInfo {
+		int32 fragid = 1; // 碎片ID
+		int64 count = 2;   // 碎片个数
+	};
+
+	message HeroFrag {
+		int32 baseid = 1; // 配置ID
+		int32 star = 2; // 星级
+		repeated FragInfo frags = 3; // 碎片
+	};
+
+	option (msgid) = NewHero_S;
+	repeated HeroInfo heros = 1; // 整卡列表
+	repeated HeroFrag fraglist = 2; // 碎片列表
+};
+
+// 升级
+message HeroLevelupRequest {
+	option (msgid) = HeroLevelup_C;
+	option (ackid) = HeroLevelup_S;
+	option (target) = SCENE;
+
+	uint64 heroid = 1; // 流水ID
+	int32 level = 2; // 升到多少级
+};
+message HeroLevelupResponse {
+	option (msgid) = HeroLevelup_S;
+
+	uint64 heroid = 1; // 流水ID
+	int32 level = 2; // 等级
+	int32 grade = 3; // 进阶等级
+};
+
+// 突破
+message HeroBreakThroughRequest {
+	message BreakInfo {
+		uint64 heroid = 1; // 流水ID
+		repeated uint64 costids = 2; // 花费ID列表
+	};
+
+	option (msgid) = HeroBreakThrough_C;
+	option (ackid) = HeroBreakThrough_S;
+	option (target) = SCENE;
+
+	repeated BreakInfo breaklist = 1; // 突破列表
+};
+message HeroBreakThroughResponse {
+	message Hero {
+		uint64 id = 1; // 流水ID
+		int32 quality = 2; // 突破等级
+	};
+
+	option (msgid) = HeroBreakThrough_S;
+
+	repeated Hero herolist = 1; // 突破列表
+	repeated uint64 costids = 2; // 花费ID列表
+	repeated Resource rewards = 3; // 返还奖励列表
+};
+
+// 加锁/解锁
+message HeroLockRequest {
+	option (msgid) = HeroLock_C;
+	option (ackid) = HeroLock_S;
+	option (target) = SCENE;
+
+	uint64 heroid = 1; // 流水ID
+};
+message HeroLockResponse {
+	option (msgid) = HeroLock_S;
+
+	uint64 heroid = 1; // 流水ID
+	bool locking = 2; // 加锁状态
+};
+
+// 技能列表通知
+message SkillListNotify {
+	option (msgid) = SkillList_S;
+	
+	uint64 heroid = 1; // 流水id
+	repeated Skill skills = 2; // 技能列表
+};

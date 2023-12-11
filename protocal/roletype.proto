@@ -1,0 +1,20 @@
+syntax = "proto3";
+package msg.role;
+
+// 频道定义
+enum ChatChannel {
+	Invalid = 0; // 非法频道
+	World	= 1;	// 世界频道
+	Zone	= 2;	// 本服频道
+	Guild	= 3;	// 公会
+	Team	= 4;	// 组队
+	Whisper = 5;	// 私聊
+	System	= 6;	// 系统频道
+};
+
+message Formation {
+	uint32 order = 1;	// 序号
+	uint32 heroid = 2;	// 英雄ID
+	uint32 status = 3;	// 状态, 0:未使用, 1:使用中
+};
+

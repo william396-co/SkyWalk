@@ -1,0 +1,147 @@
+syntax = "proto3";
+package msg;
+
+// 角色属性定义
+enum RoleProp {
+	INVALID = 0;		// 非法值
+	STRENGTHTIME = 6;	// 体力恢复时间
+	MONEY = 10001;	// 元宝
+	DIAMOND = 10002;	// 钻石(绑银)
+	GAMECOIN = 10003; 	// 金币
+	EXP = 10004;	// 角色经验
+	VIPEXP = 10005;	// vip经验
+	STRENGTH = 10006;	// 体力
+	ARENACOIN = 10007; 	// 竞技场券
+};
+
+// 玩家简要信息
+message RoleBrief {
+	uint64 roleid = 1; 	// 角色ID
+	uint32 avatar = 2;	// 头像
+	string rolename = 3;	// 角色名
+	int32 level = 4;	// 等级
+	int32 viplevel = 5;	// VIP等级
+	bool isonline = 6;	// 是否在线
+	int64 timestamp = 7;	// 登出时间
+	int64 battlepoint = 8; 	// 战斗力
+	uint32 guildid = 9;	// 公会ID
+	uint32 badge = 10;	// 公会徽章
+	string guildname = 11;	// 公会名称
+	int32 zoneid = 12; // 区服
+	int32 robotid = 13; // 机器人ID
+};
+
+// 排行
+message RankInfo {
+	uint64 roleid = 1;	// 角色ID
+	int32 rank = 2;	// 排行
+	int64 score = 3;	// 积分
+	int64 battlepoint = 4; // 战斗力
+    int64 likes = 5; // 点赞数
+    RoleBrief roleinfo = 6; // 详细信息
+};
+
+// 资源信息
+message Resource {
+	enum Type {
+		NONE = 0;	// 非法
+		ITEM = 1;	// 物品
+		PACK = 2;	// 包
+		HERO = 3;	// 影响
+		PROPS = 4;	// 属性
+		EFFECT = 5;	// 特殊效果
+	}
+
+	Type type 	= 1;	// 资源类型
+	uint32 object = 2;	// 资源对象ID
+	int64 count = 3;	// 资源的数量
+	int32 param1 = 4; 	// 参数1
+	int32 param2 = 5; 	// 参数2
+};
+
+enum Showplace {
+	eShowPlace_None = 0;	// 非法位置
+	eShowPlace_Center = 1;	// 中心位置(跑马灯)
+	eShowPlace_Alert = 2;	// 提示
+	eShowPlace_Screen = 4;	// 弹幕
+};
+
+// 奖励发放形式
+enum GiftMethod {
+	eGiftMethod_None = 0;	// 没有发送
+	eGiftMethod_Direct = 1;	// 直接给与
+	eGiftMethod_ByMail = 2;	// 通过邮件
+};
+
+// 位置
+message Position {
+	int32 	x = 1;
+	int32 	y = 2;
+	int32 	z = 3;	// 可选
+};
+
+// 技能
+message Skill {
+    uint32 id  = 1;    // 技能ID
+    uint32 level = 2;    // 等级
+};
+
+enum BattleResult {
+	eBattleResult_None = 0;	 // 非法
+	eBattleResult_Left = 1;	 // 攻方
+	eBattleResult_Right = 2; // 守方
+	eBattleResult_Draw = 3;	 // 平局
+};
+
+// 战斗指令
+message BattleOrder {
+	int64 heroid = 1;	// 英雄ID
+	int32 action = 2;	// 行为
+	repeated int64 values = 3; // 参数值
+};
+
+// 战斗帧
+message BattleFrame {
+	int32 frame = 1; // 当前帧
+	repeated BattleOrder orders = 2; // 指令
+};
+
+// 英雄
+message HeroInfo {
+	uint64 id = 1; // 流水ID
+	int32 baseid = 2; // 配置ID
+	int32 helper = 3; // 支援位
+	int32 star = 4; // 星级
+	int32 grade = 5; // 品级
+	int32 quality = 6; // 品阶
+	int32 rate = 7; // 评级
+	int32 level = 8; // 等级
+	int64 battlepoint = 9; // 战斗力
+	int64 hp = 10; // 当前血量
+	repeated int64 attrlist = 11; // 属性列表
+	repeated Skill spells = 12; // 技能
+};
+
+// 战士
+message Fighter {
+	uint64 roleid = 1; // 角色ID
+	int32 side = 2; // 1: 攻方; 2: 守方
+	string rolename = 3; // 角色名
+	int32 level = 4; // 等级
+	int32 viplevel = 5; // VIP等级
+	uint32 avatar = 6; // 形象
+	int64 battlepoint = 7; // 战斗力
+	string ultimate = 8; // 奥义技能
+	string comboflow = 9; // 连招配置
+	repeated HeroInfo heros = 10; // 伙伴列表
+};
+
+// 战斗日志信息 
+message CombatJournalInfo {
+	uint64 combatid = 1; // 战斗ID
+	uint32 result = 2; // 战斗结果
+	uint32 change = 3; // 积分变化
+	string statistics = 4; // 数据统计
+	uint64 timestamp = 5; // 发生时间
+	RoleBrief opponent = 6; // 对手信息
+};

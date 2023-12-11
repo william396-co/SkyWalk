@@ -1,0 +1,13 @@
+syntax = "proto3";
+package msg.item;
+
+message ItemDetailInfo {
+	uint64 entityid = 1; // 流水ID
+	uint32 baseid = 2; // 配置ID
+	int64 count = 3; // 个数
+	int32 storeplace = 4; // 存储位置
+	int32 quality = 5; // 品质
+	int64 lifetime = 6; // 生命周期
+	// TODO:
+};
+

@@ -1,0 +1,175 @@
+syntax = "proto3";
+
+package msg.dungeon;
+import "base.proto";
+import "type.proto";
+import "dungeontype.proto";
+
+enum ErrorcodeDungeon {
+	Success = 0x000000;	// 成功
+
+    GetStoryLineNotOpen = 0x150101; // 系统未开放
+    GetChapterNotOpen = 0x150301; // 系统未开放
+    ReportResultDungeonInvalid = 0x150601;  // 关卡ID不匹配
+    DrawChapterRewardsIsDrawed = 0x151001; // 领取过了
+    DrawChapterRewardsTargetInvalid = 0x151002; // 章节目标错误
+    DrawChapterRewardsNotComplete = 0x151003; // 目标未完成
+    DrawChapterRewardsBagIsFull = 0x151004; // 背包满了
+    DrawChapterRewardsNotOpen = 0x151005; // 系统未开放
+    EnterDungeonConfigError = 0x151201; // 关卡配置出错
+    EnterDungeonPredungeonNotComplete = 0x151202; // 前置关卡未完成
+    EnterDungeonOutofMemory = 0x151203; // 创建关卡失败
+    EnterDungeonLoadAttrFailed = 0x151204; // 加载属性失败
+    EnterDungeonOffline = 0x151205; // 玩家不在线
+	EnterDungeonVersionNotMatch = 0x151206;	// 战斗版本不一致
+	EnterDungeonInternalError = 0x151207; // 内部出错
+    EnterDungeonNotOpen = 0x151208; // 系统未开放
+};
+
+// 篇章信息
+message GetStoryLineRequest {
+	option (msgid) = GetStoryLine_C;
+	option (ackid) = GetStoryLine_S;
+	option (target) = SCENE;
+
+	int32 story = 1; // 篇章ID
+};
+message GetStoryLineResponse {
+	message StoryLine {
+		int32 story = 1; // 篇章
+		int32 dungeon = 2; // 当前关卡ID
+		int32 targetcount = 3; // 当前章节任务目标数量
+	};
+
+	option (msgid) = GetStoryLine_S;
+
+	int32 story = 1; // 篇章
+	repeated StoryLine storylist = 2; // 篇章信息
+};
+
+// 章节信息
+message GetChapterRequest {
+	option (msgid) = GetChapter_C;
+	option (ackid) = GetChapter_S;
+	option (target) = SCENE;
+
+	int32 chapter = 1; // 章节ID
+};
+message GetChapterResponse {
+	option (msgid) = GetChapter_S;
+
+	int32 chapter = 1; // 章节ID
+	repeated int32 drawlist = 2; // 领取的目标id
+};
+
+// 结算通知
+message SettlementNotify {
+	option (msgid) = Settlement_S;
+
+	uint64 id = 1; // 战斗id
+	int32 dungeon = 2; // 关卡id
+	BattleResult result = 3; // 战斗获胜方
+	int32 grade = 4;	// 战斗评级
+	GiftMethod method = 5; // 奖励发放方式
+	repeated Resource fixrewards = 6; // 固定奖励
+	repeated DungeonRecord records = 7; // 通关记录
+};
+
+// 战斗上报
+message ReportResultRequest {
+	option (msgid) = ReportResult_C;
+	option (ackid) = ReportResult_S;
+	option (target) = ANY;
+
+	uint64 id = 1; // 战斗id
+	int32 dungeon = 2; // 关卡id
+	int32 curframe = 3; // 当前帧数
+	repeated BattleFrame framelist = 4; // 战斗指令
+	BattleResult result = 5; // 战斗获胜方
+	int32 grade = 6;	// 战斗评级
+	string md5sum = 7; //  校验和
+	repeated int32 killedlist = 8; // 击杀数
+	repeated Resource droprewards = 9; // 战斗中掉落的奖励
+};
+message ReportResultResponse {
+	option (msgid) = ReportResult_S;
+
+	uint64 id = 1; // 战斗id
+	int32 dungeon = 2; // 关卡id
+	int32 curframe = 3; // 当前帧数
+};
+
+// TODO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 领取章节奖励
+message DrawChapterRewardsRequest {
+	option (msgid) = DrawChapterRewards_C;
+	option (ackid) = DrawChapterRewards_S;
+	option (target) = SCENE;
+
+	int32 target = 1; // 目标ID
+	int32 chapter = 2; // 章节ID
+};
+message DrawChapterRewardsResponse {
+	option (msgid) = DrawChapterRewards_S;
+
+	int32 target = 1; // 目标ID
+	int32 chapter = 2; // 章节ID
+	repeated Resource rewards = 3; // 奖励
+};
+
+// 进入关卡
+message EnterDungeonRequest {
+	option (msgid) = EnterDungeon_C;
+	option (ackid) = EnterDungeon_S;
+	option (target) = SCENE;
+
+	int32 dungeon = 1; // 关卡ID
+	int32 fmttype = 2; // 阵容
+	int32 fmtorder = 3; // 阵容序号
+	string version = 4; // 版本号
+};
+message EnterDungeonResponse {
+	option (msgid) = EnterDungeon_S;
+
+	uint64 id = 1; // 战斗ID
+	int32 dungeon = 2; // 关卡ID
+	int32 seed = 3; // 种子
+	string version = 4; // 版本号
+	Fighter attacker = 5; // 攻击方
+};

@@ -25,4 +25,3 @@ add_custom_command(
 	COMMAND cp ${CMAKE_CURRENT_BINARY_DIR}/*.desc ${LUA_PROTOBUF_PATH}/  
 )
 
-

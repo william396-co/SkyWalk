@@ -1,6 +1,6 @@
-file(GLOB DIR_SRCS *.hpp *.h *cpp *.h *.c)
+
+FILE(GLOB_RECURSE DIR_SRCS *.h *.cpp)
+ADD_LIBRARY(io ${DIR_SRCS})
 
 source_group("" FILES ${DIR_SRCS})
-
-add_library(io STATIC ${DIR_SRCS})
 set_property(TARGET io PROPERTY FOLDER "thirdparty")

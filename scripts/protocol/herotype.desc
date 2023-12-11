@@ -1,0 +1,13 @@
+
+ç
+herotype.protomsg.hero
+base.proto"¶
+HeroInfo
+id (Rid
+baseid (Rbaseid
+level (Rlevel
+grade (Rgrade
+quality (Rquality
+locking (Rlocking"
+skills (2
+.msg.SkillRskillsbproto3

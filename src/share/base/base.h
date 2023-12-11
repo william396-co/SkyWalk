@@ -8,6 +8,12 @@
 
 #include "utils/file.h"
 
+// 全局日志模块
+extern utils::LogFile * g_Logger;
+
+// 定义数据库文件META目录
+constexpr auto APP_META_PATH = "meta";
+
 // 日志宏定义
 // #define LOGGER( level, ... ) 		    g_Logger->printp( level, "%T %P [%L] - %F - \t : ", Sourcefile(__FILE__, __LINE__), __VA_ARGS__ )
 #define LOGGER( level, ... ) g_Logger->printp( level, "%T %P <%L>\t : ", __VA_ARGS__ )
