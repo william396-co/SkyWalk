@@ -124,7 +124,7 @@ include_directories(${EVLITE_INCLUDE_DIR})
 link_directories(${PROJECT_SOURCE_DIR}/lib)
 
 # protocal
-add_subdirectory(protocal)
+add_subdirectory(protocol)
 
 # public lib
 add_subdirectory(src/share/utils)
@@ -138,7 +138,6 @@ add_subdirectory(src/thirdparty/mysql)
 add_subdirectory(src/thirdparty/lua)
 #add_subdirectory(src/thirdparty/http)
 #add_subdirectory(src/thirdparty/rapidjson)
-#add_subdirectory(src/thirdparty/protocal)
 
 # extra
 add_subdirectory(src/extra)
