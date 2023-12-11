@@ -1,0 +1,13 @@
+
+#ifndef __SRC_APP_VERSION_H_IN__
+#define __SRC_APP_VERSION_H_IN__
+
+#ifndef __BUNDLE_NAME__ 
+#define __BUNDLE_NAME__ "@BUNDLE_NAME@" 
+#endif
+
+#ifndef __BUILD_VERSION__ 
+#define __BUILD_VERSION__ "@BUILD_VERSION@"
+#endif
+
+#endif
