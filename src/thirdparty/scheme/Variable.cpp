@@ -5,7 +5,6 @@
 #include <cstdlib>
 
 #include "lua/kaguya.hpp"
-#include "utils/integer.h"
 #include "utils/streambuf.h"
 
 #include "Variable.hpp"
@@ -111,21 +110,21 @@ bool Variable_Data::isKeydirty() const
 
 void Variable_Data::keystring( std::string & k ) const
 {
-    k = utils::Integer::toString( m_db_id );
+    k = std::to_string( m_db_id );
 }
 
 void Variable_Data::indexstring( uint8_t op, std::string & k ) const
 {
     if ( likely(op == eCodec_All) )
     {
-        k = utils::Integer::toString( m_db_id );
+        k = std::to_string( m_db_id );
     }
     else
     {
         if ( m_dirty[0] == 1 )
         {
             if ( !k.empty() ) k += "#";
-            k += utils::Integer::toString( m_db_id );
+            k += std::to_string( m_db_id );
         }
     }
 }
@@ -154,7 +153,7 @@ bool Variable_Data::query( std::string & sqlcmd, std::vector<std::string> & esca
         {
             case 0 :
                 fields += "`id`=";
-                fields += utils::Integer::toString( m_db_id );
+                fields += std::to_string( m_db_id );
                 break;
         }
     }
@@ -200,43 +199,43 @@ bool Variable_Data::insert( std::string & sqlcmd, std::vector<std::string> & esc
         {
             case 0 :
                 fields += "`id`";
-                values += utils::Integer::toString( m_db_id );
+                values += std::to_string( m_db_id );
                 break;
             case 1 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 2 :
                 fields += "`mailid`";
-                values += utils::Integer::toString( m_db_mailid );
+                values += std::to_string( m_db_mailid );
                 break;
             case 3 :
                 fields += "`teamid`";
-                values += utils::Integer::toString( m_db_teamid );
+                values += std::to_string( m_db_teamid );
                 break;
             case 4 :
                 fields += "`entityid`";
-                values += utils::Integer::toString( m_db_entityid );
+                values += std::to_string( m_db_entityid );
                 break;
             case 5 :
                 fields += "`imageid`";
-                values += utils::Integer::toString( m_db_imageid );
+                values += std::to_string( m_db_imageid );
                 break;
             case 6 :
                 fields += "`guildid`";
-                values += utils::Integer::toString( m_db_guildid );
+                values += std::to_string( m_db_guildid );
                 break;
             case 7 :
                 fields += "`heroid`";
-                values += utils::Integer::toString( m_db_heroid );
+                values += std::to_string( m_db_heroid );
                 break;
             case 8 :
                 fields += "`logid`";
-                values += utils::Integer::toString( m_db_logid );
+                values += std::to_string( m_db_logid );
                 break;
             case 9 :
                 fields += "`messageid`";
-                values += utils::Integer::toString( m_db_messageid );
+                values += std::to_string( m_db_messageid );
                 break;
         }
     }
@@ -271,43 +270,43 @@ bool Variable_Data::update( std::string & sqlcmd, std::vector<std::string> & esc
         {
             case 0 :
                 dirty += "`id`=";
-                dirty += utils::Integer::toString( m_db_id );
+                dirty += std::to_string( m_db_id );
                 break;
             case 1 :
                 dirty += "`roleid`=";
-                dirty += utils::Integer::toString( m_db_roleid );
+                dirty += std::to_string( m_db_roleid );
                 break;
             case 2 :
                 dirty += "`mailid`=";
-                dirty += utils::Integer::toString( m_db_mailid );
+                dirty += std::to_string( m_db_mailid );
                 break;
             case 3 :
                 dirty += "`teamid`=";
-                dirty += utils::Integer::toString( m_db_teamid );
+                dirty += std::to_string( m_db_teamid );
                 break;
             case 4 :
                 dirty += "`entityid`=";
-                dirty += utils::Integer::toString( m_db_entityid );
+                dirty += std::to_string( m_db_entityid );
                 break;
             case 5 :
                 dirty += "`imageid`=";
-                dirty += utils::Integer::toString( m_db_imageid );
+                dirty += std::to_string( m_db_imageid );
                 break;
             case 6 :
                 dirty += "`guildid`=";
-                dirty += utils::Integer::toString( m_db_guildid );
+                dirty += std::to_string( m_db_guildid );
                 break;
             case 7 :
                 dirty += "`heroid`=";
-                dirty += utils::Integer::toString( m_db_heroid );
+                dirty += std::to_string( m_db_heroid );
                 break;
             case 8 :
                 dirty += "`logid`=";
-                dirty += utils::Integer::toString( m_db_logid );
+                dirty += std::to_string( m_db_logid );
                 break;
             case 9 :
                 dirty += "`messageid`=";
-                dirty += utils::Integer::toString( m_db_messageid );
+                dirty += std::to_string( m_db_messageid );
                 break;
         }
     }
@@ -358,43 +357,43 @@ bool Variable_Data::replace( std::string & sqlcmd, std::vector<std::string> & es
         {
             case 0 :
                 fields += "`id`";
-                values += utils::Integer::toString( m_db_id );
+                values += std::to_string( m_db_id );
                 break;
             case 1 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 2 :
                 fields += "`mailid`";
-                values += utils::Integer::toString( m_db_mailid );
+                values += std::to_string( m_db_mailid );
                 break;
             case 3 :
                 fields += "`teamid`";
-                values += utils::Integer::toString( m_db_teamid );
+                values += std::to_string( m_db_teamid );
                 break;
             case 4 :
                 fields += "`entityid`";
-                values += utils::Integer::toString( m_db_entityid );
+                values += std::to_string( m_db_entityid );
                 break;
             case 5 :
                 fields += "`imageid`";
-                values += utils::Integer::toString( m_db_imageid );
+                values += std::to_string( m_db_imageid );
                 break;
             case 6 :
                 fields += "`guildid`";
-                values += utils::Integer::toString( m_db_guildid );
+                values += std::to_string( m_db_guildid );
                 break;
             case 7 :
                 fields += "`heroid`";
-                values += utils::Integer::toString( m_db_heroid );
+                values += std::to_string( m_db_heroid );
                 break;
             case 8 :
                 fields += "`logid`";
-                values += utils::Integer::toString( m_db_logid );
+                values += std::to_string( m_db_logid );
                 break;
             case 9 :
                 fields += "`messageid`";
-                values += utils::Integer::toString( m_db_messageid );
+                values += std::to_string( m_db_messageid );
                 break;
         }
     }
@@ -411,39 +410,39 @@ bool Variable_Data::replace( std::string & sqlcmd, std::vector<std::string> & es
             {
                 case 1 :
                     dirty += "`roleid`=";
-                    dirty += utils::Integer::toString( m_db_roleid );
+                    dirty += std::to_string( m_db_roleid );
                     break;
                 case 2 :
                     dirty += "`mailid`=";
-                    dirty += utils::Integer::toString( m_db_mailid );
+                    dirty += std::to_string( m_db_mailid );
                     break;
                 case 3 :
                     dirty += "`teamid`=";
-                    dirty += utils::Integer::toString( m_db_teamid );
+                    dirty += std::to_string( m_db_teamid );
                     break;
                 case 4 :
                     dirty += "`entityid`=";
-                    dirty += utils::Integer::toString( m_db_entityid );
+                    dirty += std::to_string( m_db_entityid );
                     break;
                 case 5 :
                     dirty += "`imageid`=";
-                    dirty += utils::Integer::toString( m_db_imageid );
+                    dirty += std::to_string( m_db_imageid );
                     break;
                 case 6 :
                     dirty += "`guildid`=";
-                    dirty += utils::Integer::toString( m_db_guildid );
+                    dirty += std::to_string( m_db_guildid );
                     break;
                 case 7 :
                     dirty += "`heroid`=";
-                    dirty += utils::Integer::toString( m_db_heroid );
+                    dirty += std::to_string( m_db_heroid );
                     break;
                 case 8 :
                     dirty += "`logid`=";
-                    dirty += utils::Integer::toString( m_db_logid );
+                    dirty += std::to_string( m_db_logid );
                     break;
                 case 9 :
                     dirty += "`messageid`=";
-                    dirty += utils::Integer::toString( m_db_messageid );
+                    dirty += std::to_string( m_db_messageid );
                     break;
             }
         }

@@ -5,7 +5,6 @@
 #include <cstdlib>
 
 #include "lua/kaguya.hpp"
-#include "utils/integer.h"
 #include "utils/streambuf.h"
 
 #include "Attribute.hpp"
@@ -129,25 +128,25 @@ bool Attribute_Data::isKeydirty() const
 
 void Attribute_Data::keystring( std::string & k ) const
 {
-    k = utils::Integer::toString( m_db_id );
+    k = std::to_string( m_db_id );
     k += "#";
-    k += utils::Integer::toString( m_db_formation );
+    k += std::to_string( m_db_formation );
     k += "#";
-    k += utils::Integer::toString( m_db_order );
+    k += std::to_string( m_db_order );
 }
 
 void Attribute_Data::indexstring( uint8_t op, std::string & k ) const
 {
     if ( likely(op == eCodec_All) )
     {
-        k = utils::Integer::toString( m_db_roleid );
+        k = std::to_string( m_db_roleid );
     }
     else
     {
         if ( m_dirty[1] == 1 )
         {
             if ( !k.empty() ) k += "#";
-            k += utils::Integer::toString( m_db_roleid );
+            k += std::to_string( m_db_roleid );
         }
     }
 }
@@ -178,7 +177,7 @@ bool Attribute_Data::query( std::string & sqlcmd, std::vector<std::string> & esc
             {
                 case 1 :
                     fields += "`roleid`=";
-                    fields += utils::Integer::toString( m_db_roleid );
+                    fields += std::to_string( m_db_roleid );
                     break;
             }
         }
@@ -193,19 +192,19 @@ bool Attribute_Data::query( std::string & sqlcmd, std::vector<std::string> & esc
             {
                 case 0 :
                     fields += "`id`=";
-                    fields += utils::Integer::toString( m_db_id );
+                    fields += std::to_string( m_db_id );
                     break;
                 case 2 :
                     fields += "`formation`=";
-                    fields += utils::Integer::toString( m_db_formation );
+                    fields += std::to_string( m_db_formation );
                     break;
                 case 3 :
                     fields += "`order`=";
-                    fields += utils::Integer::toString( m_db_order );
+                    fields += std::to_string( m_db_order );
                     break;
                 case 1 :
                     fields += "`roleid`=";
-                    fields += utils::Integer::toString( m_db_roleid );
+                    fields += std::to_string( m_db_roleid );
                     break;
             }
         }
@@ -259,51 +258,51 @@ bool Attribute_Data::insert( std::string & sqlcmd, std::vector<std::string> & es
         {
             case 0 :
                 fields += "`id`";
-                values += utils::Integer::toString( m_db_id );
+                values += std::to_string( m_db_id );
                 break;
             case 1 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 2 :
                 fields += "`formation`";
-                values += utils::Integer::toString( m_db_formation );
+                values += std::to_string( m_db_formation );
                 break;
             case 3 :
                 fields += "`order`";
-                values += utils::Integer::toString( m_db_order );
+                values += std::to_string( m_db_order );
                 break;
             case 4 :
                 fields += "`level`";
-                values += utils::Integer::toString( m_db_level );
+                values += std::to_string( m_db_level );
                 break;
             case 5 :
                 fields += "`star`";
-                values += utils::Integer::toString( m_db_star );
+                values += std::to_string( m_db_star );
                 break;
             case 6 :
                 fields += "`grade`";
-                values += utils::Integer::toString( m_db_grade );
+                values += std::to_string( m_db_grade );
                 break;
             case 7 :
                 fields += "`quality`";
-                values += utils::Integer::toString( m_db_quality );
+                values += std::to_string( m_db_quality );
                 break;
             case 8 :
                 fields += "`rate`";
-                values += utils::Integer::toString( m_db_rate );
+                values += std::to_string( m_db_rate );
                 break;
             case 9 :
                 fields += "`battlepoint`";
-                values += utils::Integer::toString( m_db_battlepoint );
+                values += std::to_string( m_db_battlepoint );
                 break;
             case 10 :
                 fields += "`baseid`";
-                values += utils::Integer::toString( m_db_baseid );
+                values += std::to_string( m_db_baseid );
                 break;
             case 11 :
                 fields += "`helper`";
-                values += utils::Integer::toString( m_db_helper );
+                values += std::to_string( m_db_helper );
                 break;
             case 12 :
                 fields += "`skills`";
@@ -349,51 +348,51 @@ bool Attribute_Data::update( std::string & sqlcmd, std::vector<std::string> & es
         {
             case 0 :
                 dirty += "`id`=";
-                dirty += utils::Integer::toString( m_db_id );
+                dirty += std::to_string( m_db_id );
                 break;
             case 1 :
                 dirty += "`roleid`=";
-                dirty += utils::Integer::toString( m_db_roleid );
+                dirty += std::to_string( m_db_roleid );
                 break;
             case 2 :
                 dirty += "`formation`=";
-                dirty += utils::Integer::toString( m_db_formation );
+                dirty += std::to_string( m_db_formation );
                 break;
             case 3 :
                 dirty += "`order`=";
-                dirty += utils::Integer::toString( m_db_order );
+                dirty += std::to_string( m_db_order );
                 break;
             case 4 :
                 dirty += "`level`=";
-                dirty += utils::Integer::toString( m_db_level );
+                dirty += std::to_string( m_db_level );
                 break;
             case 5 :
                 dirty += "`star`=";
-                dirty += utils::Integer::toString( m_db_star );
+                dirty += std::to_string( m_db_star );
                 break;
             case 6 :
                 dirty += "`grade`=";
-                dirty += utils::Integer::toString( m_db_grade );
+                dirty += std::to_string( m_db_grade );
                 break;
             case 7 :
                 dirty += "`quality`=";
-                dirty += utils::Integer::toString( m_db_quality );
+                dirty += std::to_string( m_db_quality );
                 break;
             case 8 :
                 dirty += "`rate`=";
-                dirty += utils::Integer::toString( m_db_rate );
+                dirty += std::to_string( m_db_rate );
                 break;
             case 9 :
                 dirty += "`battlepoint`=";
-                dirty += utils::Integer::toString( m_db_battlepoint );
+                dirty += std::to_string( m_db_battlepoint );
                 break;
             case 10 :
                 dirty += "`baseid`=";
-                dirty += utils::Integer::toString( m_db_baseid );
+                dirty += std::to_string( m_db_baseid );
                 break;
             case 11 :
                 dirty += "`helper`=";
-                dirty += utils::Integer::toString( m_db_helper );
+                dirty += std::to_string( m_db_helper );
                 break;
             case 12 :
                 dirty += "`skills`=";
@@ -456,51 +455,51 @@ bool Attribute_Data::replace( std::string & sqlcmd, std::vector<std::string> & e
         {
             case 0 :
                 fields += "`id`";
-                values += utils::Integer::toString( m_db_id );
+                values += std::to_string( m_db_id );
                 break;
             case 1 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 2 :
                 fields += "`formation`";
-                values += utils::Integer::toString( m_db_formation );
+                values += std::to_string( m_db_formation );
                 break;
             case 3 :
                 fields += "`order`";
-                values += utils::Integer::toString( m_db_order );
+                values += std::to_string( m_db_order );
                 break;
             case 4 :
                 fields += "`level`";
-                values += utils::Integer::toString( m_db_level );
+                values += std::to_string( m_db_level );
                 break;
             case 5 :
                 fields += "`star`";
-                values += utils::Integer::toString( m_db_star );
+                values += std::to_string( m_db_star );
                 break;
             case 6 :
                 fields += "`grade`";
-                values += utils::Integer::toString( m_db_grade );
+                values += std::to_string( m_db_grade );
                 break;
             case 7 :
                 fields += "`quality`";
-                values += utils::Integer::toString( m_db_quality );
+                values += std::to_string( m_db_quality );
                 break;
             case 8 :
                 fields += "`rate`";
-                values += utils::Integer::toString( m_db_rate );
+                values += std::to_string( m_db_rate );
                 break;
             case 9 :
                 fields += "`battlepoint`";
-                values += utils::Integer::toString( m_db_battlepoint );
+                values += std::to_string( m_db_battlepoint );
                 break;
             case 10 :
                 fields += "`baseid`";
-                values += utils::Integer::toString( m_db_baseid );
+                values += std::to_string( m_db_baseid );
                 break;
             case 11 :
                 fields += "`helper`";
-                values += utils::Integer::toString( m_db_helper );
+                values += std::to_string( m_db_helper );
                 break;
             case 12 :
                 fields += "`skills`";
@@ -527,35 +526,35 @@ bool Attribute_Data::replace( std::string & sqlcmd, std::vector<std::string> & e
             {
                 case 4 :
                     dirty += "`level`=";
-                    dirty += utils::Integer::toString( m_db_level );
+                    dirty += std::to_string( m_db_level );
                     break;
                 case 5 :
                     dirty += "`star`=";
-                    dirty += utils::Integer::toString( m_db_star );
+                    dirty += std::to_string( m_db_star );
                     break;
                 case 6 :
                     dirty += "`grade`=";
-                    dirty += utils::Integer::toString( m_db_grade );
+                    dirty += std::to_string( m_db_grade );
                     break;
                 case 7 :
                     dirty += "`quality`=";
-                    dirty += utils::Integer::toString( m_db_quality );
+                    dirty += std::to_string( m_db_quality );
                     break;
                 case 8 :
                     dirty += "`rate`=";
-                    dirty += utils::Integer::toString( m_db_rate );
+                    dirty += std::to_string( m_db_rate );
                     break;
                 case 9 :
                     dirty += "`battlepoint`=";
-                    dirty += utils::Integer::toString( m_db_battlepoint );
+                    dirty += std::to_string( m_db_battlepoint );
                     break;
                 case 10 :
                     dirty += "`baseid`=";
-                    dirty += utils::Integer::toString( m_db_baseid );
+                    dirty += std::to_string( m_db_baseid );
                     break;
                 case 11 :
                     dirty += "`helper`=";
-                    dirty += utils::Integer::toString( m_db_helper );
+                    dirty += std::to_string( m_db_helper );
                     break;
                 case 12 :
                     dirty += "`skills`=";

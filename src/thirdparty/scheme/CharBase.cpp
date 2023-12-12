@@ -5,7 +5,6 @@
 #include <cstdlib>
 
 #include "lua/kaguya.hpp"
-#include "utils/integer.h"
 #include "utils/streambuf.h"
 
 #include "CharBase.hpp"
@@ -151,21 +150,21 @@ bool CharBase_Data::isKeydirty() const
 
 void CharBase_Data::keystring( std::string & k ) const
 {
-    k = utils::Integer::toString( m_db_roleid );
+    k = std::to_string( m_db_roleid );
 }
 
 void CharBase_Data::indexstring( uint8_t op, std::string & k ) const
 {
     if ( likely(op == eCodec_All) )
     {
-        k = utils::Integer::toString( m_db_roleid );
+        k = std::to_string( m_db_roleid );
     }
     else
     {
         if ( m_dirty[0] == 1 )
         {
             if ( !k.empty() ) k += "#";
-            k += utils::Integer::toString( m_db_roleid );
+            k += std::to_string( m_db_roleid );
         }
     }
 }
@@ -194,7 +193,7 @@ bool CharBase_Data::query( std::string & sqlcmd, std::vector<std::string> & esca
         {
             case 0 :
                 fields += "`roleid`=";
-                fields += utils::Integer::toString( m_db_roleid );
+                fields += std::to_string( m_db_roleid );
                 break;
         }
     }
@@ -240,7 +239,7 @@ bool CharBase_Data::insert( std::string & sqlcmd, std::vector<std::string> & esc
         {
             case 0 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 1 :
                 fields += "`name`";
@@ -254,55 +253,55 @@ bool CharBase_Data::insert( std::string & sqlcmd, std::vector<std::string> & esc
                 break;
             case 3 :
                 fields += "`zone`";
-                values += utils::Integer::toString( m_db_zone );
+                values += std::to_string( m_db_zone );
                 break;
             case 4 :
                 fields += "`createtime`";
-                values += utils::Integer::toString( m_db_createtime );
+                values += std::to_string( m_db_createtime );
                 break;
             case 5 :
                 fields += "`lastlogintime`";
-                values += utils::Integer::toString( m_db_lastlogintime );
+                values += std::to_string( m_db_lastlogintime );
                 break;
             case 6 :
                 fields += "`lastlogouttime`";
-                values += utils::Integer::toString( m_db_lastlogouttime );
+                values += std::to_string( m_db_lastlogouttime );
                 break;
             case 7 :
                 fields += "`exp`";
-                values += utils::Integer::toString( m_db_exp );
+                values += std::to_string( m_db_exp );
                 break;
             case 8 :
                 fields += "`money`";
-                values += utils::Integer::toString( m_db_money );
+                values += std::to_string( m_db_money );
                 break;
             case 9 :
                 fields += "`diamond`";
-                values += utils::Integer::toString( m_db_diamond );
+                values += std::to_string( m_db_diamond );
                 break;
             case 10 :
                 fields += "`gamecoin`";
-                values += utils::Integer::toString( m_db_gamecoin );
+                values += std::to_string( m_db_gamecoin );
                 break;
             case 11 :
                 fields += "`arenacoin`";
-                values += utils::Integer::toString( m_db_arenacoin );
+                values += std::to_string( m_db_arenacoin );
                 break;
             case 12 :
                 fields += "`strength`";
-                values += utils::Integer::toString( m_db_strength );
+                values += std::to_string( m_db_strength );
                 break;
             case 13 :
                 fields += "`strengthtimestamp`";
-                values += utils::Integer::toString( m_db_strengthtimestamp );
+                values += std::to_string( m_db_strengthtimestamp );
                 break;
             case 14 :
                 fields += "`vipexp`";
-                values += utils::Integer::toString( m_db_vipexp );
+                values += std::to_string( m_db_vipexp );
                 break;
             case 15 :
                 fields += "`lastcity`";
-                values += utils::Integer::toString( m_db_lastcity );
+                values += std::to_string( m_db_lastcity );
                 break;
             case 16 :
                 fields += "`lastposition`";
@@ -311,11 +310,11 @@ bool CharBase_Data::insert( std::string & sqlcmd, std::vector<std::string> & esc
                 break;
             case 17 :
                 fields += "`totembagcapacity`";
-                values += utils::Integer::toString( m_db_totembagcapacity );
+                values += std::to_string( m_db_totembagcapacity );
                 break;
             case 18 :
                 fields += "`guildcoin`";
-                values += utils::Integer::toString( m_db_guildcoin );
+                values += std::to_string( m_db_guildcoin );
                 break;
             case 19 :
                 fields += "`opensystems`";
@@ -355,7 +354,7 @@ bool CharBase_Data::update( std::string & sqlcmd, std::vector<std::string> & esc
         {
             case 0 :
                 dirty += "`roleid`=";
-                dirty += utils::Integer::toString( m_db_roleid );
+                dirty += std::to_string( m_db_roleid );
                 break;
             case 1 :
                 dirty += "`name`=";
@@ -369,55 +368,55 @@ bool CharBase_Data::update( std::string & sqlcmd, std::vector<std::string> & esc
                 break;
             case 3 :
                 dirty += "`zone`=";
-                dirty += utils::Integer::toString( m_db_zone );
+                dirty += std::to_string( m_db_zone );
                 break;
             case 4 :
                 dirty += "`createtime`=";
-                dirty += utils::Integer::toString( m_db_createtime );
+                dirty += std::to_string( m_db_createtime );
                 break;
             case 5 :
                 dirty += "`lastlogintime`=";
-                dirty += utils::Integer::toString( m_db_lastlogintime );
+                dirty += std::to_string( m_db_lastlogintime );
                 break;
             case 6 :
                 dirty += "`lastlogouttime`=";
-                dirty += utils::Integer::toString( m_db_lastlogouttime );
+                dirty += std::to_string( m_db_lastlogouttime );
                 break;
             case 7 :
                 dirty += "`exp`=";
-                dirty += utils::Integer::toString( m_db_exp );
+                dirty += std::to_string( m_db_exp );
                 break;
             case 8 :
                 dirty += "`money`=";
-                dirty += utils::Integer::toString( m_db_money );
+                dirty += std::to_string( m_db_money );
                 break;
             case 9 :
                 dirty += "`diamond`=";
-                dirty += utils::Integer::toString( m_db_diamond );
+                dirty += std::to_string( m_db_diamond );
                 break;
             case 10 :
                 dirty += "`gamecoin`=";
-                dirty += utils::Integer::toString( m_db_gamecoin );
+                dirty += std::to_string( m_db_gamecoin );
                 break;
             case 11 :
                 dirty += "`arenacoin`=";
-                dirty += utils::Integer::toString( m_db_arenacoin );
+                dirty += std::to_string( m_db_arenacoin );
                 break;
             case 12 :
                 dirty += "`strength`=";
-                dirty += utils::Integer::toString( m_db_strength );
+                dirty += std::to_string( m_db_strength );
                 break;
             case 13 :
                 dirty += "`strengthtimestamp`=";
-                dirty += utils::Integer::toString( m_db_strengthtimestamp );
+                dirty += std::to_string( m_db_strengthtimestamp );
                 break;
             case 14 :
                 dirty += "`vipexp`=";
-                dirty += utils::Integer::toString( m_db_vipexp );
+                dirty += std::to_string( m_db_vipexp );
                 break;
             case 15 :
                 dirty += "`lastcity`=";
-                dirty += utils::Integer::toString( m_db_lastcity );
+                dirty += std::to_string( m_db_lastcity );
                 break;
             case 16 :
                 dirty += "`lastposition`=";
@@ -426,11 +425,11 @@ bool CharBase_Data::update( std::string & sqlcmd, std::vector<std::string> & esc
                 break;
             case 17 :
                 dirty += "`totembagcapacity`=";
-                dirty += utils::Integer::toString( m_db_totembagcapacity );
+                dirty += std::to_string( m_db_totembagcapacity );
                 break;
             case 18 :
                 dirty += "`guildcoin`=";
-                dirty += utils::Integer::toString( m_db_guildcoin );
+                dirty += std::to_string( m_db_guildcoin );
                 break;
             case 19 :
                 dirty += "`opensystems`=";
@@ -486,7 +485,7 @@ bool CharBase_Data::replace( std::string & sqlcmd, std::vector<std::string> & es
         {
             case 0 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 1 :
                 fields += "`name`";
@@ -500,55 +499,55 @@ bool CharBase_Data::replace( std::string & sqlcmd, std::vector<std::string> & es
                 break;
             case 3 :
                 fields += "`zone`";
-                values += utils::Integer::toString( m_db_zone );
+                values += std::to_string( m_db_zone );
                 break;
             case 4 :
                 fields += "`createtime`";
-                values += utils::Integer::toString( m_db_createtime );
+                values += std::to_string( m_db_createtime );
                 break;
             case 5 :
                 fields += "`lastlogintime`";
-                values += utils::Integer::toString( m_db_lastlogintime );
+                values += std::to_string( m_db_lastlogintime );
                 break;
             case 6 :
                 fields += "`lastlogouttime`";
-                values += utils::Integer::toString( m_db_lastlogouttime );
+                values += std::to_string( m_db_lastlogouttime );
                 break;
             case 7 :
                 fields += "`exp`";
-                values += utils::Integer::toString( m_db_exp );
+                values += std::to_string( m_db_exp );
                 break;
             case 8 :
                 fields += "`money`";
-                values += utils::Integer::toString( m_db_money );
+                values += std::to_string( m_db_money );
                 break;
             case 9 :
                 fields += "`diamond`";
-                values += utils::Integer::toString( m_db_diamond );
+                values += std::to_string( m_db_diamond );
                 break;
             case 10 :
                 fields += "`gamecoin`";
-                values += utils::Integer::toString( m_db_gamecoin );
+                values += std::to_string( m_db_gamecoin );
                 break;
             case 11 :
                 fields += "`arenacoin`";
-                values += utils::Integer::toString( m_db_arenacoin );
+                values += std::to_string( m_db_arenacoin );
                 break;
             case 12 :
                 fields += "`strength`";
-                values += utils::Integer::toString( m_db_strength );
+                values += std::to_string( m_db_strength );
                 break;
             case 13 :
                 fields += "`strengthtimestamp`";
-                values += utils::Integer::toString( m_db_strengthtimestamp );
+                values += std::to_string( m_db_strengthtimestamp );
                 break;
             case 14 :
                 fields += "`vipexp`";
-                values += utils::Integer::toString( m_db_vipexp );
+                values += std::to_string( m_db_vipexp );
                 break;
             case 15 :
                 fields += "`lastcity`";
-                values += utils::Integer::toString( m_db_lastcity );
+                values += std::to_string( m_db_lastcity );
                 break;
             case 16 :
                 fields += "`lastposition`";
@@ -557,11 +556,11 @@ bool CharBase_Data::replace( std::string & sqlcmd, std::vector<std::string> & es
                 break;
             case 17 :
                 fields += "`totembagcapacity`";
-                values += utils::Integer::toString( m_db_totembagcapacity );
+                values += std::to_string( m_db_totembagcapacity );
                 break;
             case 18 :
                 fields += "`guildcoin`";
-                values += utils::Integer::toString( m_db_guildcoin );
+                values += std::to_string( m_db_guildcoin );
                 break;
             case 19 :
                 fields += "`opensystems`";
@@ -593,55 +592,55 @@ bool CharBase_Data::replace( std::string & sqlcmd, std::vector<std::string> & es
                     break;
                 case 3 :
                     dirty += "`zone`=";
-                    dirty += utils::Integer::toString( m_db_zone );
+                    dirty += std::to_string( m_db_zone );
                     break;
                 case 4 :
                     dirty += "`createtime`=";
-                    dirty += utils::Integer::toString( m_db_createtime );
+                    dirty += std::to_string( m_db_createtime );
                     break;
                 case 5 :
                     dirty += "`lastlogintime`=";
-                    dirty += utils::Integer::toString( m_db_lastlogintime );
+                    dirty += std::to_string( m_db_lastlogintime );
                     break;
                 case 6 :
                     dirty += "`lastlogouttime`=";
-                    dirty += utils::Integer::toString( m_db_lastlogouttime );
+                    dirty += std::to_string( m_db_lastlogouttime );
                     break;
                 case 7 :
                     dirty += "`exp`=";
-                    dirty += utils::Integer::toString( m_db_exp );
+                    dirty += std::to_string( m_db_exp );
                     break;
                 case 8 :
                     dirty += "`money`=";
-                    dirty += utils::Integer::toString( m_db_money );
+                    dirty += std::to_string( m_db_money );
                     break;
                 case 9 :
                     dirty += "`diamond`=";
-                    dirty += utils::Integer::toString( m_db_diamond );
+                    dirty += std::to_string( m_db_diamond );
                     break;
                 case 10 :
                     dirty += "`gamecoin`=";
-                    dirty += utils::Integer::toString( m_db_gamecoin );
+                    dirty += std::to_string( m_db_gamecoin );
                     break;
                 case 11 :
                     dirty += "`arenacoin`=";
-                    dirty += utils::Integer::toString( m_db_arenacoin );
+                    dirty += std::to_string( m_db_arenacoin );
                     break;
                 case 12 :
                     dirty += "`strength`=";
-                    dirty += utils::Integer::toString( m_db_strength );
+                    dirty += std::to_string( m_db_strength );
                     break;
                 case 13 :
                     dirty += "`strengthtimestamp`=";
-                    dirty += utils::Integer::toString( m_db_strengthtimestamp );
+                    dirty += std::to_string( m_db_strengthtimestamp );
                     break;
                 case 14 :
                     dirty += "`vipexp`=";
-                    dirty += utils::Integer::toString( m_db_vipexp );
+                    dirty += std::to_string( m_db_vipexp );
                     break;
                 case 15 :
                     dirty += "`lastcity`=";
-                    dirty += utils::Integer::toString( m_db_lastcity );
+                    dirty += std::to_string( m_db_lastcity );
                     break;
                 case 16 :
                     dirty += "`lastposition`=";
@@ -650,11 +649,11 @@ bool CharBase_Data::replace( std::string & sqlcmd, std::vector<std::string> & es
                     break;
                 case 17 :
                     dirty += "`totembagcapacity`=";
-                    dirty += utils::Integer::toString( m_db_totembagcapacity );
+                    dirty += std::to_string( m_db_totembagcapacity );
                     break;
                 case 18 :
                     dirty += "`guildcoin`=";
-                    dirty += utils::Integer::toString( m_db_guildcoin );
+                    dirty += std::to_string( m_db_guildcoin );
                     break;
                 case 19 :
                     dirty += "`opensystems`=";
