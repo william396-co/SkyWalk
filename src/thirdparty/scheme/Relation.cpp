@@ -5,7 +5,6 @@
 #include <cstdlib>
 
 #include "lua/kaguya.hpp"
-#include "utils/integer.h"
 #include "utils/streambuf.h"
 
 #include "Relation.hpp"
@@ -91,23 +90,23 @@ bool Relation_Data::isKeydirty() const
 
 void Relation_Data::keystring( std::string & k ) const
 {
-    k = utils::Integer::toString( m_db_roleid );
+    k = std::to_string( m_db_roleid );
     k += "#";
-    k += utils::Integer::toString( m_db_friendid );
+    k += std::to_string( m_db_friendid );
 }
 
 void Relation_Data::indexstring( uint8_t op, std::string & k ) const
 {
     if ( likely(op == eCodec_All) )
     {
-        k = utils::Integer::toString( m_db_roleid );
+        k = std::to_string( m_db_roleid );
     }
     else
     {
         if ( m_dirty[0] == 1 )
         {
             if ( !k.empty() ) k += "#";
-            k += utils::Integer::toString( m_db_roleid );
+            k += std::to_string( m_db_roleid );
         }
     }
 }
@@ -138,7 +137,7 @@ bool Relation_Data::query( std::string & sqlcmd, std::vector<std::string> & esca
             {
                 case 0 :
                     fields += "`roleid`=";
-                    fields += utils::Integer::toString( m_db_roleid );
+                    fields += std::to_string( m_db_roleid );
                     break;
             }
         }
@@ -153,11 +152,11 @@ bool Relation_Data::query( std::string & sqlcmd, std::vector<std::string> & esca
             {
                 case 0 :
                     fields += "`roleid`=";
-                    fields += utils::Integer::toString( m_db_roleid );
+                    fields += std::to_string( m_db_roleid );
                     break;
                 case 1 :
                     fields += "`friendid`=";
-                    fields += utils::Integer::toString( m_db_friendid );
+                    fields += std::to_string( m_db_friendid );
                     break;
             }
         }
@@ -204,23 +203,23 @@ bool Relation_Data::insert( std::string & sqlcmd, std::vector<std::string> & esc
         {
             case 0 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 1 :
                 fields += "`friendid`";
-                values += utils::Integer::toString( m_db_friendid );
+                values += std::to_string( m_db_friendid );
                 break;
             case 2 :
                 fields += "`type`";
-                values += utils::Integer::toString( m_db_type );
+                values += std::to_string( m_db_type );
                 break;
             case 3 :
                 fields += "`intimacy`";
-                values += utils::Integer::toString( m_db_intimacy );
+                values += std::to_string( m_db_intimacy );
                 break;
             case 4 :
                 fields += "`timestamp`";
-                values += utils::Integer::toString( m_db_timestamp );
+                values += std::to_string( m_db_timestamp );
                 break;
         }
     }
@@ -255,23 +254,23 @@ bool Relation_Data::update( std::string & sqlcmd, std::vector<std::string> & esc
         {
             case 0 :
                 dirty += "`roleid`=";
-                dirty += utils::Integer::toString( m_db_roleid );
+                dirty += std::to_string( m_db_roleid );
                 break;
             case 1 :
                 dirty += "`friendid`=";
-                dirty += utils::Integer::toString( m_db_friendid );
+                dirty += std::to_string( m_db_friendid );
                 break;
             case 2 :
                 dirty += "`type`=";
-                dirty += utils::Integer::toString( m_db_type );
+                dirty += std::to_string( m_db_type );
                 break;
             case 3 :
                 dirty += "`intimacy`=";
-                dirty += utils::Integer::toString( m_db_intimacy );
+                dirty += std::to_string( m_db_intimacy );
                 break;
             case 4 :
                 dirty += "`timestamp`=";
-                dirty += utils::Integer::toString( m_db_timestamp );
+                dirty += std::to_string( m_db_timestamp );
                 break;
         }
     }
@@ -322,23 +321,23 @@ bool Relation_Data::replace( std::string & sqlcmd, std::vector<std::string> & es
         {
             case 0 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 1 :
                 fields += "`friendid`";
-                values += utils::Integer::toString( m_db_friendid );
+                values += std::to_string( m_db_friendid );
                 break;
             case 2 :
                 fields += "`type`";
-                values += utils::Integer::toString( m_db_type );
+                values += std::to_string( m_db_type );
                 break;
             case 3 :
                 fields += "`intimacy`";
-                values += utils::Integer::toString( m_db_intimacy );
+                values += std::to_string( m_db_intimacy );
                 break;
             case 4 :
                 fields += "`timestamp`";
-                values += utils::Integer::toString( m_db_timestamp );
+                values += std::to_string( m_db_timestamp );
                 break;
         }
     }
@@ -355,15 +354,15 @@ bool Relation_Data::replace( std::string & sqlcmd, std::vector<std::string> & es
             {
                 case 2 :
                     dirty += "`type`=";
-                    dirty += utils::Integer::toString( m_db_type );
+                    dirty += std::to_string( m_db_type );
                     break;
                 case 3 :
                     dirty += "`intimacy`=";
-                    dirty += utils::Integer::toString( m_db_intimacy );
+                    dirty += std::to_string( m_db_intimacy );
                     break;
                 case 4 :
                     dirty += "`timestamp`=";
-                    dirty += utils::Integer::toString( m_db_timestamp );
+                    dirty += std::to_string( m_db_timestamp );
                     break;
             }
         }

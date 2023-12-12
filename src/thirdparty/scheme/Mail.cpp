@@ -5,7 +5,6 @@
 #include <cstdlib>
 
 #include "lua/kaguya.hpp"
-#include "utils/integer.h"
 #include "utils/streambuf.h"
 
 #include "Mail.hpp"
@@ -132,21 +131,21 @@ bool Mail_Data::isKeydirty() const
 
 void Mail_Data::keystring( std::string & k ) const
 {
-    k = utils::Integer::toString( m_db_mailid );
+    k = std::to_string( m_db_mailid );
 }
 
 void Mail_Data::indexstring( uint8_t op, std::string & k ) const
 {
     if ( likely(op == eCodec_All) )
     {
-        k = utils::Integer::toString( m_db_roleid );
+        k = std::to_string( m_db_roleid );
     }
     else
     {
         if ( m_dirty[7] == 1 )
         {
             if ( !k.empty() ) k += "#";
-            k += utils::Integer::toString( m_db_roleid );
+            k += std::to_string( m_db_roleid );
         }
     }
 }
@@ -177,7 +176,7 @@ bool Mail_Data::query( std::string & sqlcmd, std::vector<std::string> & escapeva
             {
                 case 7 :
                     fields += "`roleid`=";
-                    fields += utils::Integer::toString( m_db_roleid );
+                    fields += std::to_string( m_db_roleid );
                     break;
             }
         }
@@ -192,11 +191,11 @@ bool Mail_Data::query( std::string & sqlcmd, std::vector<std::string> & escapeva
             {
                 case 0 :
                     fields += "`mailid`=";
-                    fields += utils::Integer::toString( m_db_mailid );
+                    fields += std::to_string( m_db_mailid );
                     break;
                 case 7 :
                     fields += "`roleid`=";
-                    fields += utils::Integer::toString( m_db_roleid );
+                    fields += std::to_string( m_db_roleid );
                     break;
             }
         }
@@ -243,27 +242,27 @@ bool Mail_Data::insert( std::string & sqlcmd, std::vector<std::string> & escapev
         {
             case 0 :
                 fields += "`mailid`";
-                values += utils::Integer::toString( m_db_mailid );
+                values += std::to_string( m_db_mailid );
                 break;
             case 1 :
                 fields += "`type`";
-                values += utils::Integer::toString( m_db_type );
+                values += std::to_string( m_db_type );
                 break;
             case 2 :
                 fields += "`sendtime`";
-                values += utils::Integer::toString( m_db_sendtime );
+                values += std::to_string( m_db_sendtime );
                 break;
             case 3 :
                 fields += "`templateid`";
-                values += utils::Integer::toString( m_db_templateid );
+                values += std::to_string( m_db_templateid );
                 break;
             case 4 :
                 fields += "`status`";
-                values += utils::Integer::toString( m_db_status );
+                values += std::to_string( m_db_status );
                 break;
             case 5 :
                 fields += "`sender`";
-                values += utils::Integer::toString( m_db_sender );
+                values += std::to_string( m_db_sender );
                 break;
             case 6 :
                 fields += "`sendername`";
@@ -272,15 +271,15 @@ bool Mail_Data::insert( std::string & sqlcmd, std::vector<std::string> & escapev
                 break;
             case 7 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 8 :
                 fields += "`tag`";
-                values += utils::Integer::toString( m_db_tag );
+                values += std::to_string( m_db_tag );
                 break;
             case 9 :
                 fields += "`keepdays`";
-                values += utils::Integer::toString( m_db_keepdays );
+                values += std::to_string( m_db_keepdays );
                 break;
             case 10 :
                 fields += "`title`";
@@ -335,27 +334,27 @@ bool Mail_Data::update( std::string & sqlcmd, std::vector<std::string> & escapev
         {
             case 0 :
                 dirty += "`mailid`=";
-                dirty += utils::Integer::toString( m_db_mailid );
+                dirty += std::to_string( m_db_mailid );
                 break;
             case 1 :
                 dirty += "`type`=";
-                dirty += utils::Integer::toString( m_db_type );
+                dirty += std::to_string( m_db_type );
                 break;
             case 2 :
                 dirty += "`sendtime`=";
-                dirty += utils::Integer::toString( m_db_sendtime );
+                dirty += std::to_string( m_db_sendtime );
                 break;
             case 3 :
                 dirty += "`templateid`=";
-                dirty += utils::Integer::toString( m_db_templateid );
+                dirty += std::to_string( m_db_templateid );
                 break;
             case 4 :
                 dirty += "`status`=";
-                dirty += utils::Integer::toString( m_db_status );
+                dirty += std::to_string( m_db_status );
                 break;
             case 5 :
                 dirty += "`sender`=";
-                dirty += utils::Integer::toString( m_db_sender );
+                dirty += std::to_string( m_db_sender );
                 break;
             case 6 :
                 dirty += "`sendername`=";
@@ -364,15 +363,15 @@ bool Mail_Data::update( std::string & sqlcmd, std::vector<std::string> & escapev
                 break;
             case 7 :
                 dirty += "`roleid`=";
-                dirty += utils::Integer::toString( m_db_roleid );
+                dirty += std::to_string( m_db_roleid );
                 break;
             case 8 :
                 dirty += "`tag`=";
-                dirty += utils::Integer::toString( m_db_tag );
+                dirty += std::to_string( m_db_tag );
                 break;
             case 9 :
                 dirty += "`keepdays`=";
-                dirty += utils::Integer::toString( m_db_keepdays );
+                dirty += std::to_string( m_db_keepdays );
                 break;
             case 10 :
                 dirty += "`title`=";
@@ -443,27 +442,27 @@ bool Mail_Data::replace( std::string & sqlcmd, std::vector<std::string> & escape
         {
             case 0 :
                 fields += "`mailid`";
-                values += utils::Integer::toString( m_db_mailid );
+                values += std::to_string( m_db_mailid );
                 break;
             case 1 :
                 fields += "`type`";
-                values += utils::Integer::toString( m_db_type );
+                values += std::to_string( m_db_type );
                 break;
             case 2 :
                 fields += "`sendtime`";
-                values += utils::Integer::toString( m_db_sendtime );
+                values += std::to_string( m_db_sendtime );
                 break;
             case 3 :
                 fields += "`templateid`";
-                values += utils::Integer::toString( m_db_templateid );
+                values += std::to_string( m_db_templateid );
                 break;
             case 4 :
                 fields += "`status`";
-                values += utils::Integer::toString( m_db_status );
+                values += std::to_string( m_db_status );
                 break;
             case 5 :
                 fields += "`sender`";
-                values += utils::Integer::toString( m_db_sender );
+                values += std::to_string( m_db_sender );
                 break;
             case 6 :
                 fields += "`sendername`";
@@ -472,15 +471,15 @@ bool Mail_Data::replace( std::string & sqlcmd, std::vector<std::string> & escape
                 break;
             case 7 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 8 :
                 fields += "`tag`";
-                values += utils::Integer::toString( m_db_tag );
+                values += std::to_string( m_db_tag );
                 break;
             case 9 :
                 fields += "`keepdays`";
-                values += utils::Integer::toString( m_db_keepdays );
+                values += std::to_string( m_db_keepdays );
                 break;
             case 10 :
                 fields += "`title`";
@@ -517,23 +516,23 @@ bool Mail_Data::replace( std::string & sqlcmd, std::vector<std::string> & escape
             {
                 case 1 :
                     dirty += "`type`=";
-                    dirty += utils::Integer::toString( m_db_type );
+                    dirty += std::to_string( m_db_type );
                     break;
                 case 2 :
                     dirty += "`sendtime`=";
-                    dirty += utils::Integer::toString( m_db_sendtime );
+                    dirty += std::to_string( m_db_sendtime );
                     break;
                 case 3 :
                     dirty += "`templateid`=";
-                    dirty += utils::Integer::toString( m_db_templateid );
+                    dirty += std::to_string( m_db_templateid );
                     break;
                 case 4 :
                     dirty += "`status`=";
-                    dirty += utils::Integer::toString( m_db_status );
+                    dirty += std::to_string( m_db_status );
                     break;
                 case 5 :
                     dirty += "`sender`=";
-                    dirty += utils::Integer::toString( m_db_sender );
+                    dirty += std::to_string( m_db_sender );
                     break;
                 case 6 :
                     dirty += "`sendername`=";
@@ -542,11 +541,11 @@ bool Mail_Data::replace( std::string & sqlcmd, std::vector<std::string> & escape
                     break;
                 case 8 :
                     dirty += "`tag`=";
-                    dirty += utils::Integer::toString( m_db_tag );
+                    dirty += std::to_string( m_db_tag );
                     break;
                 case 9 :
                     dirty += "`keepdays`=";
-                    dirty += utils::Integer::toString( m_db_keepdays );
+                    dirty += std::to_string( m_db_keepdays );
                     break;
                 case 10 :
                     dirty += "`title`=";

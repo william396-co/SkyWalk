@@ -5,7 +5,6 @@
 #include <cstdlib>
 
 #include "lua/kaguya.hpp"
-#include "utils/integer.h"
 #include "utils/streambuf.h"
 
 #include "CharBrief.hpp"
@@ -165,7 +164,7 @@ bool CharBrief_Data::isKeydirty() const
 
 void CharBrief_Data::keystring( std::string & k ) const
 {
-    k = utils::Integer::toString( m_db_roleid );
+    k = std::to_string( m_db_roleid );
 }
 
 void CharBrief_Data::indexstring( uint8_t op, std::string & k ) const
@@ -226,7 +225,7 @@ bool CharBrief_Data::query( std::string & sqlcmd, std::vector<std::string> & esc
             {
                 case 0 :
                     fields += "`roleid`=";
-                    fields += utils::Integer::toString( m_db_roleid );
+                    fields += std::to_string( m_db_roleid );
                     break;
                 case 1 :
                     fields += "`account`=";
@@ -278,7 +277,7 @@ bool CharBrief_Data::insert( std::string & sqlcmd, std::vector<std::string> & es
         {
             case 0 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 1 :
                 fields += "`account`";
@@ -292,7 +291,7 @@ bool CharBrief_Data::insert( std::string & sqlcmd, std::vector<std::string> & es
                 break;
             case 3 :
                 fields += "`status`";
-                values += utils::Integer::toString( m_db_status );
+                values += std::to_string( m_db_status );
                 break;
             case 4 :
                 fields += "`name`";
@@ -301,27 +300,27 @@ bool CharBrief_Data::insert( std::string & sqlcmd, std::vector<std::string> & es
                 break;
             case 5 :
                 fields += "`zone`";
-                values += utils::Integer::toString( m_db_zone );
+                values += std::to_string( m_db_zone );
                 break;
             case 6 :
                 fields += "`createtime`";
-                values += utils::Integer::toString( m_db_createtime );
+                values += std::to_string( m_db_createtime );
                 break;
             case 7 :
                 fields += "`level`";
-                values += utils::Integer::toString( m_db_level );
+                values += std::to_string( m_db_level );
                 break;
             case 8 :
                 fields += "`viplevel`";
-                values += utils::Integer::toString( m_db_viplevel );
+                values += std::to_string( m_db_viplevel );
                 break;
             case 9 :
                 fields += "`avatar`";
-                values += utils::Integer::toString( m_db_avatar );
+                values += std::to_string( m_db_avatar );
                 break;
             case 10 :
                 fields += "`battlepoint`";
-                values += utils::Integer::toString( m_db_battlepoint );
+                values += std::to_string( m_db_battlepoint );
                 break;
             case 11 :
                 fields += "`lastercity`";
@@ -330,15 +329,15 @@ bool CharBrief_Data::insert( std::string & sqlcmd, std::vector<std::string> & es
                 break;
             case 12 :
                 fields += "`lastlogintime`";
-                values += utils::Integer::toString( m_db_lastlogintime );
+                values += std::to_string( m_db_lastlogintime );
                 break;
             case 13 :
                 fields += "`lastlogouttime`";
-                values += utils::Integer::toString( m_db_lastlogouttime );
+                values += std::to_string( m_db_lastlogouttime );
                 break;
             case 14 :
                 fields += "`bannedtime`";
-                values += utils::Integer::toString( m_db_bannedtime );
+                values += std::to_string( m_db_bannedtime );
                 break;
             case 15 :
                 fields += "`bannedreason`";
@@ -347,7 +346,7 @@ bool CharBrief_Data::insert( std::string & sqlcmd, std::vector<std::string> & es
                 break;
             case 16 :
                 fields += "`shutuptime`";
-                values += utils::Integer::toString( m_db_shutuptime );
+                values += std::to_string( m_db_shutuptime );
                 break;
             case 17 :
                 fields += "`opensystems`";
@@ -361,15 +360,15 @@ bool CharBrief_Data::insert( std::string & sqlcmd, std::vector<std::string> & es
                 break;
             case 19 :
                 fields += "`friendscount`";
-                values += utils::Integer::toString( m_db_friendscount );
+                values += std::to_string( m_db_friendscount );
                 break;
             case 20 :
                 fields += "`settings`";
-                values += utils::Integer::toString( m_db_settings );
+                values += std::to_string( m_db_settings );
                 break;
             case 21 :
                 fields += "`arenastatus`";
-                values += utils::Integer::toString( m_db_arenastatus );
+                values += std::to_string( m_db_arenastatus );
                 break;
         }
     }
@@ -404,7 +403,7 @@ bool CharBrief_Data::update( std::string & sqlcmd, std::vector<std::string> & es
         {
             case 0 :
                 dirty += "`roleid`=";
-                dirty += utils::Integer::toString( m_db_roleid );
+                dirty += std::to_string( m_db_roleid );
                 break;
             case 1 :
                 dirty += "`account`=";
@@ -418,7 +417,7 @@ bool CharBrief_Data::update( std::string & sqlcmd, std::vector<std::string> & es
                 break;
             case 3 :
                 dirty += "`status`=";
-                dirty += utils::Integer::toString( m_db_status );
+                dirty += std::to_string( m_db_status );
                 break;
             case 4 :
                 dirty += "`name`=";
@@ -427,27 +426,27 @@ bool CharBrief_Data::update( std::string & sqlcmd, std::vector<std::string> & es
                 break;
             case 5 :
                 dirty += "`zone`=";
-                dirty += utils::Integer::toString( m_db_zone );
+                dirty += std::to_string( m_db_zone );
                 break;
             case 6 :
                 dirty += "`createtime`=";
-                dirty += utils::Integer::toString( m_db_createtime );
+                dirty += std::to_string( m_db_createtime );
                 break;
             case 7 :
                 dirty += "`level`=";
-                dirty += utils::Integer::toString( m_db_level );
+                dirty += std::to_string( m_db_level );
                 break;
             case 8 :
                 dirty += "`viplevel`=";
-                dirty += utils::Integer::toString( m_db_viplevel );
+                dirty += std::to_string( m_db_viplevel );
                 break;
             case 9 :
                 dirty += "`avatar`=";
-                dirty += utils::Integer::toString( m_db_avatar );
+                dirty += std::to_string( m_db_avatar );
                 break;
             case 10 :
                 dirty += "`battlepoint`=";
-                dirty += utils::Integer::toString( m_db_battlepoint );
+                dirty += std::to_string( m_db_battlepoint );
                 break;
             case 11 :
                 dirty += "`lastercity`=";
@@ -456,15 +455,15 @@ bool CharBrief_Data::update( std::string & sqlcmd, std::vector<std::string> & es
                 break;
             case 12 :
                 dirty += "`lastlogintime`=";
-                dirty += utils::Integer::toString( m_db_lastlogintime );
+                dirty += std::to_string( m_db_lastlogintime );
                 break;
             case 13 :
                 dirty += "`lastlogouttime`=";
-                dirty += utils::Integer::toString( m_db_lastlogouttime );
+                dirty += std::to_string( m_db_lastlogouttime );
                 break;
             case 14 :
                 dirty += "`bannedtime`=";
-                dirty += utils::Integer::toString( m_db_bannedtime );
+                dirty += std::to_string( m_db_bannedtime );
                 break;
             case 15 :
                 dirty += "`bannedreason`=";
@@ -473,7 +472,7 @@ bool CharBrief_Data::update( std::string & sqlcmd, std::vector<std::string> & es
                 break;
             case 16 :
                 dirty += "`shutuptime`=";
-                dirty += utils::Integer::toString( m_db_shutuptime );
+                dirty += std::to_string( m_db_shutuptime );
                 break;
             case 17 :
                 dirty += "`opensystems`=";
@@ -487,15 +486,15 @@ bool CharBrief_Data::update( std::string & sqlcmd, std::vector<std::string> & es
                 break;
             case 19 :
                 dirty += "`friendscount`=";
-                dirty += utils::Integer::toString( m_db_friendscount );
+                dirty += std::to_string( m_db_friendscount );
                 break;
             case 20 :
                 dirty += "`settings`=";
-                dirty += utils::Integer::toString( m_db_settings );
+                dirty += std::to_string( m_db_settings );
                 break;
             case 21 :
                 dirty += "`arenastatus`=";
-                dirty += utils::Integer::toString( m_db_arenastatus );
+                dirty += std::to_string( m_db_arenastatus );
                 break;
         }
     }
@@ -546,7 +545,7 @@ bool CharBrief_Data::replace( std::string & sqlcmd, std::vector<std::string> & e
         {
             case 0 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 1 :
                 fields += "`account`";
@@ -560,7 +559,7 @@ bool CharBrief_Data::replace( std::string & sqlcmd, std::vector<std::string> & e
                 break;
             case 3 :
                 fields += "`status`";
-                values += utils::Integer::toString( m_db_status );
+                values += std::to_string( m_db_status );
                 break;
             case 4 :
                 fields += "`name`";
@@ -569,27 +568,27 @@ bool CharBrief_Data::replace( std::string & sqlcmd, std::vector<std::string> & e
                 break;
             case 5 :
                 fields += "`zone`";
-                values += utils::Integer::toString( m_db_zone );
+                values += std::to_string( m_db_zone );
                 break;
             case 6 :
                 fields += "`createtime`";
-                values += utils::Integer::toString( m_db_createtime );
+                values += std::to_string( m_db_createtime );
                 break;
             case 7 :
                 fields += "`level`";
-                values += utils::Integer::toString( m_db_level );
+                values += std::to_string( m_db_level );
                 break;
             case 8 :
                 fields += "`viplevel`";
-                values += utils::Integer::toString( m_db_viplevel );
+                values += std::to_string( m_db_viplevel );
                 break;
             case 9 :
                 fields += "`avatar`";
-                values += utils::Integer::toString( m_db_avatar );
+                values += std::to_string( m_db_avatar );
                 break;
             case 10 :
                 fields += "`battlepoint`";
-                values += utils::Integer::toString( m_db_battlepoint );
+                values += std::to_string( m_db_battlepoint );
                 break;
             case 11 :
                 fields += "`lastercity`";
@@ -598,15 +597,15 @@ bool CharBrief_Data::replace( std::string & sqlcmd, std::vector<std::string> & e
                 break;
             case 12 :
                 fields += "`lastlogintime`";
-                values += utils::Integer::toString( m_db_lastlogintime );
+                values += std::to_string( m_db_lastlogintime );
                 break;
             case 13 :
                 fields += "`lastlogouttime`";
-                values += utils::Integer::toString( m_db_lastlogouttime );
+                values += std::to_string( m_db_lastlogouttime );
                 break;
             case 14 :
                 fields += "`bannedtime`";
-                values += utils::Integer::toString( m_db_bannedtime );
+                values += std::to_string( m_db_bannedtime );
                 break;
             case 15 :
                 fields += "`bannedreason`";
@@ -615,7 +614,7 @@ bool CharBrief_Data::replace( std::string & sqlcmd, std::vector<std::string> & e
                 break;
             case 16 :
                 fields += "`shutuptime`";
-                values += utils::Integer::toString( m_db_shutuptime );
+                values += std::to_string( m_db_shutuptime );
                 break;
             case 17 :
                 fields += "`opensystems`";
@@ -629,15 +628,15 @@ bool CharBrief_Data::replace( std::string & sqlcmd, std::vector<std::string> & e
                 break;
             case 19 :
                 fields += "`friendscount`";
-                values += utils::Integer::toString( m_db_friendscount );
+                values += std::to_string( m_db_friendscount );
                 break;
             case 20 :
                 fields += "`settings`";
-                values += utils::Integer::toString( m_db_settings );
+                values += std::to_string( m_db_settings );
                 break;
             case 21 :
                 fields += "`arenastatus`";
-                values += utils::Integer::toString( m_db_arenastatus );
+                values += std::to_string( m_db_arenastatus );
                 break;
         }
     }
@@ -659,7 +658,7 @@ bool CharBrief_Data::replace( std::string & sqlcmd, std::vector<std::string> & e
                     break;
                 case 3 :
                     dirty += "`status`=";
-                    dirty += utils::Integer::toString( m_db_status );
+                    dirty += std::to_string( m_db_status );
                     break;
                 case 4 :
                     dirty += "`name`=";
@@ -668,27 +667,27 @@ bool CharBrief_Data::replace( std::string & sqlcmd, std::vector<std::string> & e
                     break;
                 case 5 :
                     dirty += "`zone`=";
-                    dirty += utils::Integer::toString( m_db_zone );
+                    dirty += std::to_string( m_db_zone );
                     break;
                 case 6 :
                     dirty += "`createtime`=";
-                    dirty += utils::Integer::toString( m_db_createtime );
+                    dirty += std::to_string( m_db_createtime );
                     break;
                 case 7 :
                     dirty += "`level`=";
-                    dirty += utils::Integer::toString( m_db_level );
+                    dirty += std::to_string( m_db_level );
                     break;
                 case 8 :
                     dirty += "`viplevel`=";
-                    dirty += utils::Integer::toString( m_db_viplevel );
+                    dirty += std::to_string( m_db_viplevel );
                     break;
                 case 9 :
                     dirty += "`avatar`=";
-                    dirty += utils::Integer::toString( m_db_avatar );
+                    dirty += std::to_string( m_db_avatar );
                     break;
                 case 10 :
                     dirty += "`battlepoint`=";
-                    dirty += utils::Integer::toString( m_db_battlepoint );
+                    dirty += std::to_string( m_db_battlepoint );
                     break;
                 case 11 :
                     dirty += "`lastercity`=";
@@ -697,15 +696,15 @@ bool CharBrief_Data::replace( std::string & sqlcmd, std::vector<std::string> & e
                     break;
                 case 12 :
                     dirty += "`lastlogintime`=";
-                    dirty += utils::Integer::toString( m_db_lastlogintime );
+                    dirty += std::to_string( m_db_lastlogintime );
                     break;
                 case 13 :
                     dirty += "`lastlogouttime`=";
-                    dirty += utils::Integer::toString( m_db_lastlogouttime );
+                    dirty += std::to_string( m_db_lastlogouttime );
                     break;
                 case 14 :
                     dirty += "`bannedtime`=";
-                    dirty += utils::Integer::toString( m_db_bannedtime );
+                    dirty += std::to_string( m_db_bannedtime );
                     break;
                 case 15 :
                     dirty += "`bannedreason`=";
@@ -714,7 +713,7 @@ bool CharBrief_Data::replace( std::string & sqlcmd, std::vector<std::string> & e
                     break;
                 case 16 :
                     dirty += "`shutuptime`=";
-                    dirty += utils::Integer::toString( m_db_shutuptime );
+                    dirty += std::to_string( m_db_shutuptime );
                     break;
                 case 17 :
                     dirty += "`opensystems`=";
@@ -728,15 +727,15 @@ bool CharBrief_Data::replace( std::string & sqlcmd, std::vector<std::string> & e
                     break;
                 case 19 :
                     dirty += "`friendscount`=";
-                    dirty += utils::Integer::toString( m_db_friendscount );
+                    dirty += std::to_string( m_db_friendscount );
                     break;
                 case 20 :
                     dirty += "`settings`=";
-                    dirty += utils::Integer::toString( m_db_settings );
+                    dirty += std::to_string( m_db_settings );
                     break;
                 case 21 :
                     dirty += "`arenastatus`=";
-                    dirty += utils::Integer::toString( m_db_arenastatus );
+                    dirty += std::to_string( m_db_arenastatus );
                     break;
             }
         }

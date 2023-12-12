@@ -138,6 +138,7 @@ add_subdirectory(src/thirdparty/mysql)
 add_subdirectory(src/thirdparty/lua)
 add_subdirectory(src/thirdparty/http)
 #add_subdirectory(src/thirdparty/rapidjson)
+add_subdirectory(src/thirdparty/scheme)
 
 # extra
 add_subdirectory(src/extra)
@@ -147,8 +148,8 @@ if(NOT WIN32)
 	add_subdirectory(src/guard)
 endif()
 #add_subdirectory(src/gateserver)
-#add_subdirectory(src/dataserver)
-#add_subdirectory(src/masterserver)
+add_subdirectory(src/dataserver)
+add_subdirectory(src/masterserver)
 #add_subdirectory(src/worldserver)
 #add_subdirectory(src/sceneserver)
 

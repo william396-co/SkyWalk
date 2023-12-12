@@ -5,7 +5,6 @@
 #include <cstdlib>
 
 #include "lua/kaguya.hpp"
-#include "utils/integer.h"
 #include "utils/streambuf.h"
 
 #include "Arena.hpp"
@@ -100,21 +99,21 @@ bool Arena_Data::isKeydirty() const
 
 void Arena_Data::keystring( std::string & k ) const
 {
-    k = utils::Integer::toString( m_db_roleid );
+    k = std::to_string( m_db_roleid );
 }
 
 void Arena_Data::indexstring( uint8_t op, std::string & k ) const
 {
     if ( likely(op == eCodec_All) )
     {
-        k = utils::Integer::toString( m_db_roleid );
+        k = std::to_string( m_db_roleid );
     }
     else
     {
         if ( m_dirty[0] == 1 )
         {
             if ( !k.empty() ) k += "#";
-            k += utils::Integer::toString( m_db_roleid );
+            k += std::to_string( m_db_roleid );
         }
     }
 }
@@ -143,7 +142,7 @@ bool Arena_Data::query( std::string & sqlcmd, std::vector<std::string> & escapev
         {
             case 0 :
                 fields += "`roleid`=";
-                fields += utils::Integer::toString( m_db_roleid );
+                fields += std::to_string( m_db_roleid );
                 break;
         }
     }
@@ -189,11 +188,11 @@ bool Arena_Data::insert( std::string & sqlcmd, std::vector<std::string> & escape
         {
             case 0 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 1 :
                 fields += "`timestamp`";
-                values += utils::Integer::toString( m_db_timestamp );
+                values += std::to_string( m_db_timestamp );
                 break;
             case 2 :
                 fields += "`opponents`";
@@ -202,19 +201,19 @@ bool Arena_Data::insert( std::string & sqlcmd, std::vector<std::string> & escape
                 break;
             case 3 :
                 fields += "`lastrank`";
-                values += utils::Integer::toString( m_db_lastrank );
+                values += std::to_string( m_db_lastrank );
                 break;
             case 4 :
                 fields += "`gettimestamp`";
-                values += utils::Integer::toString( m_db_gettimestamp );
+                values += std::to_string( m_db_gettimestamp );
                 break;
             case 5 :
                 fields += "`drawtimestamp`";
-                values += utils::Integer::toString( m_db_drawtimestamp );
+                values += std::to_string( m_db_drawtimestamp );
                 break;
             case 6 :
                 fields += "`drawhltimestamp`";
-                values += utils::Integer::toString( m_db_drawhltimestamp );
+                values += std::to_string( m_db_drawhltimestamp );
                 break;
         }
     }
@@ -249,11 +248,11 @@ bool Arena_Data::update( std::string & sqlcmd, std::vector<std::string> & escape
         {
             case 0 :
                 dirty += "`roleid`=";
-                dirty += utils::Integer::toString( m_db_roleid );
+                dirty += std::to_string( m_db_roleid );
                 break;
             case 1 :
                 dirty += "`timestamp`=";
-                dirty += utils::Integer::toString( m_db_timestamp );
+                dirty += std::to_string( m_db_timestamp );
                 break;
             case 2 :
                 dirty += "`opponents`=";
@@ -262,19 +261,19 @@ bool Arena_Data::update( std::string & sqlcmd, std::vector<std::string> & escape
                 break;
             case 3 :
                 dirty += "`lastrank`=";
-                dirty += utils::Integer::toString( m_db_lastrank );
+                dirty += std::to_string( m_db_lastrank );
                 break;
             case 4 :
                 dirty += "`gettimestamp`=";
-                dirty += utils::Integer::toString( m_db_gettimestamp );
+                dirty += std::to_string( m_db_gettimestamp );
                 break;
             case 5 :
                 dirty += "`drawtimestamp`=";
-                dirty += utils::Integer::toString( m_db_drawtimestamp );
+                dirty += std::to_string( m_db_drawtimestamp );
                 break;
             case 6 :
                 dirty += "`drawhltimestamp`=";
-                dirty += utils::Integer::toString( m_db_drawhltimestamp );
+                dirty += std::to_string( m_db_drawhltimestamp );
                 break;
         }
     }
@@ -325,11 +324,11 @@ bool Arena_Data::replace( std::string & sqlcmd, std::vector<std::string> & escap
         {
             case 0 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 1 :
                 fields += "`timestamp`";
-                values += utils::Integer::toString( m_db_timestamp );
+                values += std::to_string( m_db_timestamp );
                 break;
             case 2 :
                 fields += "`opponents`";
@@ -338,19 +337,19 @@ bool Arena_Data::replace( std::string & sqlcmd, std::vector<std::string> & escap
                 break;
             case 3 :
                 fields += "`lastrank`";
-                values += utils::Integer::toString( m_db_lastrank );
+                values += std::to_string( m_db_lastrank );
                 break;
             case 4 :
                 fields += "`gettimestamp`";
-                values += utils::Integer::toString( m_db_gettimestamp );
+                values += std::to_string( m_db_gettimestamp );
                 break;
             case 5 :
                 fields += "`drawtimestamp`";
-                values += utils::Integer::toString( m_db_drawtimestamp );
+                values += std::to_string( m_db_drawtimestamp );
                 break;
             case 6 :
                 fields += "`drawhltimestamp`";
-                values += utils::Integer::toString( m_db_drawhltimestamp );
+                values += std::to_string( m_db_drawhltimestamp );
                 break;
         }
     }
@@ -367,7 +366,7 @@ bool Arena_Data::replace( std::string & sqlcmd, std::vector<std::string> & escap
             {
                 case 1 :
                     dirty += "`timestamp`=";
-                    dirty += utils::Integer::toString( m_db_timestamp );
+                    dirty += std::to_string( m_db_timestamp );
                     break;
                 case 2 :
                     dirty += "`opponents`=";
@@ -376,19 +375,19 @@ bool Arena_Data::replace( std::string & sqlcmd, std::vector<std::string> & escap
                     break;
                 case 3 :
                     dirty += "`lastrank`=";
-                    dirty += utils::Integer::toString( m_db_lastrank );
+                    dirty += std::to_string( m_db_lastrank );
                     break;
                 case 4 :
                     dirty += "`gettimestamp`=";
-                    dirty += utils::Integer::toString( m_db_gettimestamp );
+                    dirty += std::to_string( m_db_gettimestamp );
                     break;
                 case 5 :
                     dirty += "`drawtimestamp`=";
-                    dirty += utils::Integer::toString( m_db_drawtimestamp );
+                    dirty += std::to_string( m_db_drawtimestamp );
                     break;
                 case 6 :
                     dirty += "`drawhltimestamp`=";
-                    dirty += utils::Integer::toString( m_db_drawhltimestamp );
+                    dirty += std::to_string( m_db_drawhltimestamp );
                     break;
             }
         }

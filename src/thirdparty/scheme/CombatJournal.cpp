@@ -5,7 +5,6 @@
 #include <cstdlib>
 
 #include "lua/kaguya.hpp"
-#include "utils/integer.h"
 #include "utils/streambuf.h"
 
 #include "CombatJournal.hpp"
@@ -130,21 +129,21 @@ bool CombatJournal_Data::isKeydirty() const
 
 void CombatJournal_Data::keystring( std::string & k ) const
 {
-    k = utils::Integer::toString( m_db_id );
+    k = std::to_string( m_db_id );
 }
 
 void CombatJournal_Data::indexstring( uint8_t op, std::string & k ) const
 {
     if ( likely(op == eCodec_All) )
     {
-        k = utils::Integer::toString( m_db_roleid );
+        k = std::to_string( m_db_roleid );
     }
     else
     {
         if ( m_dirty[1] == 1 )
         {
             if ( !k.empty() ) k += "#";
-            k += utils::Integer::toString( m_db_roleid );
+            k += std::to_string( m_db_roleid );
         }
     }
 }
@@ -175,7 +174,7 @@ bool CombatJournal_Data::query( std::string & sqlcmd, std::vector<std::string> &
             {
                 case 1 :
                     fields += "`roleid`=";
-                    fields += utils::Integer::toString( m_db_roleid );
+                    fields += std::to_string( m_db_roleid );
                     break;
             }
         }
@@ -190,11 +189,11 @@ bool CombatJournal_Data::query( std::string & sqlcmd, std::vector<std::string> &
             {
                 case 0 :
                     fields += "`id`=";
-                    fields += utils::Integer::toString( m_db_id );
+                    fields += std::to_string( m_db_id );
                     break;
                 case 1 :
                     fields += "`roleid`=";
-                    fields += utils::Integer::toString( m_db_roleid );
+                    fields += std::to_string( m_db_roleid );
                     break;
             }
         }
@@ -241,31 +240,31 @@ bool CombatJournal_Data::insert( std::string & sqlcmd, std::vector<std::string> 
         {
             case 0 :
                 fields += "`id`";
-                values += utils::Integer::toString( m_db_id );
+                values += std::to_string( m_db_id );
                 break;
             case 1 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 2 :
                 fields += "`module`";
-                values += utils::Integer::toString( m_db_module );
+                values += std::to_string( m_db_module );
                 break;
             case 3 :
                 fields += "`result`";
-                values += utils::Integer::toString( m_db_result );
+                values += std::to_string( m_db_result );
                 break;
             case 4 :
                 fields += "`opponent`";
-                values += utils::Integer::toString( m_db_opponent );
+                values += std::to_string( m_db_opponent );
                 break;
             case 5 :
                 fields += "`robotid`";
-                values += utils::Integer::toString( m_db_robotid );
+                values += std::to_string( m_db_robotid );
                 break;
             case 6 :
                 fields += "`avatar`";
-                values += utils::Integer::toString( m_db_avatar );
+                values += std::to_string( m_db_avatar );
                 break;
             case 7 :
                 fields += "`name`";
@@ -274,19 +273,19 @@ bool CombatJournal_Data::insert( std::string & sqlcmd, std::vector<std::string> 
                 break;
             case 8 :
                 fields += "`level`";
-                values += utils::Integer::toString( m_db_level );
+                values += std::to_string( m_db_level );
                 break;
             case 9 :
                 fields += "`viplevel`";
-                values += utils::Integer::toString( m_db_viplevel );
+                values += std::to_string( m_db_viplevel );
                 break;
             case 10 :
                 fields += "`change`";
-                values += utils::Integer::toString( m_db_change );
+                values += std::to_string( m_db_change );
                 break;
             case 11 :
                 fields += "`timestamp`";
-                values += utils::Integer::toString( m_db_timestamp );
+                values += std::to_string( m_db_timestamp );
                 break;
             case 12 :
                 fields += "`statistics`";
@@ -331,31 +330,31 @@ bool CombatJournal_Data::update( std::string & sqlcmd, std::vector<std::string> 
         {
             case 0 :
                 dirty += "`id`=";
-                dirty += utils::Integer::toString( m_db_id );
+                dirty += std::to_string( m_db_id );
                 break;
             case 1 :
                 dirty += "`roleid`=";
-                dirty += utils::Integer::toString( m_db_roleid );
+                dirty += std::to_string( m_db_roleid );
                 break;
             case 2 :
                 dirty += "`module`=";
-                dirty += utils::Integer::toString( m_db_module );
+                dirty += std::to_string( m_db_module );
                 break;
             case 3 :
                 dirty += "`result`=";
-                dirty += utils::Integer::toString( m_db_result );
+                dirty += std::to_string( m_db_result );
                 break;
             case 4 :
                 dirty += "`opponent`=";
-                dirty += utils::Integer::toString( m_db_opponent );
+                dirty += std::to_string( m_db_opponent );
                 break;
             case 5 :
                 dirty += "`robotid`=";
-                dirty += utils::Integer::toString( m_db_robotid );
+                dirty += std::to_string( m_db_robotid );
                 break;
             case 6 :
                 dirty += "`avatar`=";
-                dirty += utils::Integer::toString( m_db_avatar );
+                dirty += std::to_string( m_db_avatar );
                 break;
             case 7 :
                 dirty += "`name`=";
@@ -364,19 +363,19 @@ bool CombatJournal_Data::update( std::string & sqlcmd, std::vector<std::string> 
                 break;
             case 8 :
                 dirty += "`level`=";
-                dirty += utils::Integer::toString( m_db_level );
+                dirty += std::to_string( m_db_level );
                 break;
             case 9 :
                 dirty += "`viplevel`=";
-                dirty += utils::Integer::toString( m_db_viplevel );
+                dirty += std::to_string( m_db_viplevel );
                 break;
             case 10 :
                 dirty += "`change`=";
-                dirty += utils::Integer::toString( m_db_change );
+                dirty += std::to_string( m_db_change );
                 break;
             case 11 :
                 dirty += "`timestamp`=";
-                dirty += utils::Integer::toString( m_db_timestamp );
+                dirty += std::to_string( m_db_timestamp );
                 break;
             case 12 :
                 dirty += "`statistics`=";
@@ -437,31 +436,31 @@ bool CombatJournal_Data::replace( std::string & sqlcmd, std::vector<std::string>
         {
             case 0 :
                 fields += "`id`";
-                values += utils::Integer::toString( m_db_id );
+                values += std::to_string( m_db_id );
                 break;
             case 1 :
                 fields += "`roleid`";
-                values += utils::Integer::toString( m_db_roleid );
+                values += std::to_string( m_db_roleid );
                 break;
             case 2 :
                 fields += "`module`";
-                values += utils::Integer::toString( m_db_module );
+                values += std::to_string( m_db_module );
                 break;
             case 3 :
                 fields += "`result`";
-                values += utils::Integer::toString( m_db_result );
+                values += std::to_string( m_db_result );
                 break;
             case 4 :
                 fields += "`opponent`";
-                values += utils::Integer::toString( m_db_opponent );
+                values += std::to_string( m_db_opponent );
                 break;
             case 5 :
                 fields += "`robotid`";
-                values += utils::Integer::toString( m_db_robotid );
+                values += std::to_string( m_db_robotid );
                 break;
             case 6 :
                 fields += "`avatar`";
-                values += utils::Integer::toString( m_db_avatar );
+                values += std::to_string( m_db_avatar );
                 break;
             case 7 :
                 fields += "`name`";
@@ -470,19 +469,19 @@ bool CombatJournal_Data::replace( std::string & sqlcmd, std::vector<std::string>
                 break;
             case 8 :
                 fields += "`level`";
-                values += utils::Integer::toString( m_db_level );
+                values += std::to_string( m_db_level );
                 break;
             case 9 :
                 fields += "`viplevel`";
-                values += utils::Integer::toString( m_db_viplevel );
+                values += std::to_string( m_db_viplevel );
                 break;
             case 10 :
                 fields += "`change`";
-                values += utils::Integer::toString( m_db_change );
+                values += std::to_string( m_db_change );
                 break;
             case 11 :
                 fields += "`timestamp`";
-                values += utils::Integer::toString( m_db_timestamp );
+                values += std::to_string( m_db_timestamp );
                 break;
             case 12 :
                 fields += "`statistics`";
@@ -509,23 +508,23 @@ bool CombatJournal_Data::replace( std::string & sqlcmd, std::vector<std::string>
             {
                 case 2 :
                     dirty += "`module`=";
-                    dirty += utils::Integer::toString( m_db_module );
+                    dirty += std::to_string( m_db_module );
                     break;
                 case 3 :
                     dirty += "`result`=";
-                    dirty += utils::Integer::toString( m_db_result );
+                    dirty += std::to_string( m_db_result );
                     break;
                 case 4 :
                     dirty += "`opponent`=";
-                    dirty += utils::Integer::toString( m_db_opponent );
+                    dirty += std::to_string( m_db_opponent );
                     break;
                 case 5 :
                     dirty += "`robotid`=";
-                    dirty += utils::Integer::toString( m_db_robotid );
+                    dirty += std::to_string( m_db_robotid );
                     break;
                 case 6 :
                     dirty += "`avatar`=";
-                    dirty += utils::Integer::toString( m_db_avatar );
+                    dirty += std::to_string( m_db_avatar );
                     break;
                 case 7 :
                     dirty += "`name`=";
@@ -534,19 +533,19 @@ bool CombatJournal_Data::replace( std::string & sqlcmd, std::vector<std::string>
                     break;
                 case 8 :
                     dirty += "`level`=";
-                    dirty += utils::Integer::toString( m_db_level );
+                    dirty += std::to_string( m_db_level );
                     break;
                 case 9 :
                     dirty += "`viplevel`=";
-                    dirty += utils::Integer::toString( m_db_viplevel );
+                    dirty += std::to_string( m_db_viplevel );
                     break;
                 case 10 :
                     dirty += "`change`=";
-                    dirty += utils::Integer::toString( m_db_change );
+                    dirty += std::to_string( m_db_change );
                     break;
                 case 11 :
                     dirty += "`timestamp`=";
-                    dirty += utils::Integer::toString( m_db_timestamp );
+                    dirty += std::to_string( m_db_timestamp );
                     break;
                 case 12 :
                     dirty += "`statistics`=";
