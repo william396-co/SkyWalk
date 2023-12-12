@@ -1,7 +1,9 @@
 #pragma once
 
-#include "utils/types.h"
+#include <unordered_map>
+#include <unordered_set>
 
+#include "utils/types.h"
 #include "base/role.h"
 #include "base/types.h"
 #include "base/endpoint.h"
@@ -92,7 +94,7 @@ public:
     UnitID generate( UnitType type, uint32_t id );
     // 获取在线所有角色
     void getOnlineRole( UnitIDList & list ) const;
-    void getOnlineRole( UnorderedSet<UnitID> & s ) const;
+    void getOnlineRole( std::unordered_set<UnitID> & s ) const;
     // 随机玩家
     Unit * randomRole();
     // 随机机器人ID
@@ -106,5 +108,5 @@ private:
 
 private:
     uint32_t m_OnlineRoleCount; // 在线角色数量
-    UnorderedMap<UnitID, Unit *> m_UnitMap;
+    std::unordered_map<UnitID, Unit *> m_UnitMap;
 };

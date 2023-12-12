@@ -218,7 +218,7 @@ void UnitManager::getOnlineRole( UnitIDList & list ) const
     }
 }
 
-void UnitManager::getOnlineRole( UnorderedSet<UnitID> & s ) const
+void UnitManager::getOnlineRole( std::unordered_set<UnitID> & s ) const
 {
     for ( const auto & p : m_UnitMap ) {
         if ( p.second->getType() == UnitType::Role ) {

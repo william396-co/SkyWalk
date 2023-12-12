@@ -2,7 +2,6 @@
 
 #include "base/types.h"
 #include "base/endpoint.h"
-#include "utils/noncopyable.h"
 
 #include "configure/config.h"
 #include "configure/variableconfig.h"
@@ -12,7 +11,7 @@ class Variable_Data;
 };
 
 // 服务器参数(逻辑服务器)
-class ServerVariable : NonCopyable
+class ServerVariable 
 {
 public:
     ServerVariable( uint8_t machine, ZoneID zone, HostID id );

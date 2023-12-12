@@ -5,6 +5,7 @@
 #include <vector>
 #include <cassert>
 #include <cstdint>
+#include <unordered_map>
 
 #include "io.h"
 #include "base/types.h"
@@ -25,6 +26,10 @@ public:
 //
 class Harbor
 {
+    struct Node;
+    using NodeMap = std::unordered_map<HostID, Node *>;
+    using SessionMap = std::unordered_map<sid_t, HostID>;
+
 public:
     enum NodeType
     {
@@ -92,8 +97,6 @@ private:
               endpoint( ep_ )
         {}
     };
-    typedef UnorderedMap<HostID, Node *> NodeMap;
-    typedef UnorderedMap<sid_t, HostID> SessionMap;
 
     bool m_Withlock;
     EmptyLock * m_Lock;

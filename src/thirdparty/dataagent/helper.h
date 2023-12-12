@@ -1,10 +1,9 @@
-
-#ifndef __SRC_DATAAGENT_HELPER_H__
-#define __SRC_DATAAGENT_HELPER_H__
+#pragma once
 
 #include <map>
 #include <deque>
 #include <functional>
+#include <unordered_map>
 
 #include "base/types.h"
 #include "base/database.h"
@@ -27,7 +26,7 @@ class SchemeHelper
 public:
     SchemeHelper() = default;
     ~SchemeHelper() = default;
-    typedef std::function<void( SchemeHelper * )> Register;
+    using Register = std::function<void( SchemeHelper * )>;
 
 private:
     // 基于角色ID的查询索引
@@ -81,7 +80,7 @@ public:
         }
 
 private:
-    typedef std::pair<HostTypes, IDataRegister *> RegisterPair;
+    using RegisterPair = std::pair<HostTypes, IDataRegister *>;
     const TableProtoType * m_Prototype = nullptr;
     std::vector<Tablename> m_SysTables;
     std::map<Tablename, RegisterPair> m_UserTables;
@@ -91,7 +90,7 @@ private:
 class DirtyCache
 {
 public:
-    typedef std::function<void( ISQLData * )> BlockDestroyer;
+    using BlockDestroyer = std::function<void( ISQLData * )>;
 
     DirtyCache( const BlockDestroyer & destroyer ) : m_Destroyer( destroyer ) {}
     ~DirtyCache()
@@ -141,7 +140,7 @@ public:
 
 private:
     BlockDestroyer m_Destroyer;
-    UnorderedMap<Tablename, std::vector<ISQLData *>> m_DirtyTable;
+    std::unordered_map<Tablename, std::vector<ISQLData *>> m_DirtyTable;
 };
 
 // 结果处理器
@@ -189,7 +188,7 @@ public:
     void process( const Tablename & table, const Slices & results );
 
 private:
-    UnorderedMap<Tablename, std::pair<bool, Processor>> m_Processors;
+    std::unordered_map<Tablename, std::pair<bool, Processor>> m_Processors;
 };
 
 // 数据查询阶段
@@ -220,4 +219,3 @@ private :
 
 } // namespace data
 
-#endif

@@ -7,8 +7,8 @@
 #include "http/parser.h"
 #include "http/message.h"
 
-#include "json.h"
 #include "httpsvc.h"
+#include "utils/json.h"
 
 class HttpSession : public IIOSession
 {
@@ -150,11 +150,11 @@ bool HttpService::isRestricted( const std::string & account, int32_t count )
 
     if ( !m_AccessFilter.take( account, result ) ) {
         result.first = 0;
-        result.second = utils::TimeUtils::now();
+        result.second = utils::now();
     }
 
     if ( ++result.first > count ) {
-        return utils::TimeUtils::now() - result.second < 1000;
+        return utils::now() - result.second < 1000;
     }
 
     m_AccessFilter.put( account, result );

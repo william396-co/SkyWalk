@@ -1,6 +1,4 @@
-
-#ifndef __SRC_DATAAGENT_MANAGER_H__
-#define __SRC_DATAAGENT_MANAGER_H__
+#pragma once
 
 #include <functional>
 #include <set>
@@ -108,7 +106,7 @@ public:
 private:
     uint32_t m_Limit;
     data::IDataAgent * m_DataAgent;
-    UnorderedSet<ISQLData *> m_DestroyDataBlock; // 销毁data
+    std::unordered_set<ISQLData *> m_DestroyDataBlock; // 销毁data
     data::SchemeHelper m_SchemeHelper;  //
     std::vector<std::pair<ISQLData *, DBMethod>> m_DataChanges;
 };
@@ -119,4 +117,3 @@ private:
 #define g_DataAgent data::DataManager::instance().agent()
 #define g_SchemeHelper data::DataManager::instance().helper()
 
-#endif
