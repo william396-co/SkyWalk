@@ -18,7 +18,6 @@
 #include "utils/file.h"
 #include "utils/xtime.h"
 #include "utils/utility.h"
-#include "utils/integer.h"
 #include "utils/arguments.h"
 #include "utils/portability.h"
 #include "io/io.h"
@@ -91,7 +90,7 @@ private:
 MasterProcess::MasterProcess()
     : m_InstID( 0 ),
       m_Timezone( utils::TimeUtils::timezone() ),
-      m_StartTime( utils::TimeUtils::time( true ) ),
+      m_StartTime( utils::time( ) ),
       m_MasterPid( pthread_self() ),
       m_Status( RunStatus::Init ),
       m_Application( nullptr )
@@ -136,7 +135,7 @@ template<> int64_t MasterProcess::env( const std::string & key, const int64_t & 
 void MasterProcess::help()
 {
     fmt::print( "{} Version: {}-v{}, Timezone:{}, with {}, with {}\n",
-        m_Appname, m_Module, m_AppVersion, m_Timezone, IIOService::version(), utils::ThreadLock::version() );
+        m_Appname, m_Module, m_AppVersion, m_Timezone, IIOService::version(), "Mutex");
     fmt::print( "Usage: {} [-vd] [-h <host>] [-p <port>] [-w <working directory>] [-i <instance>]\n\n", m_Module );
     fmt::print( "Options:\n" );
     fmt::print( "   -d                      : daemonize\n" );
@@ -150,7 +149,7 @@ void MasterProcess::help()
 void MasterProcess::version()
 {
     fmt::print( "{} Version: {}-v{}, Timezone:{}, with {}, with {}\n",
-        m_Appname, m_Module, m_AppVersion, m_Timezone, IIOService::version(), utils::ThreadLock::version() );
+        m_Appname, m_Module, m_AppVersion, m_Timezone, IIOService::version(), "Mutex");
 }
 
 void MasterProcess::init( int argc, const char ** argv, const char * appname, const char * appversion )
@@ -194,7 +193,7 @@ void MasterProcess::init( int argc, const char ** argv, const char * appname, co
         m_InstID = std::atoi( val.c_str() );
         if ( m_InstID != 0 ) {
             m_Module += "#";
-            m_Module += utils::Integer::toString( m_InstID );
+            m_Module += std::to_string( m_InstID );
         }
     }
 
@@ -407,7 +406,7 @@ int32_t MasterProcess::diskusage() const
 
 int64_t MasterProcess::uptime() const
 {
-    return utils::TimeUtils::time( true ) - m_StartTime;
+    return utils::time() - m_StartTime;
 }
 
 double MasterProcess::cputime() const

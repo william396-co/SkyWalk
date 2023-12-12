@@ -3,8 +3,8 @@
 #include <cstdlib>
 #include <algorithm>
 
+#include "utils/spinlock.h"
 #include "harbor.h"
-#include "utils/atomic.h"
 
 class HarborLock : public EmptyLock
 {
@@ -15,7 +15,7 @@ public:
     virtual void unlock() { m_Lock.unlock(); }
 
 private:
-    utils::Atomic m_Lock;
+    utils::SpinLock m_Lock;
 };
 
 Harbor::Harbor( bool withlock )

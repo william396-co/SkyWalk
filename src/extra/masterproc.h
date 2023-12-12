@@ -1,6 +1,4 @@
-
-#ifndef __SRC_EXTRA_MASTERPROCESS_H__
-#define __SRC_EXTRA_MASTERPROCESS_H__
+#pragma once
 
 #include <queue>
 #include <stdint.h>
@@ -11,7 +9,6 @@
 
 #include "base/types.h"
 #include "base/endpoint.h"
-#include "utils/lock.h"
 #include "utils/thread.h"
 #include "utils/singleton.h"
 #include "domain/serverstats.h"
@@ -182,5 +179,3 @@ private:
 
 #define MASTER MasterProcess::instance()
 #define APPLICATION MasterProcess::instance().application()
-
-#endif

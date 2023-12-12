@@ -1,5 +1,6 @@
 
 #include <chrono>
+#include <unistd.h>
 
 #include "base/base.h"
 
@@ -197,8 +198,8 @@ bool Slave::initialize( const char * module,
     // 等待
     if ( timeout > 0 ) {
         // 计算超时时间
-        std::unique_lock<std::mutex> guard( m_Lock );
-        m_Cond.wait_for( guard,
+        std::unique_lock<std::mutex> lk( m_Lock );
+        m_Cond.wait_for( lk,
             std::chrono::seconds( timeout ),
             [this]() {
                 return m_HostID != 0 || m_HostID == (HostID)-1;
@@ -216,13 +217,13 @@ void Slave::finalize()
 
 HostID Slave::hostid()
 {
-    std::unique_lock<std::mutex> guard( m_Lock );
+    std::lock_guard lock( m_Lock );
     return m_HostID;
 }
 
 HostType Slave::hosttype()
 {
-    std::unique_lock<std::mutex> guard( m_Lock );
+    std::lock_guard lock( m_Lock );
     return m_HostType;
 }
 
@@ -240,35 +241,35 @@ HostID Slave::getHostID( HostType type ) const
 
 void Slave::updateFramework( SSMessage * message )
 {
-    std::unique_lock<std::mutex> guard( m_Lock );
     FrameworkCommand * cmd = (FrameworkCommand *)message;
+    {
+        std::lock_guard lock( m_Lock );
 
-    // 设置主机ID和主机类型
-    m_HostType = cmd->hosttype;
-    m_HostID = cmd->hostid == 0 ? -1 : cmd->hostid;
+        // 设置主机ID和主机类型
+        m_HostType = cmd->hosttype;
+        m_HostID = cmd->hostid == 0 ? -1 : cmd->hostid;
 
-    // Master中会填充跨服服务器信息
-    if ( cmd->hosttype == HostType::Master ) {
-        // 填充跨服信息
-        m_SysConf->getFramework()->updateGlobalHosts( cmd->endpoints );
-    } else {
-        // 设置framework
-        m_SysConf->setServerID( cmd->hostid );
-        m_SysConf->setPfID( cmd->pfid );
-        m_SysConf->setMachineID( cmd->machineid );
-        m_SysConf->setAppID( cmd->appid );
-        m_SysConf->setZoneID( cmd->zoneid );
-        m_SysConf->setStartTime( cmd->starttime );
-        m_SysConf->setZoneMode( cmd->zonemode );
-        m_SysConf->setMergeList( cmd->mergezonelist );
-        m_SysConf->setConnectList( cmd->connectlist );
-        m_SysConf->getFramework()->setSessTimeout( cmd->sesstimeout );
-        m_SysConf->getFramework()->setThreadCount( cmd->threadcount );
-        m_SysConf->getFramework()->updateLocalHosts( cmd->endpoints );
+        // Master中会填充跨服服务器信息
+        if ( cmd->hosttype == HostType::Master ) {
+            // 填充跨服信息
+            m_SysConf->getFramework()->updateGlobalHosts( cmd->endpoints );
+        } else {
+            // 设置framework
+            m_SysConf->setServerID( cmd->hostid );
+            m_SysConf->setPfID( cmd->pfid );
+            m_SysConf->setMachineID( cmd->machineid );
+            m_SysConf->setAppID( cmd->appid );
+            m_SysConf->setZoneID( cmd->zoneid );
+            m_SysConf->setStartTime( cmd->starttime );
+            m_SysConf->setZoneMode( cmd->zonemode );
+            m_SysConf->setMergeList( cmd->mergezonelist );
+            m_SysConf->setConnectList( cmd->connectlist );
+            m_SysConf->getFramework()->setSessTimeout( cmd->sesstimeout );
+            m_SysConf->getFramework()->setThreadCount( cmd->threadcount );
+            m_SysConf->getFramework()->updateLocalHosts( cmd->endpoints );
+        }
     }
-
     // 通知逻辑层
-    guard.unlock();
     m_Cond.notify_all();
 
     // 打印调试信息
@@ -301,7 +302,7 @@ void Slave::sendRegisterCommand( HostID id, HostType type, const Endpoint & ep )
     char cwdpath[512];
     std::string dirpath, procmark = m_Module;
 
-    getcwd( cwdpath, 511 );
+    ::getcwd( cwdpath, 511 );
     {
         std::string exepath, basename;
         utils::Utility::getExePath( exepath );

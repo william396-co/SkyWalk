@@ -6,7 +6,6 @@
 #include "base/database.h"
 
 #include "utils/slice.h"
-#include "utils/noncopyable.h"
 
 namespace kaguya {
 class State;
@@ -47,7 +46,7 @@ public:
     virtual void datasets( const Tablename & table, const Slices & results ) = 0;
 };
 
-class IDataAgent : NonCopyable
+class IDataAgent 
 {
 public:
     IDataAgent() {}

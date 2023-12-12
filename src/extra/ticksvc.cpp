@@ -9,7 +9,7 @@ EveryMinuteTimer::EveryMinuteTimer( const TimerFunction & func )
     : m_LastTimestamp( 0LL ),
       m_TimerFunction( func )
 {
-    setTimestamp( utils::TimeUtils::time() );
+    setTimestamp( utils::time() );
 }
 
 void EveryMinuteTimer::onEnd()
@@ -53,7 +53,7 @@ void EveryMinuteTimer::setTimestamp( time_t now )
 ///////////////////////////////////////////////////////////////////////////////
 
 TickService::TickService( uint32_t precision )
-    : m_Timestamp( utils::TimeUtils::now() ),
+    : m_Timestamp( utils::now() ),
       m_TimerManager( eTickService_BucketCount, precision )
 {}
 

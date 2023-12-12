@@ -136,7 +136,7 @@ add_subdirectory(src/thirdparty/io)
 #add_subdirectory(src/thirdparty/redis)
 add_subdirectory(src/thirdparty/mysql)
 add_subdirectory(src/thirdparty/lua)
-#add_subdirectory(src/thirdparty/http)
+add_subdirectory(src/thirdparty/http)
 #add_subdirectory(src/thirdparty/rapidjson)
 
 # extra

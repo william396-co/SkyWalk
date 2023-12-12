@@ -162,9 +162,9 @@ void ILuaEnv::initEnviroment()
     // 定义全局函数
     ( *m_State )["logger"] = ILuaEnv::logger;
     ( *m_State )["traverse"] = ILuaEnv::traverse;
-    ( *m_State )["time"] = utils::TimeUtils::time;
-    ( *m_State )["now"] = utils::TimeUtils::now;
-    ( *m_State )["current"] = utils::TimeUtils::current;
+    ( *m_State )["time"] = utils::time;
+    ( *m_State )["now"] = utils::now;
+    ( *m_State )["current"] = utils::current;
     ( *m_State )["getcwd"] = utils::PathUtils::getcwd;
 
     // 注册其他接口
