@@ -1,0 +1,33 @@
+#
+# TransitServer配置文件
+#
+
+#
+# 全局配置
+#
+# loglevel          - 日志等级, 4-INFO, 5-TRACE, 6-DEBUG
+# logfilesize       - 日志文件大小100M
+# needconnect 		- 需要连接的后端服务类型列表
+# masterserver 		- 管理服务器地址
+#
+
+[Global]
+loglevel        = 6
+logfilesize     = 104857600
+needconnect 	=
+masterserver 	= 127.0.0.1:11111
+
+#
+# 服务配置
+# precision 		- 时间精度
+# threadscount 		- IO线程个数
+# sessiontimeout 	- 会话超时时间90s
+# maxclientscount 	- 最高在线人数
+# networkoptions 	- KCP网络参数，mtu,minrto,sndwnd,rcvwnd,stream,resend,deaklink,interval
+#
+[Service]
+precision = 4
+threadscount 	= 4
+sessiontimeout 	= 90
+maxclientscount = 10000
+networkoptions = 1400,30,64,64,1,2,,50,40

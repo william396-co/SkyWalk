@@ -1,0 +1,12 @@
+
+需要安装
+Python3.x/xlrd-1.2.0
+
+完整命令
+python3 xls2xmls.py <excel_path> <dst_path> <language> <revision> <excel_version> <excel_patch_version>
+python3 xls2luas.py <excel_path> <dst_path> TRUE <svn_branch> <excel_version> <revision>
+
+
+运营活动简化命令
+python3 xls2xmls.py <excel_path> <dst_path> cn -1 999 999 
+python3 xls2luas.py <excel_path> <dst_path> TRUE M1 999 0

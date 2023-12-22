@@ -1,0 +1,47 @@
+#
+# DataServer 配置文件
+#
+
+#
+# 全局配置
+#
+# loglevel          - 日志等级, 4-INFO, 5-TRACE, 6-DEBUG
+# logfilesize       - 日志文件大小100M
+# dbthreads         - DB线程个数
+# flushinterval     - 存档时间间隔 300秒
+# cachelifetime 	- 最大缓存时间, 1800秒
+# startupscript    	- 启动脚本
+# routinescript 	- 入口脚本
+# masterserver 		- 管理服务器地址
+# ignoreerrors 		- 忽略的mysql报错 
+#
+
+[Global]
+loglevel        = 6
+logfilesize     = 104857600
+dbthreads       = 8
+flushinterval   = 300
+cachelifetime 	= 1800 
+startupscript   = startup.py
+routinescript   = scripts/routine.lua
+masterserver 	= 127.0.0.1:10811
+ignoreerrors 	= 
+
+#
+# MySQL设置
+#
+# host              - MYSQL服务器地址
+# port              - MYSQL服务器端口
+# username          - 数据库访问用户
+# password          - 数据库访问密码
+# charsets          - 连接编码
+# database          - 访问的库名
+#
+
+[Database]
+host            = 127.0.0.1
+port            = 3306
+username        = develop 
+password        = zRAAosw38_ 
+charsets        = utf8mb4
+database        = gamev3 

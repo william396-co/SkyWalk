@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<config>
+	<regions> <!-->多区域<!-->
+		<region>cn</region>
+	</regions>
+	<onlinecount>20000</onlinecount><!-->最大在线人数，默认<!-->
+	<appversion>1.0.9</appversion><!-->app版本号<!-->
+	<versionlist> <!-->客户端版本列表<!-->
+		<version>1.0.7.33</version>
+		<version>1.0.8.20</version>
+		<version>1.0.9.1</version>
+	</versionlist>
+	<actversion>0</actversion><!-->运营活动版本号<!-->
+	<importzone>0</importzone><!-->导入区服，默认<!-->
+	<zonegroup>1</zonegroup><!-->小跨服组别，默认<!-->
+	<pay> <!-->首充重置<!-->
+		<reset id="1" starttime="1687674247" endtime="1703850168"/>
+		<reset id="2" starttime="1703850168" endtime="1735472568"/>
+	</pay>
+</config>
+

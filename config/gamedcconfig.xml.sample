@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Root>
+	<Platform>wekey</Platform>
+	<Version>1.2.1</Version>
+	<Gamedc>
+		<LogPath>gamedc</LogPath>
+		<Filter path="analysis">
+			<Except event="resource_change" />
+		</Filter>
+		<LogName>bleach</LogName>
+		<LogFilesize>0</LogFilesize>
+	</Gamedc>
+</Root>

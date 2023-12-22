@@ -1,0 +1,89 @@
+#!/bin/bash
+
+# $1 - 分支
+# $2 - 语言
+# $3 - 版本号
+# $4 - 补丁版本号
+# $5 - 导出的目录
+
+# 配置文件
+PROJECTPROFILE=.projectprofile
+
+# 主要参数
+OUTLANG=cn
+OUTPATH=bin
+SVNBRANCH=devel
+# EXCELS_VERSION
+#EXCELS_VERSION=`curl -s http://172.21.161.70:8082/jenkins/job/update_excels_version/ws/EXCELS_VERSION/*view*/`
+EXCELS_VERSION=150
+EXCELS_PATCH_VERSION=$EXCELS_VERSION
+# 配置目录
+CONFIGURE=/tmp/design_`whoami`_`date +%s`
+
+# 读取配置文件
+if [ -f $PROJECTPROFILE ]; then
+	while read line;do
+    	eval "$line"
+	done < $PROJECTPROFILE
+fi
+# SVN命令行参数
+SVNPARAMS="--non-interactive --trust-server-cert-failures="unknown-ca,cn-mismatch,expired,not-yet-valid,other" --username $SVNUSER --password $SVNPASSWORD"
+
+if [ "$1" != "" ]; then
+	SVNBRANCH=$1
+fi
+if [ "$2" != "" ]; then
+	OUTLANG=$2
+fi
+if [ "$3" != "" ]; then
+	EXCELS_VERSION=$3
+fi
+if [ "$4" != "" ]; then
+	EXCELS_PATCH_VERSION=$4
+fi
+if [ "$5" != "" ]; then
+	OUTPATH=$5
+fi
+
+if [ -d $CONFIGURE ]; then
+	rm -rf $CONFIGURE
+fi
+
+# 新建输出目录
+if [ ! -d $OUTPATH ]; then
+	mkdir -p $OUTPATH/scripts/config
+	mkdir -p $OUTPATH/config/gameconfig
+	mkdir -p $OUTPATH/scripts/config/gameconfig
+fi
+
+echo "OUTPATH: "$OUTPATH
+echo "LANGUAGE: "$OUTLANG
+echo "EXCELS_VERSION: "$EXCELS_VERSION
+echo "EXCELS_PATCHVERSION: "$EXCELS_PATCH_VERSION
+
+#
+mkdir $CONFIGURE
+
+# 导出SVN
+svn export --force $SVNPARAMS $SVNURL/$SVNBRANCH/ $CONFIGURE
+REVISION=`svn info --show-item last-changed-revision $SVNPARAMS $SVNURL/$SVNBRANCH`
+
+# GIT版本
+GITPATH=`git rev-parse --show-cdup`
+if [ "$GITPATH" == "" ]; then
+	GITREVISION=`git rev-parse HEAD:./scripts/fight`
+else
+	GITREVISION=`git rev-parse HEAD:$GITPATH/scripts/fight`
+fi
+if [[ $GITREVISION == fatal* ]]; then
+	GITREVISION = ""
+fi
+echo "GITREVISION: "$GITREVISION
+
+# 导出XML
+cp -a $CONFIGURE/json $OUTPATH/scripts/config/gameconfig/
+python3 tools/cfgexport/xls2xmls.py $CONFIGURE $OUTPATH/config/gameconfig $OUTLANG $REVISION $GITREVISION $EXCELS_VERSION $EXCELS_PATCH_VERSION
+python3 tools/cfgexport/xls2luas/xls2luas.py $CONFIGURE $OUTPATH/scripts TRUE $SVNBRANCH $EXCELS_VERSION $REVISION
+
+#
+rm -rf $CONFIGURE

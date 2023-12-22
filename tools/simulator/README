@@ -1,0 +1,19 @@
+准备：
+prototype需要自建
+svn checkout svn://192.168.78.129/projectFight/doc/%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83/%E5%8D%8F%E8%AE%AE%E5%AE%9A%E4%B9%89/prototype
+
+
+服务器地址，端口，用户名，角色等，需要修改config.ini文件
+角色不存在时会自动创建并跳过新手战斗
+
+使用：
+./simulator.py
+Ctrl-C 取消
+Ctrl-D 退出
+Ctrl-R 搜索历史
+
+#command 聊天框GM命令
+    #getuid, #add等等
+$command 内置命令
+    $sleep.只收消息，Ctrl-C取消
+    $run跑脚本，目前实现有auto_fight.py（自动战斗），key.py（实时按键）,Ctrl-C终止

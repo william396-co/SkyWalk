@@ -1,0 +1,45 @@
+#
+# CopyServer 配置文件
+#
+
+#
+# 全局配置
+#
+# loglevel          		- 日志等级, 4-INFO, 5-TRACE, 6-DEBUG
+# logfilesize       		- 日志文件大小100M
+# logicalpath               - 逻辑配置目录
+# masterserver 				- 管理服务器地址
+#
+
+[Global]
+loglevel        		= 6
+logfilesize     		= 104857600
+logicalpath             = config/gameconfig
+masterserver 			= 127.0.0.1:10811
+
+#
+# 战斗配置
+#
+# unverifydays		- 开服多少天内不校验
+# threadscount 		- 战斗线程
+# scriptspath	  	- 脚本根目录
+# routinescript		- 战斗逻辑入口脚本
+#
+[Battle]
+unverifydays			= 1
+threadscount 			= 4
+scriptspath	 			= scripts
+routinescript 			= scripts/fight/fight.lua
+
+#
+# debug参数
+# luaprofiler 		- lua脚本性能分析
+# luamemchecker 	- lua脚本内存检测
+# memchkinterval 	- 脚本内存检测间隔
+# gcmemusage 		- 手动gc阈值(200M)
+#
+[DebugHelper]
+luaprofiler 			= 0
+luamemchecker 			= 0
+memchkinterval 			= 60
+gcmemusage				= 209715200

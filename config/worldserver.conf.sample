@@ -1,0 +1,40 @@
+#
+# WorldServer 配置文件
+#
+
+#
+# 全局配置
+#
+# loglevel          - 日志等级, 4-INFO, 5-TRACE, 6-DEBUG
+# logfilesize       - 日志文件大小100M
+# cachecapacity		- 离线缓存的容量
+# preloadlastdays 	- 预加载最近几天活跃的玩家
+# logicalpath 		- 逻辑配置目录
+# routinescript		- 逻辑入口脚本
+# keepincache       - 在缓存服务器中保留数据
+# masterserver 		- 管理服务器地址
+#
+
+[Global]
+loglevel        	= 6
+logfilesize     	= 104857600
+cachecapacity		= 40960
+preloadlastdays 	= 0
+keepincache         = 0
+logicalpath 		= config/gameconfig
+routinescript 		= scripts/routine.lua
+masterserver 		= 127.0.0.1:10811
+
+#
+# 战斗配置
+#
+# threadscount 		- 战斗线程
+# routinescript		- 战斗逻辑入口脚本
+# videocachesize 	- 战报缓存条数
+#
+
+[Battle]
+threadscount 		= 4
+routinescript 		= scripts/battle.lua
+videocachesize 		= 5000
+

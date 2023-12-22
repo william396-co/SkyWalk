@@ -1,0 +1,139 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import re
+import os
+import hashlib
+import datad
+import pymysql as MySQLdb
+
+# 处理
+def startup_fix( db ) :
+    # 清空战报
+    # db.handler.execute( 'DELETE FROM CombatVideo' )
+    db.importdb( datad.scripts()[1] )
+    db.commit()
+
+#####################################################################
+#####################################################################
+#####################################################################
+
+class MySQLDatabase() :
+    def __init__( self ) :
+        self.conn = None
+        self.handler = None
+
+    # 连接MySQL
+    def connect( self, host, port, username, password, charsets ) :
+        self.conn = MySQLdb.connect(
+                host=host, user=username,
+                passwd=password, port=port, charset=charsets )
+        self.handler = self.conn.cursor()
+
+    # 断开
+    def disconnect( self ) :
+        self.handler.close()
+        self.conn.close()
+
+    # 提交
+    def commit( self ) :
+        self.conn.commit()
+
+    # 选择数据库
+    def selectdb( self, database ) :
+        self.conn.select_db( database )
+
+    # 导入SQL文件
+    def importdb( self, sqlfile ) :
+        if not os.path.exists( sqlfile ) :
+            return
+        statement = ""
+        for line in open( sqlfile ) :
+            line = line.rstrip()
+            line = line.rstrip( '\t' )
+            if re.match( r'--', line ) :
+                continue
+            elif re.match( r'/*!', line ) :
+                continue
+            if not re.search( r';$', line ) :
+                statement = statement + line
+            else :
+                statement = statement + line
+                datad.logger( 5, 'STARTUP::FIX SQLCMD: \"%s\"\n' %( statement ) )
+                try :
+                    self.handler.execute( statement )
+                except (MySQLdb.OperationalError, MySQLdb.ProgrammingError) as e :
+                    print( "[WARN] MySQLError during execute statement Args: '%s'" % (str(e.args)) )
+                statement = ""
+
+    # 创建数据库
+    def createdb( self, database, charsets ) :
+        self.handler.execute( "SHOW DATABASES LIKE '%s'" % database )
+        if not self.handler.fetchall() :
+            datad.logger( 4, "create DATABASE '%s' ...\n" %( database ) )
+            self.handler.execute( 'CREATE DATABASE IF NOT EXISTS %s Character Set %s' % (database, charsets) )
+            # 建表
+            self.conn.select_db( database )
+            self.importdb( datad.scripts()[0] )
+            self.commit()
+            datad.logger( 4, "create DATABASE '%s' succeed .\n" %( database ) )
+
+#####################################################################
+#####################################################################
+#####################################################################
+
+# 启动处理器
+class StartupProcessor() :
+    def __init__( self ) :
+        self.md5 = ""
+        self.metafile = "meta/STARTUP"
+        self.startupfile = __file__
+        self.modifyfile = datad.scripts()[1]
+
+    def calc( self ) :
+        md5sum = hashlib.md5()
+        f = open( self.startupfile )
+        md5sum.update( f.read().encode('utf-8') )
+        f.close()
+        f = open( self.modifyfile )
+        md5sum.update( f.read().encode('utf-8') )
+        f.close()
+        self.md5 = md5sum.hexdigest()
+        return self.md5
+
+    def ischanged( self ) :
+        self.calc()
+        if not os.path.isfile( self.metafile ) :
+            return True 
+        f = open( self.metafile )
+        md5 = f.read()
+        f.close()
+        return self.md5 != md5 
+
+    def save2( self ) :
+        f = open( self.metafile, "w+" )
+        f.write( self.md5 );
+        f.close()
+
+# 主函数
+if __name__ == "__main__" :
+    host,port = datad.myendpoint()
+    username,password = datad.mytoken()
+    database = datad.mydatabase()
+    charsets = datad.mycharsets()
+    datad.logger( 5, 'mysql://%s:%s@%s:%d/%s .\n' %( username, password, host, port, database ) )
+    # 连接
+    db = MySQLDatabase()
+    db.connect( host, port,
+            username, password, charsets )
+    # 创建数据库
+    db.createdb( database, charsets )
+    db.selectdb( database )
+    # 处理
+    processor = StartupProcessor()
+    if processor.ischanged() :
+        datad.logger( 4, "run the scripts %s::startup_fix(), VERSION:%s ...\n" % (processor.startupfile, processor.md5) )
+        startup_fix( db )
+        processor.save2()
+    # 销毁
+    db.disconnect()

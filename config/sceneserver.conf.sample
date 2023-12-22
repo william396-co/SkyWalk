@@ -1,0 +1,40 @@
+#
+# SceneServer 配置文件
+#
+
+#
+# 全局配置
+#
+# loglevel          		- 日志等级, 4-INFO, 5-TRACE, 6-DEBUG
+# logfilesize       		- 日志文件大小100M
+# logicalpath               - 逻辑配置目录
+# routinescript			    - 逻辑入口脚本
+# keepincache               - 在缓存服务器中保留数据
+# cachecapacity				- 离线缓存的容量
+# masterserver 				- 管理服务器地址
+#
+
+[Global]
+loglevel        		= 6
+logfilesize     		= 104857600
+logicalpath             = config/gameconfig
+routinescript           = scripts/routine.lua
+keepincache             = 0
+cachecapacity			= 2048
+masterserver 			= 127.0.0.1:10811
+
+#
+# 战斗配置
+#
+# unverifyhours		- 创角多少小时内不校验
+# threadscount 		- 战斗线程
+# routinescript		- 战斗逻辑入口脚本
+# videocachesize 	- 战报缓存条数
+#
+
+[Battle]
+unverifyhours 			= 24
+threadscount 			= 4
+routinescript 			= scripts/battle.lua
+videocachesize 			= 5000
+
