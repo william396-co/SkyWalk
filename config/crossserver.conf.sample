@@ -1,0 +1,33 @@
+#
+# CrossServer 配置文件
+#
+
+#
+# 全局配置
+#
+# loglevel          - 日志等级, 4-INFO, 5-TRACE, 6-DEBUG
+# logfilesize       - 日志文件大小100M
+# logicalpath 		- 逻辑配置目录
+# routinescripts	- 逻辑入口脚本
+# needconnect 		- 需要连接的后端服务类型列表
+# masterserver 		- 管理服务器地址
+#
+
+[Global]
+loglevel        	= 6
+logfilesize     	= 104857600
+logicalpath			= config/gameconfig
+needconnect 		= 12
+routinescripts 		= scripts/routine.lua
+masterserver 		= 127.0.0.1:11111
+
+#
+# 战斗配置
+#
+# threadscount 		- 战斗线程
+# routinescripts	- 战斗逻辑入口脚本
+#
+[Battle]
+threadscount 		= 4
+routinescripts 		= scripts/battle.lua
+

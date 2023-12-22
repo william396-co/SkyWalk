@@ -1,0 +1,36 @@
+#
+# GateServer 配置文件
+#
+
+#
+# 全局配置
+#
+# loglevel          - 日志等级, 4-INFO, 5-TRACE, 6-DEBUG
+# logfilesize       - 日志文件大小100M
+# syncstatus 		- 需要同步状态的后端服务器类型
+# needregister 		- 需要注册的后端服务类型列表
+# masterserver 		- 管理服务器地址
+#
+
+[Global]
+loglevel        = 6
+logfilesize     = 104857600
+syncstatus 		= 3
+needregister 	= 2,3
+masterserver 	= 127.0.0.1:10811
+
+#
+# 服务配置
+# threadscount 			- IO线程个数
+# sessiontimeout		- 会话超时时间90s
+# maxclientscount 		- 最高在线人数
+# latencywarning        - 延迟预警
+# ignoremsgidlist 		- 忽略的消息列表(0x开头的16进制数)
+# dropofflinemsgidlist	- 丢弃的离线消息列表(0x开头的16进制数)
+[Service]
+threadscount 	= 4
+sessiontimeout 	= 90
+maxclientscount = 20000
+latencywarning  = 500
+ignoremsgidlist =
+dropofflinemsgidlist = 0x0101, 0x1102, 0x1106

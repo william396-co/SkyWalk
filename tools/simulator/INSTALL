@@ -1,0 +1,12 @@
+
+1. 安装importlib(https://pypi.python.org/pypi/importlib/)
+sudo python setup.py install
+
+2. 安装protobuf
+cd protobuf-2.5.0/python
+python setup.py build
+sudo python setup.py install
+
+3. 安装gevent(https://pypi.python.org/pypi/gevent#downloads)
+python setup.py build
+sudo python setup.py install

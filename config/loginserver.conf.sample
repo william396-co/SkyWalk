@@ -1,0 +1,69 @@
+#
+# LoginServer 配置文件
+#
+
+#
+# 全局配置
+#
+# loglevel			- 日志等级,4-INFO, 5-TRACE, 6-DEBUG
+# logfilesize 		- 日志文件大小100M
+# verifymode 		- 认证模式,1: Block; 2: Allow
+# accountlist 		- 账号列表
+# masterserver 		- 管理服务器地址
+#
+
+[Global]
+loglevel 			= 6
+logfilesize 		= 104857600
+verifymode 			= 1
+accountlist 		=
+masterserver 		= 127.0.0.1:10811
+
+#
+# 平台接入
+#
+# appkey 			- 平台的应用KEY
+# appsecret			- 平台的应用密钥
+# payurl			- 支付的URL地址(LCM:https://lcm-sand-cn-live.mobage.cn)
+# authurl 			- 认证的URL地址(LCM:https://lcm-sand-cn-live.mobage.cn)
+#
+
+[Platform]
+appkey 				= 13002011
+appsecret 			= 059b2a2c3c15f18c4283506cfbcb9921487d6fd2
+payurl 				= https://lcm-prod-cn-live.mobage.cn
+authurl 			= https://lcm-prod-cn-live.mobage.cn
+
+#
+# threadscount		- 网络线程的个数
+# accesslimits 		- 每秒访问限制数
+# sessiontimeout	- 会话超时时间90s
+# maxclientscount   - 最高在线人数
+#
+
+[AccessService]
+threadscount 		= 4
+accesslimits 		= 80
+sessiontimeout 		= 90
+maxclientscount 	= 10000
+
+#
+# Redis设置
+#
+# host              - Redis服务器地址
+# port              - Redis服务器端口
+# token 			- 数据库访问密码
+# mode 				- 运行模式, 1-集群;2-单机
+# channels 			- 订阅的频道
+# connections       - 连接数
+# threadscount      - 线程数
+#
+
+[Database]
+host 			= 127.0.0.1 
+port 			= 6379
+token 			= 
+mode 			= 1
+channels 		= ope,xxx
+connections     = 20
+threadscount    = 4

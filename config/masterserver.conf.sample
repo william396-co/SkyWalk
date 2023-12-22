@@ -1,0 +1,97 @@
+#
+# MasterServer 配置文件
+#
+
+#
+# 全局配置
+#
+# loglevel          		- 日志等级, 4-INFO, 5-TRACE, 6-DEBUG
+# logfilesize       		- 日志文件大小100M
+# apithreads 				- 平台API线程个数
+# apiurl 					- 平台API地址
+# globalserver 				- 全局服务器地址
+#
+[Global]
+loglevel 				= 6
+logfilesize 			= 104857600
+apithreads				= 4
+apiurl 					= http://127.0.0.1:3350
+#globalserver 			= 127.0.0.1:11111
+
+#
+# 区服ID最大不超过2048
+#
+# pf 				平台ID
+# machine 			机房ID
+# appid 			应用ID
+# zonemode 			服务器模式, 0混合模式, 1测试服, 2正式服
+# zoneindex			区服索引
+# startdate			开服日期
+# mergezonelist		合到本服的区副列表
+#
+[Zone]
+pf 					= 1
+machine 			= 1
+appid 				= 13002011
+zonemode 			= 0
+zoneindex 			= 1
+startdate			= 2010-10-10
+mergezonelist		=
+
+#
+# GM服务
+#
+# bindhost 			绑定的IP地址
+# listenport 		监听的端口号
+# timeoutseconds 	超时时间
+#
+[GMService]
+bindhost            = 127.0.0.1
+listenport         	= 10812
+timeoutseconds      = 30
+
+###############################################################################
+# 框架配置
+###############################################################################
+
+#
+# 服务器类型标识
+# 	1. 网关服务器(Gate)
+# 	2. 场景服务器(Scene)
+# 	3. 世界服务器(World)
+# 	4. 副本服务器(Copy)
+# 	5. 日志服务器(Logger)
+# 	6. 数据服务器(Data)
+# 	7. 登录服务器(Login)
+#   8. 管理服务器(Master)
+#   11.全局服务器(Global)
+#   12.中转服务器(Transit)
+#   13.跨服服务器(Cross)
+#
+#
+# 格式说明
+#	端口说明 10721 : 1:暂无意义
+#					 07:服务器类型
+#					 2:代表此端口谁在使用 值为1是二货张磊   2是海枝哥哥   3是邹海滨
+#					 1:代表内外网 值为1是内网ip 2是外网ip
+#
+# 	id = type:内网ip:内网port:外网ip:外网port:进程标识
+#
+#	单区的服务器ID必须小于128
+# 	集群的服务器ID必须大于128
+#
+# 	没有的项目留空即可
+# 	内网服务器不需要配置外网的ip和port
+# 	网关服务器不需要配置内网的port
+#
+
+[Framework]
+threadcount 	= 2
+sessiontimeout 	= 30
+host1 			= 1:127.0.0.1::127.0.0.1:8011:gated:2,3,4,7
+host2 			= 2:127.0.0.1:10211:::scened:3,7
+host3 			= 3:127.0.0.1:10311:::worlded:7,12,13
+host4 			= 6:127.0.0.1:10611:::datad:
+host5 			= 7:127.0.0.1:10711:::logind:
+host6 			= 8:127.0.0.1:10811:::masterd:11
+host7 			= 4:127.0.0.1:10411:::copyd:2,3

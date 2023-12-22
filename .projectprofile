@@ -1,0 +1,10 @@
+ROOT=/home/william/server
+SVNURL=https://svn.wekeystudio.local/repos/bleach/data
+SVNUSER=magic_deploy
+SVNPASSWORD=yi9f_XYGw.
+SVNBRANCH=devel
+DBHOST=172.28.1.12
+DBPORT=3306
+DBUSER=develop
+DBPASSWORD=zRAAosw38_
+DBDATABASE=bleach_s0027
