@@ -3,7 +3,8 @@
 #include <vector>
 #include <string>
 #include <stdint.h>
-#include "format.h"
+#include <format>
+
 #include "utils/slice.h"
 
 enum class DBMethod
@@ -85,7 +86,7 @@ inline DBMethod shift_dbmethod( DBMethod from, DBMethod to )
                 case DBMethod::Update: method = DBMethod::Insert; break;
                 case DBMethod::Remove: method = DBMethod::None; break;
                 case DBMethod::Insert: method = DBMethod::Insert; break;
-                case DBMethod::Replace: method = DBMethod::Replace; break;
+                case DBMethod::Replace: method = DBMethod::Insert; break;
                 case DBMethod::Invoke: method = DBMethod::Insert; break;
                 default: method = from; break;
             }
@@ -96,7 +97,7 @@ inline DBMethod shift_dbmethod( DBMethod from, DBMethod to )
                 case DBMethod::Remove: method = DBMethod::Remove; break;
                 case DBMethod::Insert: method = DBMethod::Update; break;
                 case DBMethod::Update: method = DBMethod::Update; break;
-                case DBMethod::Replace: method = DBMethod::Replace; break;
+                case DBMethod::Replace: method = DBMethod::Update; break;
                 case DBMethod::Invoke: method = DBMethod::Update; break;
                 default: method = from; break;
             }
@@ -107,7 +108,7 @@ inline DBMethod shift_dbmethod( DBMethod from, DBMethod to )
                 case DBMethod::Insert: method = DBMethod::Update; break;
                 case DBMethod::Update: method = DBMethod::Insert; break;
                 case DBMethod::Remove: method = DBMethod::Remove; break;
-                case DBMethod::Replace: method = DBMethod::Replace; break;
+                case DBMethod::Replace: method = DBMethod::Update; break;
                 case DBMethod::Invoke: method = DBMethod::Insert; break;
                 default: method = from; break;
             }
@@ -144,7 +145,7 @@ inline DBMethod shift_dbmethod( DBMethod from, DBMethod to )
     return method;
 }
 
-template<> struct fmt::formatter<DBMethod> {
+template<> struct std::formatter<DBMethod> {
     template <typename ParseContext>
         constexpr auto parse( ParseContext & pc ) -> decltype( pc.begin() )  {
         return pc.begin();
@@ -152,6 +153,6 @@ template<> struct fmt::formatter<DBMethod> {
 
     template <typename FormatContext>
         auto format( const DBMethod & value, FormatContext & fc ) const -> decltype( fc.out() ) {
-            return fmt::format_to( fc.out(), "{}", (int32_t)value );
+            return std::format_to( fc.out(), "{}", (int32_t)value );
         }
 };

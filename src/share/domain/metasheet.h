@@ -13,8 +13,8 @@
 #include <utility>
 #include <vector>
 #include <iostream>
+#include <format>
 
-#include "fmt/format.h"
 #include "utils/random.h"
 #include "utils/jsarray.h"
 #include "utils/reflection.h"
@@ -231,14 +231,14 @@ public:
                         error += field;
                     }
                     errorhandler( block->name(),
-                        fmt::format( "{}:'{}'", key, error ) );
+                        std::format( "{}:'{}'", key, error ) );
                 }
                 return false;
             }
 
             if ( keymaps.find( key ) != keymaps.end() ) {
                 errorhandler( block->name(),
-                    fmt::format( "{}:'{}'", key, "{Conflict Key}" ) );
+                    std::format( "{}:'{}'", key, "{Conflict Key}" ) );
                 return false;
             }
 
