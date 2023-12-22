@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <cassert>
 #include <cstring>
+#include <format>
 
 #include "base/base.h"
 
@@ -196,13 +197,13 @@ void ILuaEnv::reload( const std::set<std::string> & filelist )
         if ( suffix == "lua" ) {
             LOG_TRACE( "LuaEnv::reload('{}') ...\n", file );
             if ( path.find_first_of( root() ) != 0 ) {
-                scripts += fmt::format( "require('{0}.{1}'); hotfix:reload('{0}.{1}');", path, base );
+                scripts += std::format( "require('{0}.{1}'); hotfix:reload('{0}.{1}');", path, base );
             } else {
                 if ( path.size() == root().size() ) {
-                    scripts += fmt::format( "require('{0}'); hotfix:reload('{0}');", base );
+                    scripts += std::format( "require('{0}'); hotfix:reload('{0}');", base );
                 } else {
                     std::string rpath = path.substr( root().size() + 1 );
-                    scripts += fmt::format( "require('{0}.{1}'); hotfix:reload('{0}.{1}');", rpath, base );
+                    scripts += std::format( "require('{0}.{1}'); hotfix:reload('{0}.{1}');", rpath, base );
                 }
             }
         }

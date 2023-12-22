@@ -5,8 +5,8 @@
 #include <vector>
 #include <string>
 #include <pthread.h>
+#include <format>
 
-#include "base/format.h"
 #include "base/endpoint.h"
 #include "evlite/event.h"
 #include "evlite/network.h"
@@ -265,7 +265,7 @@ private:
     ConnectContexts m_ConnectContexts; // 正在连接的会话
 };
 
-template<> struct fmt::formatter<NetType> {
+template<> struct std::formatter<NetType> {
     template <typename ParseContext>
         constexpr auto parse( ParseContext & pc ) -> decltype( pc.begin() )  {
         return pc.begin();
@@ -273,7 +273,7 @@ template<> struct fmt::formatter<NetType> {
 
     template <typename FormatContext>
         auto format( const NetType & value, FormatContext & fc ) const -> decltype( fc.out() ) {
-            return fmt::format_to( fc.out(), "{}", (int32_t)value );
+            return std::format_to( fc.out(), "{}", (int32_t)value );
         }
 };
 

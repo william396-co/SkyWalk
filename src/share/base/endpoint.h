@@ -4,9 +4,10 @@
 #include <string>
 #include <cassert>
 #include <stdint.h>
+#include <format>
+#include <sstream>
 
 #include "types.h"
-#include "format.h"
 
 // 单区最大服务器编号
 #define HOSTID_BYTES 8
@@ -89,7 +90,7 @@ struct HostEndpoint
 };
 typedef std::vector<HostEndpoint> HostEndpoints;
 
-template<> struct fmt::formatter<HostType> {
+template<> struct std::formatter<HostType> {
     template <typename ParseContext>
         constexpr auto parse( ParseContext & pc ) -> decltype( pc.begin() )  {
         return pc.begin();
@@ -97,11 +98,33 @@ template<> struct fmt::formatter<HostType> {
 
     template <typename FormatContext>
         auto format( const HostType & value, FormatContext & fc ) const -> decltype( fc.out() ) {
-            return fmt::format_to( fc.out(), "{}", (int32_t)value );
+            return std::format_to( fc.out(), "{}", (int32_t)value );
         }
 };
 
-template<> struct fmt::formatter<Endpoint> {
+template<> struct std::formatter<HostTypes>
+{
+    template<typename ParseContext>
+    constexpr auto parse( ParseContext & pc ) -> decltype( pc.begin() )
+    {
+        return pc.begin();
+    }
+    template<typename FormatContext>
+    auto format( const HostTypes & values, FormatContext & fc ) const -> decltype( fc.out() )
+    {
+        std::ostringstream out;
+        for ( size_t i = 0; i != values.size(); ++i ) {
+            out << (int32_t)values[i];
+            if ( i != values.size() - 1 ) {
+                out << ",";
+            }
+        }
+
+        return std::format_to( fc.out(), "[{}]", out.str() );
+    }
+};
+
+template<> struct std::formatter<Endpoint> {
     template <typename ParseContext>
         constexpr auto parse( ParseContext & pc ) -> decltype( pc.begin() )  {
             return pc.begin();
@@ -109,6 +132,6 @@ template<> struct fmt::formatter<Endpoint> {
 
     template <typename FormatContext>
         auto format( const Endpoint & value, FormatContext & fc ) const -> decltype( fc.out() ) {
-            return fmt::format_to( fc.out(), "'{}'::{}", value.host, value.port );
+            return std::format_to( fc.out(), "'{}'::{}", value.host, value.port );
         }
 };

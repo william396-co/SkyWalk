@@ -162,8 +162,8 @@ TableCache::TableCache( const Tablename & table, bool iscomplete )
     : m_Table( table ),
       m_IsComplete( iscomplete )
 {
-    m_DataCache.rehash( std::ceil( eMaxBucketCount / m_DataCache.max_load_factor() ) );
-    m_IndexCache.rehash( std::ceil( eMaxBucketCount / m_IndexCache.max_load_factor() ) );
+  //  m_DataCache.rehash( std::ceil( eMaxBucketCount / m_DataCache.max_load_factor() ) );
+ //   m_IndexCache.rehash( std::ceil( eMaxBucketCount / m_IndexCache.max_load_factor() ) );
 }
 
 TableCache::~TableCache()

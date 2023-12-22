@@ -3,9 +3,9 @@
 #include <cstring>
 #include <cstdlib>
 #include <algorithm>
+#include <format>
 
 #include "base/base.h"
-#include "base/format.h"
 #include "base/modules.h"
 #include "utils/file.h"
 #include "utils/xtime.h"
@@ -250,7 +250,7 @@ std::string Framework::getInformation() const
     std::string prefix( 43, ' ' );
 
     for ( const auto & hep : m_HostEndpoints ) {
-        framework += fmt::format( "{}{:#03d} : Type:{}, Endpoint: {} .\n", prefix, hep.id, (uint8_t)hep.type, hep.endpoint );
+        framework += std::format( "{}{:#03d} : Type:{}, Endpoint: {} .\n", prefix, hep.id, (uint8_t)hep.type, hep.endpoint );
     }
 
     return framework;

@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cassert>
+#include <format>
 
 #include <sys/time.h>
 #include <sys/resource.h>
@@ -134,21 +135,21 @@ template<> int64_t MasterProcess::env( const std::string & key, const int64_t & 
 
 void MasterProcess::help()
 {
-    fmt::print( "{} Version: {}-v{}, Timezone:{}, with {}, with {}\n",
+    std::format( "{} Version: {}-v{}, Timezone:{}, with {}, with {}\n",
         m_Appname, m_Module, m_AppVersion, m_Timezone, IIOService::version(), "Mutex");
-    fmt::print( "Usage: {} [-vd] [-h <host>] [-p <port>] [-w <working directory>] [-i <instance>]\n\n", m_Module );
-    fmt::print( "Options:\n" );
-    fmt::print( "   -d                      : daemonize\n" );
-    fmt::print( "   -i,--instance           : start app instance\n" );
-    fmt::print( "   -h,--host               : remote MasterServer address\n" );
-    fmt::print( "   -p,--port               : remote MasterServer port\n" );
-    fmt::print( "   -v,--version            : show this version information\n" );
-    fmt::print( "   -w,--workdir            : change work path to <workpath> ( default: the CurrentPath )\n" );
+    std::format( "Usage: {} [-vd] [-h <host>] [-p <port>] [-w <working directory>] [-i <instance>]\n\n", m_Module );
+    std::format( "Options:\n" );
+    std::format( "   -d                      : daemonize\n" );
+    std::format( "   -i,--instance           : start app instance\n" );
+    std::format( "   -h,--host               : remote MasterServer address\n" );
+    std::format( "   -p,--port               : remote MasterServer port\n" );
+    std::format( "   -v,--version            : show this version information\n" );
+    std::format( "   -w,--workdir            : change work path to <workpath> ( default: the CurrentPath )\n" );
 }
 
 void MasterProcess::version()
 {
-    fmt::print( "{} Version: {}-v{}, Timezone:{}, with {}, with {}\n",
+    std::format( "{} Version: {}-v{}, Timezone:{}, with {}, with {}\n",
         m_Appname, m_Module, m_AppVersion, m_Timezone, IIOService::version(), "Mutex");
 }
 
@@ -210,7 +211,7 @@ void MasterProcess::purge()
     unsigned narenas = 0;
     size_t sz = sizeof( unsigned );
     if ( !mallctl( "arenas.narenas", &narenas, &sz, nullptr, 0 ) ) {
-        tmp = fmt::format( "arena.{}.purge", narenas );
+        tmp = std::format( "arena.{}.purge", narenas );
         if ( !mallctl( tmp, nullptr, 0, nullptr, 0 ) ) {
             // 刷新jemalloc脏页
             LOG_INFO( "{} purging dirty pages success.\n", m_Module );
@@ -233,7 +234,7 @@ int MasterProcess::run( IApplication * server, ISysConfigfile * sysconf )
     m_Application = server;
 
     // 写入pid
-    int32_t pidfile = utils::FileUtils::pidfopen( fmt::format( "run/{}.pid", m_Module ) );
+    int32_t pidfile = utils::FileUtils::pidfopen( std::format( "run/{}.pid", m_Module ) );
     if ( pidfile < 0 ) {
         return -1;
     }
